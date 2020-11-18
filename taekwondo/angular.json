@@ -24,9 +24,14 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/@popperjs/core/dist/umd/popper.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -119,10 +124,6 @@
           }
         }
       }
-    }
-  },
-  "defaultProject": "taekwondo",
-  "cli": {
-    "analytics": "6e5affa4-f744-4408-acbd-f63c2eeec17d"
-  }
+    }},
+  "defaultProject": "taekwondo"
 }
