@@ -16,6 +16,7 @@ export class AlumnoComponent implements OnInit {
   alumnoForm: FormGroup;
   submitted = false;
   modalTitle: String;
+  tipoFile: any;
   foto: File;
 
   constructor(private servicioAlumno: ServicioAlumno, private formBuilder: FormBuilder) { }
@@ -49,7 +50,7 @@ export class AlumnoComponent implements OnInit {
       },
       err => console.error(err)
     )
-    this.alumnos=[new Alumno(11,"Ivan","Saavedra","1992-01-01T00:00:00.000+00:00","https://www.eluniversal.com.mx/sites/default/files/2020/09/24/los-mejores-memes-de-chuck-norris.jpg","","","Av. Universidad S/N, Coyoacán","SAIV920101","")]
+    this.alumnos=[new Alumno(11,"Ivan","Saavedra","1992-01-01T00:00:00.000+00:00","https://www.eluniversal.com.mx/sites/default/files/2020/09/24/los-mejores-memes-de-chuck-norris.jpg","","","https://drive.google.com/file/d/14J-kbwHU0qrBEmp1I4pZaM82Dd5kcLJb/view","https://drive.google.com/file/d/14J-kbwHU0qrBEmp1I4pZaM82Dd5kcLJb/view","http://cms.dm.uba.ar/material/paenza/libro7/matematica_para_todos.pdf")]
   }
 
   // Consultar una alumno
@@ -69,6 +70,26 @@ export class AlumnoComponent implements OnInit {
 
   imagenSelected(event){
     this.foto = <File> event.target.files[0];
+  }
+  
+  convertFileImg(event){
+    this.tipoFile='fotografia';
+    this.convertFile(event,this);
+  }
+  
+  convertFileCertificado(event){
+    this.tipoFile='certificado_medico';
+    this.convertFile(event,this);
+  }
+  
+  convertFileCarta(event){
+    this.tipoFile='carta_responsiva';
+    this.convertFile(event,this);
+  }
+
+  convertFileSeguro(event){
+    this.tipoFile='seguro_medico';
+    this.convertFile(event,this);
   }
 
   // Eliminar una alumno
@@ -95,6 +116,42 @@ export class AlumnoComponent implements OnInit {
         )
       }
     });
+  }
+
+  convertFile(event,thiss){
+    var pdftobase64 = function(file,form){
+      Swal.fire({
+        title: 'Espera un momento!',
+        html: 'el archivo PDF se está cargando',// add html attribute if you want or remove
+        allowOutsideClick: false,
+        onBeforeOpen: () => {
+            Swal.showLoading()
+        },
+      });
+
+      let reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = function(){
+        form.controls[thiss.dato].setValue(reader.result);
+        Swal.close();
+      };
+      reader.onerror = function (error){
+        console.log('Error: ',error);
+      };
+    }
+    pdftobase64(<File> event.target.files[0],this.alumnoForm);
+  }
+
+  showPDF(pdf_base64){
+    const linkSource = pdf_base64;
+    const downloadLink = document.createElement("a");
+    const fileName = "sample.pdf";
+
+    downloadLink.href = linkSource;
+    downloadLink.download = fileName;
+    downloadLink.click();
+
+    return downloadLink;
   }
 
   convertImage(thiss): any{
@@ -154,7 +211,48 @@ export class AlumnoComponent implements OnInit {
       console.log('Formulario inválido');
       return;
     }
-    this.convertImage(this);
+    //this.convertImage(this);
+    if(this.modalTitle == "Registrar"){
+      this.servicioAlumno.createAlumno(this.alumnoForm.value).subscribe(
+        res => {
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'La alumno ha sido registrada',
+            showConfirmButton: false,
+            timer: 1500
+          })
+          $("#alumnoModal").modal("hide");
+          this.getAlumnos();
+          this.submitted = false;
+        },
+        err => console.error(err)
+      )
+    }else{
+      console.log(this.alumnoForm.value);
+      this.servicioAlumno.updateAlumno(this.alumnoForm.value).subscribe(
+        res => {
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'La alumno ha sido actualizada',
+            showConfirmButton: false,
+            timer: 1500
+          })
+          $("#alumnoModal").modal("hide");
+          this.getAlumnos();
+          this.submitted = false;
+        },
+        err => {
+          console.error(err);
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Error al conectar con el servidor'
+          })
+        }
+      )
+    }
   }
 
   // Actualizar una alumno

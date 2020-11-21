@@ -35,11 +35,12 @@
                         </td>
                         <td class="text-center">{{ alumno.actividad_marcial }}</td>
                         <td class="text-center">{{ alumno.grado_actividad_marcial }}</td>
-                        <td class="text-center">{{ alumno.seguro_medico }}</td>
-                        <td class="text-center">{{ alumno.certificado_medico }}</td>
-                        <td class="text-center">{{ alumno.carta_responsiva }}</td>
+                        <td class="text-center"><button (click)="showPDF(alumno.seguro_medico )" type="button" class="btn btn-link"><i class="fas fa-id-card"></i>&nbsp;&nbsp;ver seguro medico </button></td>
+                        <td class="text-center"><button (click)="showPDF(alumno.certificado_medico )" type="button" class="btn btn-link"><i class="fas fa-id-card"></i>&nbsp;&nbsp;ver certificado </button></td>
+                        <td class="text-center"><button (click)="showPDF(alumno.carta_responsiva )" type="button" class="btn btn-link"><i class="fas fa-id-card"></i>&nbsp;&nbsp;ver carta responsiva </button></td>
 
-                        <td>
+
+                        <td class="text-center">
                             <div>
                                 <button (click)="updateAlumno(alumno)" type="button" class="btn btn-primary">Editar <i class="fas fa-edit"></i></button>
                                 &nbsp;&nbsp;
@@ -92,7 +93,7 @@
                     
                 <label for="fotografia">Foto<span class="text-danger">*</span></label>
                 <div class="custom-file">
-                    <input type="file" accept="image/*" class="custom-file-input" (change)=imagenSelected($event)>
+                    <input type="file" accept="image/*" class="custom-file-input" (change)=convertFileImg($event)>
                     <label class="custom-file-label" for="customFile">Selecciona una imagen...</label>
                 </div>     
 
@@ -112,28 +113,22 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="seguro_medico">Seguro Medico<span class="text-danger">*</span></label>
-                        <input type="text" formControlName="seguro_medico" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.seguro_medico.errors }" />
-                        <div *ngIf="submitted && f.seguro_medico.errors" class="invalid-feedback">
-                        <div *ngIf="f.seguro_medico.errors.required">El seguro medico es obligatorio</div>
-                        </div>
+                    <label for="seguro_medico">Seguro Medico<span class="text-danger">*</span></label>
+                    <div class="custom-file">
+                        <input type="file" accept=".pdf" class="custom-file-input" (change)=convertFileSeguro($event)>
+                        <label class="custom-file-label" for="customFile">Selecciona un archivo pdf...</label>
                     </div>
 
-                    <div class="form-group">
-                        <label for="carta_responsiva">Carta Responsiva<span class="text-danger">*</span></label>
-                        <input type="text" formControlName="carta_responsiva" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.carta_responsiva.errors }" />
-                        <div *ngIf="submitted && f.carta_responsiva.errors" class="invalid-feedback">
-                        <div *ngIf="f.carta_responsiva.errors.required">El seguro medico es obligatorio</div>
-                        </div>
+                    <label for="certificado_medico">Certificado Medico<span class="text-danger">*</span></label>
+                    <div class="custom-file">
+                        <input type="file" accept=".pdf" class="custom-file-input" (change)=convertFileCertificado($event)>
+                        <label class="custom-file-label" for="customFile">Selecciona un archivo pdf...</label>
                     </div>
-
-                    <div class="form-group">
-                        <label for="certificado_medico">Certificado Medico<span class="text-danger">*</span></label>
-                        <input type="text" formControlName="certificado_medico" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.certificado_medico.errors }" />
-                        <div *ngIf="submitted && f.certificado_medico.errors" class="invalid-feedback">
-                        <div *ngIf="f.certificado_medico.errors.required">El seguro medico es obligatorio</div>
-                        </div>
+           
+                    <label for="carta_responsiva">Carta Responsiva<span class="text-danger">*</span></label>
+                    <div class="custom-file">
+                        <input type="file" accept=".pdf" class="custom-file-input" (change)=convertFileCarta($event)>
+                        <label class="custom-file-label" for="customFile">Selecciona un archivo pdf...</label>
                     </div>
 
                     <p class="text-right"><span class="text-danger">*</span> Campos requeridos</p>
