@@ -16,8 +16,9 @@
                         <th class="text-center">Nombre</th>
                         <th class="text-center">Descripcion</th>
                         <th class="text-center">Fecha Inicio</th>
-                        <th class="text-center">Fecha Inicio</th>
+                        <th class="text-center">Fecha Fin</th>
                         <th class="text-center">Costo</th>
+                        <th class="text-center">Tipo Evento</th>
                         <th class="text-center">Alumnos</th>
                         <th></th>
                     </tr>
@@ -31,18 +32,23 @@
                         <td class="text-center">{{ evento.costo }}</td>
                         <td class="text-center">
                             <div>
+                                <button (click)="getTipoEvento(evento.tipo)" type="button" class="btn btn-primary">Ver Tipo</button>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <div>
+                                <button (click)="agregarAlumno(evento)" type="button" class="btn btn-primary">Agregar Alumno</button>
+                                &nbsp;&nbsp;
                                 <button (click)="getAlumnosEvento(evento)" type="button" class="btn btn-primary">Ver Alumnos</button>
                             </div>
                         </td>
-
                         <td>
                             <div>
                                 <button (click)="updateEvento(evento)" type="button" class="btn btn-primary">Editar <i class="fas fa-edit"></i></button>
                                 &nbsp;&nbsp;
                                 <button (click)="deleteEvento(evento.id)" type="button" class="btn btn-danger">Eliminar <i class="fas fa-trash"></i></button>
                                 &nbsp;&nbsp;
-                                <button (click)="agregarAlumno(evento)" type="button" class="btn btn-primary">Agregar Alumno</button>
-
+                                <td class="text-center"><button (click)="showPDF(evento.enlace_facebook )" type="button" class="btn btn-link"><i class="fas fa-id-card"></i>&nbsp;&nbsp;enlace pagina facebook</button></td>
                             </div>
                         </td>
                     </tr>
@@ -60,7 +66,7 @@
         <div class="modal-content">
 
             <div class="modal-header">
-                <h4 class="modal-title"> Alumnos que presentan el evento de {{modalTitle}}</h4>
+                <h4 class="modal-title"> Alumnos que asistiran al evento {{modalTitle}}</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
 
@@ -91,6 +97,42 @@
 
             <div class="modal-footer">
                 <button class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+            </div>
+        
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="verTipoEvento">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title">Info Tipo Evento</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <div>
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th class="text-center">Nombre</th>
+                                <th class="text-center">Descripcion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let alumno of alumnos">
+                                <td class="text-center">{{ tipoEventoNombre }}</td>
+                                <td class="text-center">{{ tipoEventoDescripcion }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-danger" data-dismiss="modal">Ok</button>
             </div>
         
         </div>

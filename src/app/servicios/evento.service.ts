@@ -28,6 +28,11 @@ export class EventoService {
   getTipoEventoes(){
     return this.http.get(this.API_URI+'/tipoEvento');
   }
+  
+  getTipoEvento(id: number){
+    return this.http.get(this.API_URI+'/tipoEvento'+id);
+
+  }
 
   getEvento(id: number){
     return this.http.get(this.API_URI+'/evento/'+id);

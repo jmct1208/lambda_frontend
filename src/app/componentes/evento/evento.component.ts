@@ -20,12 +20,15 @@ export class EventoComponent implements OnInit {
   eventos: Evento[] | any;
   alumnos: Alumno[] | any;
   tiposEvento: TipoEvento[] | any;
+  tipoEvento: TipoEvento | any;
   evento: Evento | any;
   tipoEventoSelec: number;
   eventoForm: FormGroup;
   submitted = false;
   modalTitle: String;
   modalTitle2:string;
+  tipoEventoNombre: String;
+  tipoEventoDescripcion: String;
   constructor(private servicioEvento: EventoService, private formBuilder: FormBuilder, private servicioAlumno: ServicioAlumno) { }
 
   ngOnInit(): void {
@@ -64,7 +67,7 @@ export class EventoComponent implements OnInit {
       },
       err => console.error(err)
     )
-    this.eventos =[new Evento(1,"Algebra","Matematicas","1992-01-01T00:00:00.000+00:00","1992-01-01T00:00:00.000+00:00","$40","$20")]
+    this.eventos =[new Evento(1,"Algebra","Matematicas","1992-01-01T00:00:00.000+00:00","1992-01-01T00:00:00.000+00:00","$40","https://web.facebook.com/events/528044827852338/")]
   }
 
   getAlumnos(){
@@ -77,6 +80,22 @@ export class EventoComponent implements OnInit {
       err => console.error(err)
     )
    this.alumnos=[new Alumno(11,"Ivan","Saavedra","1992-01-01T00:00:00.000+00:00","https://www.eluniversal.com.mx/sites/default/files/2020/09/24/los-mejores-memes-de-chuck-norris.jpg","Karate","","Av. Universidad S/N, Coyoacán","SAIV920101",""),new Alumno(11,"Chuck","Norris","1992-01-01T00:00:00.000+00:00","https://www.eluniversal.com.mx/sites/default/files/2020/09/24/los-mejores-memes-de-chuck-norris.jpg","King Boxing","","Av. Universidad S/N, Coyoacán","CHNR841401","")]
+
+  }
+
+  getTipoEvento(id: number){
+    //tipoevento ; TipoEvento
+    this.servicioEvento.getTipoEvento(id).subscribe(
+      res => {
+        this.tipoEvento=res;
+      },
+      err => console.error(err)
+
+    )
+    this.tipoEvento =new TipoEvento(1,"Concierto","Tokin en el alicia");
+    this.tipoEventoNombre=this.tipoEvento.nombre;
+    this.tipoEventoDescripcion=this.tipoEvento.descripcion;
+    $("#verTipoEvento").modal("show");
 
   }
   
@@ -95,6 +114,7 @@ export class EventoComponent implements OnInit {
        this.getEventoAlumnos();
        this.getAlumnos();
        this.escogerAlumnos();
+       this.modalTitle=evento.nombre;
        $("#agregarAlumnosEventoModal").modal("show");
   }
 

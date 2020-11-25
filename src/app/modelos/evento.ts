@@ -1,12 +1,13 @@
 export class Evento{
     id: number;
     nombre: string;
-    tipo: string;
+    tipo: number;
     descripcion: string;
     fecha_inicio: Date;
     fecha_fin: Date;
     costo: string;
     enlace_facebook: string;
+
 
     constructor(id, nombre, descripcion, fecha_incio, fecha_fin, costo, enlace_facebook){
         this.id=id;
