@@ -156,7 +156,7 @@ export class ExamenComponent implements OnInit {
       return;
     }
     if(this.modalTitle2 == "Registrar"){
-      this.servicioAlumno.createAlumno(this.examenForm.value).subscribe(
+      this.servicioExamen.createExamen(this.examenForm.value).subscribe(
         res => {
           Swal.fire({
             position: 'top-end',

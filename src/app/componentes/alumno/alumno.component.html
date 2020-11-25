@@ -99,7 +99,7 @@
 
                     <div class="form-group">
                         <label for="actividad_marcial">Actividad Marcial<span class="text-danger">*</span></label>
-                        <textarea rows="3" formControlName="actividad_marcial" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.actividad_marcial.errors }"></textarea>
+                        <input type="text" formControlName="actividad_marcial" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.actividad_marcial.errors }"/>
                         <div *ngIf="submitted && f.actividad_marcial.errors" class="invalid-feedback">
                         <div *ngIf="f.actividad_marcial.errors.required">La actividad marcial es obligatoria</div>
                         </div>
