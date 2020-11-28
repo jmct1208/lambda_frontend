@@ -93,10 +93,7 @@ export class EventoComponent implements OnInit {
 
     )
     this.tipoEvento =new TipoEvento(1,"Concierto","Tokin en el alicia");
-    this.tipoEventoNombre=this.tipoEvento.nombre;
-    this.tipoEventoDescripcion=this.tipoEvento.descripcion;
     $("#verTipoEvento").modal("show");
-
   }
   
   escogerAlumnos(){
@@ -116,6 +113,18 @@ export class EventoComponent implements OnInit {
        this.escogerAlumnos();
        this.modalTitle=evento.nombre;
        $("#agregarAlumnosEventoModal").modal("show");
+  }
+
+  showPDF(pdf_base64){
+    const linkSource = pdf_base64;
+    const downloadLink = document.createElement("a");
+    const fileName = "sample.pdf";
+
+    downloadLink.href = linkSource;
+   // downloadLink.download = fileName;
+    downloadLink.click();
+
+    return downloadLink;
   }
 
   agregarAlumnoEvento(idEvento: number,idAlumno: number){
