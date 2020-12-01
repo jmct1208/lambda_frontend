@@ -1,0 +1,62 @@
+<!-- Header  -->
+<div class="card-header">
+    <h3>Tipo de eventos</h3>
+</div>
+
+<!-- Body  -->
+<div class="card-body">
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="text-center">Nombre</th>
+                <th class="text-center">Descripción</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let tipoEvento of tipoEventos">
+                <td class="text-center">{{ tipoEvento.nombre }}</td>
+                <td class="text-center">{{ tipoEvento.descripcion }}</td>
+                <td>
+                    <div>
+                        <button (click)="updateTipoEvento(tipoEvento)" type="button">Editar </button>
+                        &nbsp;&nbsp;
+                        <button (click)="deleteTipoEvento(tipoEvento.id)" type="button">Eliminar </button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<br><br>
+
+<div class="formato-datos">
+    <form [formGroup]="tipoEventoForm" (ngSubmit)="createTipoEvento()">
+        <div class="form-group">
+            <label for="nombre">Nombre*</label>
+            <input type="text" formControlName="nombre" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.nombre.errors }">
+            <div *ngIf="submitted && f.nombre.errors" class="invalid-feedback">
+                <div *ngIf="f.nombre.errors.required">El nombre del tipo de evento es obligatorio</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="descripcion">Descripción*</label>
+            <input type="text" formControlName="descripcion" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.descripcion.errors }" />
+            <div *ngIf="submitted && f.descripcion.errors" class="invalid-feedback">
+              <div *ngIf="f.descripcion.errors.required">La descripción del tipo de evento es obligatorios</div>
+            </div>
+        </div>
+  
+
+        <p>* Campos requeridos</p>
+        <div class="btn-guardar">
+            <button>Guardar</button>
+        </div>
+        <div class="modal-footer">
+            <button>Cerrar</button>
+        </div>
+    </form>
+</div>
+
