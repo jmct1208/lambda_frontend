@@ -6,12 +6,15 @@ import { AppComponent } from './app.component';
 import { AlumnoComponent } from './componentes/alumno/alumno.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TipoEventoComponent } from './components/tipo-evento/tipo-evento.component';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AlumnoComponent,
-    TipoEventoComponent
+    TipoEventoComponent,
+    HomeComponent,
+
   ],
   imports: [
     BrowserModule,
