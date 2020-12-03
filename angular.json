@@ -30,7 +30,10 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/jquery/dist/jquery.min.js",
+              "./node_modules/bootstrap/dist/js/bootstrap.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -124,5 +127,8 @@
       }
     }
   },
-  "defaultProject": "taekwondo"
+  "defaultProject": "taekwondo",
+  "cli": {
+    "analytics": "d558842d-59d3-4e9e-9c40-a03c17e91bc2"
+  }
 }
