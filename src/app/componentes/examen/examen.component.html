@@ -1,0 +1,221 @@
+<div class="container-fluid">
+    <div class="card mb-3">
+
+        <!-- Header  -->
+        <div class="card-header">
+            <h3><i class="fas fa-comment-alt"></i>&nbsp;&nbsp;Examenes</h3>
+            <button style="float: right;" (click)="openModalAlumno()" type="button" class="btn btn-info btn-sm"> Agregar Examen <i class="fas fa-id-card"></i>
+            </button>
+        </div>
+
+        <!-- Body  -->
+        <div class="card-body">
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th class="text-center">Nombre</th>
+                        <th class="text-center">Tipo</th>
+                        <th class="text-center">Fecha</th>
+                        <th class="text-center">Costo</th>
+                        <th class="text-center">Horario</th>
+                        <th class="text-center">Alumnos</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let examen of examenes">
+                        <td class="text-center">{{ examen.nombre }}</td>
+                        <td class="text-center">{{ examen.tipo }}</td>
+                        <td class="text-center">{{ examen.fecha | date : 'dd/MM/yyyy' : 'UTC' }}</td>
+                        <td class="text-center">{{ examen.costo }}</td>
+                        <td class="text-center">{{ examen.horario }}</td>
+                        <td class="text-center">
+                            <div>
+                                <button (click)="getAlumnosExamen(examen)" type="button" class="btn btn-primary">Ver Alumnos</button>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div>
+                                <button (click)="updateExamen(examen)" type="button" class="btn btn-primary">Editar <i class="fas fa-edit"></i></button>
+                                &nbsp;&nbsp;
+                                <button (click)="deleteExamen(examen.id)" type="button" class="btn btn-danger">Eliminar <i class="fas fa-trash"></i></button>
+                                &nbsp;&nbsp;
+                                <button (click)="agregarAlumno(examen)" type="button" class="btn btn-primary">Agregar Alumno</button>
+                                &nbsp;&nbsp;
+                                <button (click)="showPDF(examen.enlace )" type="button" class="btn btn-link"><i class="fas fa-id-card"></i>&nbsp;&nbsp;enlace pagina facebook</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<br><br>
+
+
+<div class="modal" id="alumnosExamenModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title"> Alumnos que presentan el examen de {{modalTitle}}</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <div>
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th class="text-center">Nombre</th>
+                                <th class="text-center">Arte Marcial</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let alumno of examenAlumnos">
+                                <td class="text-center">{{ alumno.nombre }}</td>
+                                <td class="text-center">{{ alumno.actividad }}</td>
+                                <td class="text-center">
+                                    <div>
+                                        <button (click)="eliminarAlumnoExamen(examen.id,alumno.id)" type="button" class="btn btn btn-outline-success">Quitar</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+            </div>
+        
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="agregarAlumnosExamenModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title">Alumnos</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <div>
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th class="text-center">Nombre</th>
+                                <th class="text-center">Arte Marcial</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let alumno of alumnos">
+                                <td class="text-center">{{ alumno.nombre }}</td>
+                                <td class="text-center">{{ alumno.actividad }}</td>
+                                <td class="text-center">
+                                    <div>
+                                        <button (click)="agregarAlumnoExamen(examen.id,alumno.id)" type="button" class="btn btn btn-outline-success">Agregar<i class="fas fa-pen-square"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+            </div>
+        
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="examenModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title">{{modalTitle2}} Examen</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <form [formGroup]="examenForm" (ngSubmit)="onSubmit()">
+                    <div class="form-group">
+                        <label for="nombre">Nombre<span class="text-danger">*</span></label>
+                        <input type="text" formControlName="nombre" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.nombre.errors }">
+                        <div *ngIf="submitted && f.nombre.errors" class="invalid-feedback">
+                            <div *ngIf="f.nombre.errors.required">El nombre de examen es obligatorio</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tipo">Tipo<span class="text-danger">*</span></label>
+                        <input type="text" formControlName="tipo" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.tipo.errors }" />
+                        <div *ngIf="submitted && f.tipo.errors" class="invalid-feedback">
+                        <div *ngIf="f.tipo.errors.required">El tipo del examen obligatorio</div>
+                        </div>
+                    </div>
+            
+                    <div class="form-group">
+                    <label for="fecha">Fecha<span class="text-danger">*</span></label>
+                    <input type="date" formControlName="fecha" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.fecha.errors }" />
+                    <div *ngIf="submitted && f.fecha.errors" class="invalid-feedback">
+                        <div *ngIf="f.fecha.errors.required">La fecha es obligatoria</div>
+                    </div>
+                </div>   
+            
+                    <div class="form-group">
+                        <label for="costo">Costo<span class="text-danger">*</span></label>
+                        <input type="text" formControlName="costo" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.costo.errors }" />
+                        <div *ngIf="submitted && f.costo.errors" class="invalid-feedback">
+                        <div *ngIf="f.costo.errors.required">El Grado Marcial es obligatorio</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="horario">Horario<span class="text-danger">*</span></label>
+                        <input type="text" formControlName="horario" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.horario.errors }" />
+                        <div *ngIf="submitted && f.horario.errors" class="invalid-feedback">
+                        <div *ngIf="f.horario.errors.required">El seguro medico es obligatorio</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="enlace">Enlace Facebook<span class="text-danger">*</span></label>
+                        <input type="text" formControlName="enlace" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.enlace.errors }">
+                        <div *ngIf="submitted && f.enlace.errors" class="invalid-feedback">
+                            <div *ngIf="f.enlace.errors.required">El enlace es obligatorio</div>
+                        </div>
+                    </div>
+
+                    <label for="solicitud">Solicitud<span class="text-danger">*</span></label>
+                    <div class="custom-file">
+                        <input type="file" accept=".pdf" class="custom-file-input" (change)=convertFileSolicitud($event)>
+                        <label class="custom-file-label" for="customFile">Selecciona un archivo pdf...</label>
+                    </div>
+
+                    <p class="text-right"><span class="text-danger">*</span> Campos requeridos</p>
+                    <div>
+                        <button class="btn btn-success btn-block">Guardar</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button (click)="cerrarModal()" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+            </div>
+        
+        </div>
+    </div>
+</div>
