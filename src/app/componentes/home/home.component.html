@@ -10,53 +10,69 @@
 
 </head>
 <body>
-<header class="site-header inicio">
+<header class="header">
   <div class="contenedor contenido-header">
     <div class="barra">
 
-      <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
-        <div class="container">
-          <a class="navbar-brand js-scroll-trigger" href="#page-top">{{texto_navegacion}}</a>
-          <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" >
-            Ingresar
-            <i class="fas fa-bars"></i>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-              <li class="nav-item"><a class="nav-link js-scroll-trigger" routerLink="/alumno" href="#alumn">Alumnos</a></li>
-              <li class="nav-item"><a class="nav-link js-scroll-trigger" routerLink="/examen" href="#exam">Examen</a></li>
-              <li class="nav-item"><a class="nav-link js-scroll-trigger" routerLink="/evento"  href="#event">Eventos</a></li>
-              <li class="nav-item"><a class="nav-link js-scroll-trigger" routerLink="/login" href="#signin">Ingresar</a></li>
-              <li class="nav-item"><a class="nav-link js-scroll-trigger" routerLink="/registro" href="#signup">Registrarse</a></li>
-            </ul>
+      <div class="pos-f-t">
+        <div class="collapse" id="navbarToggleExternalContent">
+          <div class="bg-dark p-4">
+            <h5 class="text-white h4">Collapsed content</h5>
+            <span class="text-muted">Toggleable via the navbar brand.</span>
           </div>
         </div>
-      </nav>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <a class="navbar-brand" href="#">Club leones </a>
+
+          <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+            <ul class="navbar-nav m-auto mt-2 mt-lg-0">
+              <li class="nav-item ">
+                <a class="nav-link" routerLink="/alumno">Alumno </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/examen">Examen</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link " routerLink="/evento">Evento</a>
+              </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+              <button class="btn btn-outline-success" routerLink="/login" type="button">Ingresar</button>
+              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Registrarse</button>
+            </form>
+          </div>
+        </nav>
+      </div>
 
     </div>
-<h4>Club Leones</h4>
+
   </div>
 </header>
 
 
 <section class=" contenedor seccion" >
-  <h2 class="fw-300 centrar-texto">Mas sobre nosotros</h2>
-  <div class="iconos-nosotros">
-    <div class="icono">
+  <h2 class=" centrar-texto">Mas sobre nosotros</h2>
+  <div class="iconos-nosotros centrar-texto">
+    <div class="mision">
 
       <h3>Mision</h3>
-      <p>Integrar un equipo de entrenadores calificados,capacitados,disciplinados y comprometidos </p>
-      <p>en las artes marciales , a fin de difundir y promover su práctica.</p>
-    </div>
-    <div class="icono">
+      <p>Integrar un equipo de entrenadores calificados,capacitados,disciplinados
+        y comprometidos en las artes marciales , a fin de difundir y promover su práctica. </p>
 
-      <img src="../../../assets/tae.jpg" />
+    </div>
+
+    <div class="vision">
+
+      <img class="img-logo" src="../../../assets/tae.jpg" />
       <h3>Vision</h3>
       <p>Ser una escuela lider en la enseñanza y formacion de Taekwondo,fomentando
       en los alumnos valores,disciplina y respeto.</p>
     </div>
 
-    <div class="icono">
+    <div class="valores">
 
       <h3>Valores</h3>
      <ul>
@@ -67,22 +83,15 @@
      </ul>
     </div>
   </div>
-  <section class="imagen-contacto">
-    <div class="contenedor contenido-contacto">
-      <h2>Lleva tu cuerpo más haya de sus capacidades</h2>
-      <p>Llena el formulario de contacto y un asesor se pondra en contacto contigo a la
-        brevedad </p>
 
-      <a href="contacto.html" class="boton boton-amarillo">Contactanos</a>
-    </div>
-  </section>
+
 
   <div class="seccion-inferior contenedor">
     <section class="blog">
-      <h3 class="fw-300 centrar-texto seccion">Noticias</h3>
+      <h3 class=" centrar-texto ">Noticias</h3>
 
       <article class="entrada-blog">
-        <div class="imagen">
+        <div class="img-ots">
 
 
           <img src="../../../assets/Cam.jpg" />
@@ -100,7 +109,7 @@
         </div>
       </article >
       <article class="entrada-blog">
-        <div class="imagen">
+        <div class="img-ots">
 
           <img src="../../../assets/Men.jpg" />
         </div>
@@ -119,34 +128,53 @@
 
   </div>
 </section>
-<footer id="footer">
+<!-- Footer -->
+<footer class="page-footer font-small special-color-dark pt-4">
+
+  <!-- Footer Elements -->
   <div class="container">
-    <div class="row">
-      <div class="col-lg-6 text-lg-left text-center">
-        <div class="copyright">
-          &copy; Copyright <strong>Avilon</strong>. All Rights Reserved
-        </div>
-        <div class="credits">
-          <!--
-          All the links in the footer should remain intact.
-          You can delete the links only if you purchased the pro version.
-          Licensing information: https://bootstrapmade.com/license/
-          Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Avilon
-        -->
-          Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-        </div>
-      </div>
-      <div class="col-lg-6">
-        <nav class="footer-links text-lg-right text-center pt-2 pt-lg-0">
-          <a href="#intro" class="scrollto">Home</a>
-          <a href="#about" class="scrollto">About</a>
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Use</a>
-        </nav>
-      </div>
-    </div>
+
+    <!-- Social buttons -->
+    <ul class="list-unstyled list-inline text-center">
+      <li class="list-inline-item">
+        <a class="btn-floating btn-fb mx-1">
+          <i class="fab fa-facebook-f"> </i>
+        </a>
+      </li>
+      <li class="list-inline-item">
+        <a class="btn-floating btn-tw mx-1">
+          <i class="fab fa-twitter"> </i>
+        </a>
+      </li>
+      <li class="list-inline-item">
+        <a class="btn-floating btn-gplus mx-1">
+          <i class="fab fa-google-plus-g"> </i>
+        </a>
+      </li>
+      <li class="list-inline-item">
+        <a class="btn-floating btn-li mx-1">
+          <i class="fab fa-linkedin-in"> </i>
+        </a>
+      </li>
+      <li class="list-inline-item">
+        <a class="btn-floating btn-dribbble mx-1">
+          <i class="fab fa-dribbble"> </i>
+        </a>
+      </li>
+    </ul>
+    <!-- Social buttons -->
+
   </div>
-</footer><!-- End  Footer -->
+  <!-- Footer Elements -->
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">© 2020 Copyright:Todos los derechos reservados
+
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
 
 </body>
 </html>
