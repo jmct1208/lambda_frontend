@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Evento} from '../../modelos/evento';
+import { Evento } from '../../modelos/evento';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { EventoService } from '../../servicios/evento.service';
 import { Alumno} from '../../modelos/alumno';
-import { ServicioAlumno } from '../../servicios/alumno.service';
-import {TipoEvento} from '../../modelos/tipoEvento'
+import { TipoEventoComponent } from '../../componentes/tipo-evento/tipo-evento.component';
+import { TipoEvento} from '../../modelos/tipoEvento'
 
 import Swal from 'sweetalert2';
 
@@ -16,12 +16,12 @@ declare var $: any;
   styleUrls: ['./evento.component.css']
 })
 export class EventoComponent implements OnInit {
-  eventoAlumnos: Alumno[] | any;
+  alumnosEvento: Alumno[] | any;
   eventos: Evento[] | any;
-  alumnos: Alumno[] | any;
-  tiposEvento: TipoEvento[] | any;
+  alumnosNotEvento: Alumno[] | any;
+  tiposEvento: TipoEvento | any;
   tipoEvento: TipoEvento | any;
-  evento: Evento | any;
+  eventoSeleccionado: Evento | any;
   tipoEventoSelec!: number;
   eventoForm!: FormGroup;
   submitted = false;
@@ -30,7 +30,7 @@ export class EventoComponent implements OnInit {
   modalTitle3!:string;
   tipoEventoNombre!: String;
   tipoEventoDescripcion!: String;
-  constructor(private servicioEvento: EventoService, private formBuilder: FormBuilder, private servicioAlumno: ServicioAlumno) { }
+  constructor(private servicioEvento: EventoService, private formBuilder: FormBuilder, private tipoEventoComponent: TipoEventoComponent) { }
 
   ngOnInit(): void {
     this.eventoForm = this.formBuilder.group({
@@ -43,25 +43,13 @@ export class EventoComponent implements OnInit {
       costo: ['', Validators.required],
 
     });
-    this.getEventoes();
-    this.getTipoEventos();
+    this.getEventos();
+    this.tipoEventoComponent.getTiposEvento();
   }
   
-  getTipoEventos(){
-    this.tiposEvento = [];
-    this.servicioEvento.getTipoEventoes().subscribe(
-      res => {
-        this.tiposEvento = res;
-        //console.log(this.alumnos)
-      },
-      err => console.error(err)
-    )
-    this.tiposEvento =[new TipoEvento(1,"Alicia","Tokin en el alicia"),new TipoEvento(2,"ConcursoKingBoxing","Combates cuerpo a cuerpo"),new TipoEvento(3,"ConcursoKarate","Combates cuerpo a cuerpo")]
-  }
-
-  getEventoes(){
+  getEventos(){
     this.eventos = [];
-    this.servicioEvento.getEventoes().subscribe(
+    this.servicioEvento.getEventos().subscribe(
       res => {
         this.eventos = res;
         //console.log(this.alumnos)
@@ -70,13 +58,13 @@ export class EventoComponent implements OnInit {
     )
   }
 
-  getAlumnos(){
-    this.alumnos = [];
-    this.servicioAlumno.getAlumnos().subscribe(
+
+  getAlumnosNotExamen(){
+    this.alumnosNotEvento = [];
+    this.servicioEvento.getAlumnosNotEvento(this.eventoSeleccionado.id).subscribe(
       res => {
-        this.alumnos = res;
-        console.log(this.alumnos)
-        this.escogerAlumnos();
+        this.alumnosNotEvento = res;
+        console.log(this.alumnosNotEvento)
         if(!$('#agregarAlumnosEventoModal').is(':visible') && this.modalTitle3=="agregarAlumno"){
           $("#agregarAlumnosEventoModal").modal("show");
         };
@@ -97,20 +85,10 @@ export class EventoComponent implements OnInit {
     $("#verTipoEvento").modal("show");
   }
   
-  escogerAlumnos(){
-    for(const j in this.alumnos){
-      for(const i in this.eventoAlumnos){
-        if (this.eventoAlumnos[i].id == this.alumnos[j].id) {
-          this.alumnos.splice(j, 1);
-        }
-      }   
-   }
-  }
-
-  agregarAlumno(evento: Evento){
-        this.evento=evento;
+  openModalAgregarAlumnoEvento(evento: Evento){
+        this.eventoSeleccionado=evento;
         this.modalTitle3="agregarAlumno";
-        this.getEventoAlumnos();
+        this.getAlumnosNotExamen();
   }
 
   showPDF(pdf_base64: any){
@@ -135,34 +113,32 @@ export class EventoComponent implements OnInit {
           showConfirmButton: false,
           timer: 1500
         })
-        this.getEventoAlumnos();
+        this.getAlumnosNotExamen();
       },
       err => console.error(err)
     )
   }
 
-  getEventoAlumnos(){
-    this.eventoAlumnos = [];
-    this.servicioEvento.getAlumnosEventoes(this.evento.id).subscribe(
+  getAlumnosEvento(){
+    this.alumnosEvento = [];
+    this.servicioEvento.getAlumnosEvento(this.eventoSeleccionado.id).subscribe(
       res => {
-        this.eventoAlumnos = res;
-        console.log(this.alumnos)
+        this.alumnosEvento = res;
+        console.log(this.alumnosNotEvento)
         if(!$('#alumnosEventoModal').is(':visible') && this.modalTitle3=="getAlumnosEvento"){
           $("#alumnosEventoModal").modal("show");
-        }else{
-          this.getAlumnos();
-        }
+        };
       },
       err => console.error(err)
     )
   }
 
   // Consultar lista de alumnos
-  getAlumnosEvento(evento: Evento){
-    this.evento=evento;
+  openModalAlumnosEvento(evento: Evento){
+    this.eventoSeleccionado=evento;
     this.modalTitle3="getAlumnosEvento";
     this.modalTitle=evento.nombre;
-    this.getEventoAlumnos();
+    this.getAlumnosEvento();
   }
 
   // Eliminar una alumno
@@ -183,7 +159,7 @@ export class EventoComponent implements OnInit {
               'Se a quitado el alumno del evento',
               'success'
             )
-           this.getEventoAlumnos();
+           this.getAlumnosEvento();
           },
           err => console.error(err)
         )
@@ -214,7 +190,7 @@ export class EventoComponent implements OnInit {
             timer: 1500
           })
           $("#eventoModal").modal("hide");
-          this.getEventoes();
+          this.getEventos();
           this.submitted = false;
         },
         err => console.error(err)
@@ -231,7 +207,7 @@ export class EventoComponent implements OnInit {
             timer: 1500
           })
           $("#eventoModal").modal("hide");
-          this.getEventoes();
+          this.getEventos();
           this.submitted = false;
         },
         err => {
@@ -273,14 +249,15 @@ export class EventoComponent implements OnInit {
 
   updateEvento(evento: Evento){
     this.submitted = true;
-
+    this.eventoForm.setValue(evento);
+    /*
     this.eventoForm.controls['id'].setValue(evento.id);
     this.eventoForm.controls['nombre'].setValue(evento.nombre);
-    this.eventoForm.controls['tipo'].setValue(evento.tipo);
     this.eventoForm.controls['descripcion'].setValue(evento.descripcion);
     this.eventoForm.controls['fecha'].setValue(evento.fecha);
     this.eventoForm.controls['fechaf'].setValue(evento.fechaf);
     this.eventoForm.controls['costo'].setValue(evento.costo);
+    */
     this.modalTitle2 = "Actualizar";
     $("#eventoModal").modal("show");
 

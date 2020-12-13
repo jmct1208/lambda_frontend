@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Examen} from '../../modelos/examen';
+import { Examen, fromFormValue, toRawFormValue} from '../../modelos/examen';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ExamenService } from '../../servicios/examen.service';
-import { Alumno} from '../../modelos/alumno';
+import { Alumno } from '../../modelos/alumno';
 import { ServicioAlumno } from '../../servicios/alumno.service';
-
 import Swal from 'sweetalert2';
 
 declare var $: any;
@@ -15,10 +14,10 @@ declare var $: any;
   styleUrls: ['./examen.component.css']
 })
 export class ExamenComponent implements OnInit {
-  examenAlumnos: Alumno[] | any;
+  alumnosExamen: Alumno[] | any;
   examenes: Examen[] | any;
-  alumnos: Alumno[] | any;
-  examen: Examen | any;
+  alumnosNotExamen: Alumno[] | any;
+  examenSeleccionado: Examen | any;
   examenForm!: FormGroup;
   submitted = false;
   modalTitle!: String;
@@ -28,12 +27,12 @@ export class ExamenComponent implements OnInit {
 
   ngOnInit(): void {
     this.examenForm = this.formBuilder.group({
-      id: [''],
+      id: [],
       nombre: ['', Validators.required],
       tipo: ['', Validators.required],
       fecha: ['', Validators.required],
+      hora: ['', Validators.required],
       costo: ['', Validators.required],
-      horario: ['', Validators.required],
       enlace: ['', Validators.required],
       solicitud: ['', Validators.required],
     });
@@ -51,13 +50,32 @@ export class ExamenComponent implements OnInit {
     )
   }
 
-  getAlumnos(){
-    this.alumnos = [];
-    this.servicioAlumno.getAlumnos().subscribe(
+  openModalAgregarAlumnoExamen(examen: Examen){
+       this.examenSeleccionado=examen;
+       this.modalTitle3="agregarAlumno";
+       this.getAlumnosNotExamen();
+  }
+
+  getAlumnosExamen() {
+    this.alumnosExamen = [];
+    this.servicioExamen.getAlumnosExamen(this.examenSeleccionado.id).subscribe(
       res => {
-        this.alumnos = res;
-        console.log(this.alumnos)
-        this.escogerAlumnos();
+        this.alumnosExamen = res;
+        console.log(this.alumnosExamen);
+        if(!$('#alumnosExamenModal').is(':visible') && this.modalTitle3=="getAlumnosExamen"){
+          $("#alumnosExamenModal").modal("show");
+        };
+      },
+      err => console.error(err)
+    )
+  }
+
+  getAlumnosNotExamen() {
+    this.alumnosNotExamen = [];
+    this.servicioExamen.getAlumnosNotExamen(this.examenSeleccionado.id).subscribe(
+      res => {
+        this.alumnosNotExamen = res;
+        console.log(this.alumnosNotExamen);
         if(!$('#agregarAlumnosExamenModal').is(':visible') && this.modalTitle3=="agregarAlumno"){
           $("#agregarAlumnosExamenModal").modal("show");
         };
@@ -65,24 +83,8 @@ export class ExamenComponent implements OnInit {
       err => console.error(err)
     )
   }
-  
-  escogerAlumnos(){
-    for(const j in this.alumnos){
-      for(const i in this.examenAlumnos){
-        if (this.examenAlumnos[i].id == this.alumnos[j].id) {
-          this.alumnos.splice(j, 1);
-        }
-      }   
-   }
-  }
 
-  agregarAlumno(examen: Examen){
-       this.examen=examen;
-       this.modalTitle3="agregarAlumno";
-       this.getExamenAlumnos();
-  }
-
-  agregarAlumnoExamen(idExamen: number,idAlumno: number){
+  agregarAlumnoExamen(idExamen: number, idAlumno: number){
     this.servicioExamen.addAlumno(idExamen,idAlumno).subscribe(
       res => {
         Swal.fire({
@@ -92,7 +94,7 @@ export class ExamenComponent implements OnInit {
           showConfirmButton: false,
           timer: 1500
         })
-        this.getExamenAlumnos();
+        this.getAlumnosNotExamen();
       },
       err => console.error(err)
     )
@@ -127,28 +129,12 @@ export class ExamenComponent implements OnInit {
     pdftobase64(<File> event.target.files[0],this.examenForm);
   }
 
-  getExamenAlumnos(){
-    this.examenAlumnos = [];
-    this.servicioExamen.getAlumnosExamenes(this.examen.id).subscribe(
-      res => {
-        this.examenAlumnos = res;
-        console.log(this.examenAlumnos)
-        if(!$('#alumnosExamenModal').is(':visible') && this.modalTitle3=="getAlumnosExamen"){
-          $("#alumnosExamenModal").modal("show");
-        }else{
-          this.getAlumnos();
-        };
-      },
-      err => console.error(err)
-    )
-  }
-
   // Consultar lista de alumnos
-  getAlumnosExamen(examen: Examen){
-    this.examen=examen;
+  openModalAlumnosExamen(examen: Examen){
+    this.examenSeleccionado=examen;
     this.modalTitle3="getAlumnosExamen";
     this.modalTitle=examen.nombre;
-    this.getExamenAlumnos();
+    this.getAlumnosExamen();
   }
 
   // Eliminar una alumno
@@ -166,10 +152,10 @@ export class ExamenComponent implements OnInit {
           res => {
             Swal.fire(
               'Eliminado!',
-              'Se a quitado el alumno del examen',
+              'Se ha quitado el alumno del examen',
               'success'
             )
-           this.getExamenAlumnos();
+           this.alumnosExamen();
           },
           err => console.error(err)
         )
@@ -189,8 +175,9 @@ export class ExamenComponent implements OnInit {
       console.log('Formulario inválido');
       return;
     }
+    let examen = fromFormValue(this.examenForm.value);
     if(this.modalTitle2 == "Registrar"){
-      this.servicioExamen.createExamen(this.examenForm.value).subscribe(
+      this.servicioExamen.createExamen(examen).subscribe(
         res => {
           Swal.fire({
             position: 'top-end',
@@ -207,7 +194,8 @@ export class ExamenComponent implements OnInit {
       )
     }else{
       console.log(this.examenForm.value);
-      this.servicioExamen.updateExamen(this.examenForm.value).subscribe(
+      let examen = fromFormValue(this.examenForm.value);
+      this.servicioExamen.updateExamen(examen).subscribe(
         res => {
           Swal.fire({
             position: 'top-end',
@@ -259,18 +247,9 @@ export class ExamenComponent implements OnInit {
 
   updateExamen(examen: Examen){
     this.submitted = true;
-
-    this.examenForm.controls['id'].setValue(examen.id);
-    this.examenForm.controls['nombre'].setValue(examen.nombre);
-    this.examenForm.controls['tipo'].setValue(examen.tipo);
-    this.examenForm.controls['fecha'].setValue(examen.fecha);
-    this.examenForm.controls['costo'].setValue(examen.costo);
-    this.examenForm.controls['horario'].setValue(examen.horario);
-
+    this.examenForm.setValue(toRawFormValue(examen));
     this.modalTitle2 = "Actualizar";
     $("#examenModal").modal("show");
-
-    
   }
 
   get f() { return this.examenForm.controls;}

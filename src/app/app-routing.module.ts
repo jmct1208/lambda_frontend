@@ -6,8 +6,8 @@ import {ExamenComponent} from './componentes/examen/examen.component';
 
 const routes: Routes = [
   {path: '', component: AlumnoComponent},
-  {path: 'alumno', component: AlumnoComponent},
-  {path: 'examen', component: ExamenComponent},
+  {path: 'alumnos', component: AlumnoComponent},
+  {path: 'examenes', component: ExamenComponent},
   {path: '**', redirectTo: ''}
 ];
 
