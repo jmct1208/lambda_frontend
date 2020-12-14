@@ -11,7 +11,7 @@ import swal from 'sweetalert2';
 })
 export class LoginComponent implements OnInit {
 
-  loginForm: FormGroup;
+  loginForm!: FormGroup;
   email=''
   password=''
   constructor(private formBuilder: FormBuilder,
