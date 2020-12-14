@@ -4,3 +4,107 @@
 .form-group.check-box{
   margin-left: 10px;
 }
+.navbar{
+  margin-bottom: 30px;
+}
+.header .navbar .btn{
+  margin-right: 20px;
+  color: white;
+
+}
+.seccion > h2 {
+  padding-top: 20px;
+}
+.header .navbar .collapse .nav-link {
+  font-size: 20px;
+  color:white;
+}
+.header .navbar .navbar-brand {
+  font-size: 20px;
+  color:white;
+}
+
+.centrar-texto{
+
+  text-align: center;
+}
+
+.img-logo{
+  width: 50%;
+  height: 50%;
+  display: block;
+  margin: auto;
+}
+.iconos-nosotros  {
+  display: flex;
+  flex-direction: row;
+}
+
+@media (max-width: 800px) {
+  .iconos-nosotros{
+    flex-direction: column;
+  }
+}
+.iconos-nosotros > div{
+  margin: auto;
+
+
+}
+.img-ots > img{
+  width: 70%;
+  height: 70%;
+  padding: 10px;
+}
+.entrada-blog{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+.entrada-blog:last-of-type{
+  margin-bottom: 0;
+}
+
+.entrada-blog .texto-entrada {
+  flex-basis: 60%;
+}
+.texto-entrada a {
+  color: black;
+  text-decoration: none;
+
+}
+.texto-entrada h4{
+
+  margin: 0;
+  line-height: 1.4;
+}
+
+.texto-entrada h4::after {
+  content: '';
+  display: block;
+  width: 15rem;
+  height: .5rem;
+  background-color: green;
+  margin-top: 1rem;
+}
+
+.texto-entrada span {
+  color: orange;
+}
+footer{
+  background: #0a0b0d;
+  padding-top: inherit;
+  margin-top:10%
+}
+
+
+.container .fab{
+  color: aliceblue;
+}
+.register{
+  margin-top: 10%;
+}
+ .btn{
+  margin-right: 20px;
+
+
+}
