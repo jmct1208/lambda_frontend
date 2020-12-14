@@ -198,6 +198,9 @@ export class AlumnoComponent implements OnInit {
     return downloadLink;
   }
 
+  showExamenes() {
+    
+  }
   // Crear una alumno
   onSubmit(){
     this.submitted = true;

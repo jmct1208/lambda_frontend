@@ -4,7 +4,7 @@
         <!-- Header  -->
         <div class="card-header">
             <h3><i class="fas fa-comment-alt"></i>&nbsp;&nbsp;Eventos</h3>
-            <button style="float: right;" (click)="openModalAlumno()" type="button" class="btn btn-info btn-sm"> Agregar Evento <i class="fas fa-id-card"></i>
+            <button style="float: right;" (click)="openModalEvento()" type="button" class="btn btn-info btn-sm"> Agregar Evento <i class="fas fa-id-card"></i>
             </button>
         </div>
 
@@ -32,14 +32,14 @@
                         <td class="text-center">{{ evento.costo }}</td>
                         <td class="text-center">
                             <div>
-                                <button (click)="getTipoEvento(evento.tipo)" type="button" class="btn btn-primary">Ver Tipo</button>
+                                <button (click)="getTipoEvento(evento.id)" type="button" class="btn btn-primary">Ver Tipo</button>
                             </div>
                         </td>
                         <td class="text-center">
                             <div>
-                                <button (click)="agregarAlumno(evento)" type="button" class="btn btn-primary">Agregar Alumno</button>
+                                <button (click)="openModalAgregarAlumno(evento)" type="button" class="btn btn-primary">Agregar Alumno</button>
                                 &nbsp;&nbsp;
-                                <button (click)="getAlumnosEvento(evento)" type="button" class="btn btn-primary">Ver Alumnos</button>
+                                <button (click)="openModalAlumnos(evento)" type="button" class="btn btn-primary">Ver Alumnos</button>
                             </div>
                         </td>
                         <td>
@@ -61,7 +61,7 @@
 <br><br>
 
 
-<div class="modal" id="alumnosEventoModal">
+<div class="modal" id="alumnosModal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
 
@@ -81,12 +81,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let alumno of eventoAlumnos">
+                            <tr *ngFor="let alumno of alumnosEvento">
                                 <td class="text-center">{{ alumno.nombre }}</td>
                                 <td class="text-center">{{ alumno.actividad }}</td>
                                 <td class="text-center">
                                     <div>
-                                        <button (click)="eliminarAlumnoEvento(evento.id,alumno.id)" type="button" class="btn btn btn-outline-success">Quitar</button>
+                                        <button (click)="eliminarAlumnoEvento(eventoSeleccionado.id,alumno.id)" type="button" class="btn btn btn-outline-success">Quitar</button>
                                     </div>
                                 </td>
                             </tr>
@@ -122,8 +122,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                                <td class="text-center">{{ tipoEvento.nombre }}</td>
-                                <td class="text-center">{{ tipoEvento.descripcion }}</td>
+                                <td class="text-center">{{ tipoEvento?.nombre }}</td>
+                                <td class="text-center">{{ tipoEvento?.descripcion }}</td>
                         </tbody>
                     </table>
                 </div>
@@ -137,7 +137,7 @@
     </div>
 </div>
 
-<div class="modal" id="agregarAlumnosEventoModal">
+<div class="modal" id="agregarAlumnosModal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
 
@@ -157,12 +157,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let alumno of alumnos">
+                            <tr *ngFor="let alumno of alumnosNotEvento">
                                 <td class="text-center">{{ alumno.nombre }}</td>
                                 <td class="text-center">{{ alumno.actividad }}</td>
                                 <td class="text-center">
                                     <div>
-                                        <button (click)="agregarAlumnoEvento(evento.id,alumno.id)" type="button" class="btn btn btn-outline-success">Agregar<i class="fas fa-pen-square"></i></button>
+                                        <button (click)="agregarAlumno(eventoSeleccionado.id,alumno.id)" type="button" class="btn btn btn-outline-success">Agregar<i class="fas fa-pen-square"></i></button>
                                     </div>
                                 </td>
                             </tr>
@@ -205,7 +205,7 @@
                         <div *ngIf="f.descripcion.errors.required">El seguro medico es obligatorio</div>
                         </div>
                     </div>
-            
+
                     <div class="form-group">
                     <label for="fecha">Fecha Inicio<span class="text-danger">*</span></label>
                     <input type="date" formControlName="fecha" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.fecha.errors }" />
@@ -221,7 +221,7 @@
                         <div *ngIf="f.fechaf.errors.required">La fecha es obligatoria</div>
                     </div>
                 </div> 
-            
+
                     <div class="form-group">
                         <label for="costo">Costo<span class="text-danger">*</span></label>
                         <input type="text" formControlName="costo" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.costo.errors }" />
@@ -230,10 +230,18 @@
                         </div>
                     </div>
 
+                    <div class="form-group">
+                        <label for="enlace">Enlace<span class="text-danger">*</span></label>
+                        <input type="text" formControlName="enlace" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.enlace.errors }" />
+                        <div *ngIf="submitted && f.enlace.errors" class="invalid-feedback">
+                        <div *ngIf="f.enlace.errors.required">El enlace de Facebook es obligatorio</div>
+                        </div>
+                    </div>
+
                     <div class="form-group row text-center">
                         <label for="colFormLabel" class="col-sm-2 col-form-labeñ">Elije Tipo Evento:</label>
                         <div class="col-sm-6">
-                            <select class="form-control" [(ngModel)]="tipoEventoSelec" name="tipoEventoSelec" id="tipoEventoSelec">
+                            <select class="form-control" [(ngModel)]="tipoEventoSelec" name="tipoEventoSelec" id="tipoEventoSelec" [ngModelOptions]="{standalone: true}">
                                 <option [ngValue]="undefined" hidden>Seleciona un evento...</option>
                                 <option *ngFor="let evento of tiposEvento" [ngValue]="evento.id">{{ evento.nombre }}</option>
                             </select>
@@ -250,7 +258,7 @@
             <div class="modal-footer">
                 <button (click)="cerrarModal()" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
             </div>
-        
+
         </div>
     </div>
-</div>
+</div> 

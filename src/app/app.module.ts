@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AlumnoComponent } from './componentes/alumno/alumno.component';
@@ -11,6 +11,10 @@ import {HomeComponent} from './componentes/home/home.component';
 import { LoginComponent } from './componentes/autenticacion/login/login.component';
 import { RegistroComponent } from './componentes/autenticacion/registro/registro.component';
 
+import { TipoEventoComponent } from './componentes/tipo-evento/tipo-evento.component';
+import { UsuarioComponent } from './componentes/usuario/usuario.component'
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,7 +23,10 @@ import { RegistroComponent } from './componentes/autenticacion/registro/registro
     EventoComponent,
     HomeComponent,
     LoginComponent,
-    RegistroComponent
+    RegistroComponent,
+    TipoEventoComponent,
+    UsuarioComponent
+
   ],
   imports: [
     BrowserModule,

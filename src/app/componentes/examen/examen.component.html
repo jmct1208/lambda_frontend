@@ -17,7 +17,7 @@
                         <th class="text-center">Tipo</th>
                         <th class="text-center">Fecha</th>
                         <th class="text-center">Costo</th>
-                        <th class="text-center">Horario</th>
+                        <th class="text-center">Hora</th>
                         <th class="text-center">Alumnos</th>
                         <th></th>
                     </tr>
@@ -26,12 +26,12 @@
                     <tr *ngFor="let examen of examenes">
                         <td class="text-center">{{ examen.nombre }}</td>
                         <td class="text-center">{{ examen.tipo }}</td>
-                        <td class="text-center">{{ examen.fecha | date : 'dd/MM/yyyy' : 'UTC' }}</td>
+                        <td class="text-center">{{ examen.fecha_hora | date:"dd-MM-YYYY"}}</td>
                         <td class="text-center">{{ examen.costo }}</td>
-                        <td class="text-center">{{ examen.horario }}</td>
+                        <td class="text-center">{{ examen.fecha_hora | date:"hh:mm a"}}</td>
                         <td class="text-center">
                             <div>
-                                <button (click)="getAlumnosExamen(examen)" type="button" class="btn btn-primary">Ver Alumnos</button>
+                                <button (click)="openModalAlumnosExamen(examen)" type="button" class="btn btn-primary">Ver Alumnos</button>
                             </div>
                         </td>
 
@@ -41,7 +41,7 @@
                                 &nbsp;&nbsp;
                                 <button (click)="deleteExamen(examen.id)" type="button" class="btn btn-danger">Eliminar <i class="fas fa-trash"></i></button>
                                 &nbsp;&nbsp;
-                                <button (click)="agregarAlumno(examen)" type="button" class="btn btn-primary">Agregar Alumno</button>
+                                <button (click)="openModalAgregarAlumnoExamen(examen)" type="button" class="btn btn-primary">Agregar Alumno</button>
                                 &nbsp;&nbsp;
                                 <button (click)="showPDF(examen.enlace )" type="button" class="btn btn-link"><i class="fas fa-id-card"></i>&nbsp;&nbsp;enlace pagina facebook</button>
                             </div>
@@ -76,12 +76,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let alumno of examenAlumnos">
+                            <tr *ngFor="let alumno of alumnosExamen">
                                 <td class="text-center">{{ alumno.nombre }}</td>
                                 <td class="text-center">{{ alumno.actividad }}</td>
                                 <td class="text-center">
                                     <div>
-                                        <button (click)="eliminarAlumnoExamen(examen.id,alumno.id)" type="button" class="btn btn btn-outline-success">Quitar</button>
+                                        <button (click)="eliminarAlumnoExamen(examenSeleccionado.id,alumno.id)" type="button" class="btn btn btn-outline-success">Quitar</button>
                                     </div>
                                 </td>
                             </tr>
@@ -118,12 +118,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let alumno of alumnos">
+                            <tr *ngFor="let alumno of alumnosNotExamen">
                                 <td class="text-center">{{ alumno.nombre }}</td>
                                 <td class="text-center">{{ alumno.actividad }}</td>
                                 <td class="text-center">
                                     <div>
-                                        <button (click)="agregarAlumnoExamen(examen.id,alumno.id)" type="button" class="btn btn btn-outline-success">Agregar<i class="fas fa-pen-square"></i></button>
+                                        <button (click)="agregarAlumnoExamen(examenSeleccionado.id,alumno.id)" type="button" class="btn btn btn-outline-success">Agregar<i class="fas fa-pen-square"></i></button>
                                     </div>
                                 </td>
                             </tr>
@@ -184,10 +184,10 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="horario">Horario<span class="text-danger">*</span></label>
-                        <input type="text" formControlName="horario" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.horario.errors }" />
-                        <div *ngIf="submitted && f.horario.errors" class="invalid-feedback">
-                        <div *ngIf="f.horario.errors.required">El seguro medico es obligatorio</div>
+                        <label for="hora">Hora<span class="text-danger">*</span></label>
+                        <input type="time" min="07:00" max="22:00" formControlName="hora" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.hora.errors }" />
+                        <div *ngIf="submitted && f.hora.errors" class="invalid-feedback">
+                        <div *ngIf="f.hora.errors.required">El seguro medico es obligatorio</div>
                         </div>
                     </div>
 
