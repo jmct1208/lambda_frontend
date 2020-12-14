@@ -28,20 +28,18 @@ export class EventoService {
   getEventos(){
     return this.http.get(this.API_URI+'/eventos');
   }
-
   
   getTipoEvento(id: number){
     return this.http.get(this.API_URI+'/eventos/'+id+'/tipo_evento');
 
   }
-
-  createEvento(evento: Evento){
+  createEvento(evento: Evento, idTipoEvento: number){
     console.log(evento);
-    return this.http.post(this.API_URI+'/eventos',evento);
+    return this.http.post(this.API_URI+'/eventos'+'/tipo_evento/'+idTipoEvento,evento);
   }
 
-  updateEvento(evento: Evento){
-    return this.http.put(this.API_URI+'/evento/'+evento.id,evento);
+  updateEvento(evento: Evento, idTipoEvento: number){
+    return this.http.put(this.API_URI+'/eventos/'+evento.id+'/tipo_evento/'+idTipoEvento,evento);
   }
 
   deleteEvento(id: number){

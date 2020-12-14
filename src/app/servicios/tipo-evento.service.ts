@@ -13,6 +13,10 @@ export class TipoEventoService {
     return this.http.get(this.API_URI+'/tipos_evento');
   }
 
+  getTipoEvento(id: number) {
+    return this.http.get(this.API_URI+'/tipos_evento/'+id);
+  }
+
   createTipoEvento(tipoEvento: TipoEvento) {
     return this.http.post(this.API_URI+'/tipos_evento', tipoEvento);
   }
