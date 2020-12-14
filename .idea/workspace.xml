@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="5219b08a-afad-46a4-a72b-30d473c28c8e" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/app/componentes/home/normalize.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/app-routing.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/app.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/app.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/components/home/home.component.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/components/home/home.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/components/home/home.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/components/home/home.component.ts" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="CSS File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1l3AMback1yT1J4TQ1KUwHBfl9g" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="ts.external.directory.path" value="C:\Users\mefus\OneDrive\Documentos\GitHub\lambda_frontend\node_modules\typescript\lib" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\mefus\OneDrive\Documentos\GitHub\lambda_frontend\src\app\componentes\home" />
+      <recent name="C:\Users\mefus\OneDrive\Documentos\GitHub\lambda_frontend\taekwondo\src\assets" />
+      <recent name="C:\Users\mefus\OneDrive\Documentos\GitHub\lambda_frontend\taekwondo\src\app\componentes\alumno" />
+      <recent name="C:\Users\mefus\OneDrive\Documentos\GitHub\lambda_frontend\taekwondo\src\app\components" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5219b08a-afad-46a4-a72b-30d473c28c8e" name="Default Changelist" comment="" />
+      <created>1606815355666</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1606815355666</updated>
+      <workItem from="1606815357940" duration="13000" />
+      <workItem from="1606815384678" duration="18597000" />
+      <workItem from="1607152619462" duration="3005000" />
+      <workItem from="1607348029305" duration="1700000" />
+      <workItem from="1607349789119" duration="7062000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="204" y="107" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1606815883665">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="204" y="107" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1606815883665" />
+    <state x="563" y="154" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1607348572095">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="563" y="154" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1536.824@0.0.1536.824" timestamp="1607348572095" />
+    <state x="516" y="214" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1606829235160">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="516" y="214" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.824@0.0.1536.824" timestamp="1606829235160" />
+    <state x="630" y="273" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1607349106333">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="630" y="273" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1536.824@0.0.1536.824" timestamp="1607349106333" />
+    <state width="1084" height="141" key="GridCell.Tab.0.bottom" timestamp="1607347978414">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1084" height="141" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1607347978414" />
+    <state width="1084" height="141" key="GridCell.Tab.0.center" timestamp="1607347978414">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1084" height="141" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1607347978414" />
+    <state width="1084" height="141" key="GridCell.Tab.0.left" timestamp="1607347978414">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1084" height="141" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1607347978414" />
+    <state width="1084" height="141" key="GridCell.Tab.0.right" timestamp="1607347978414">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1084" height="141" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1607347978414" />
+    <state x="406" y="209" key="run.anything.popup" timestamp="1606826400019">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="406" y="209" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1606826400019" />
+    <state x="412" y="145" key="search.everywhere.popup" timestamp="1606819160076">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="412" y="145" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1606819160076" />
+  </component>
+</project>
