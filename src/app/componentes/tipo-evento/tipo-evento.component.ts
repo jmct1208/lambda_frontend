@@ -128,4 +128,8 @@ export class TipoEventoComponent implements OnInit {
       }
     });
   }
+
+  cerrarModal(){
+    this.submitted=false;
+  }
 }

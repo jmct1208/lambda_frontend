@@ -3,7 +3,6 @@ import { Examen, fromFormValue, toRawFormValue} from '../../modelos/examen';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ExamenService } from '../../servicios/examen.service';
 import { Alumno } from '../../modelos/alumno';
-import { ServicioAlumno } from '../../servicios/alumno.service';
 import Swal from 'sweetalert2';
 
 declare var $: any;
@@ -23,7 +22,7 @@ export class ExamenComponent implements OnInit {
   modalTitle!: String;
   modalTitle2!:string;
   modalTitle3!: String;
-  constructor(private servicioExamen: ExamenService, private formBuilder: FormBuilder, private servicioAlumno: ServicioAlumno) { }
+  constructor(private servicioExamen: ExamenService, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.examenForm = this.formBuilder.group({

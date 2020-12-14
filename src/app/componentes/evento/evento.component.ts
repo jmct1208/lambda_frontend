@@ -3,10 +3,9 @@ import { Evento } from '../../modelos/evento';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { EventoService } from '../../servicios/evento.service';
 import { Alumno} from '../../modelos/alumno';
-import { TipoEventoComponent } from '../../componentes/tipo-evento/tipo-evento.component';
 import { TipoEvento} from '../../modelos/tipoEvento'
-
 import Swal from 'sweetalert2';
+import { TipoEventoService } from 'src/app/servicios/tipo-evento.service';
 
 declare var $: any;
 
@@ -19,7 +18,7 @@ export class EventoComponent implements OnInit {
   alumnosEvento: Alumno[] | any;
   eventos: Evento[] | any;
   alumnosNotEvento: Alumno[] | any;
-  tiposEvento: TipoEvento | any;
+  tiposEvento: TipoEvento[] | any;
   tipoEvento: TipoEvento | any;
   eventoSeleccionado: Evento | any;
   tipoEventoSelec!: number;
@@ -30,21 +29,32 @@ export class EventoComponent implements OnInit {
   modalTitle3!:string;
   tipoEventoNombre!: String;
   tipoEventoDescripcion!: String;
-  constructor(private servicioEvento: EventoService, private formBuilder: FormBuilder, private tipoEventoComponent: TipoEventoComponent) { }
+  constructor(private servicioEvento: EventoService, private formBuilder: FormBuilder, private tipoEventoService: TipoEventoService) { }
 
   ngOnInit(): void {
     this.eventoForm = this.formBuilder.group({
       id: [''],
       nombre: ['', Validators.required],
-      tipo: ['', Validators.required],
       descripcion: ['', Validators.required],
       fecha: ['', Validators.required],
       fechaf: ['', Validators.required],
       costo: ['', Validators.required],
+      enlace: ['', Validators.required]
 
     });
     this.getEventos();
-    this.tipoEventoComponent.getTiposEvento();
+    this.getTiposEvento();
+  }
+
+  getTiposEvento() {
+    this.tiposEvento = [];
+    this.tipoEventoService.getTiposEvento().subscribe(
+      res => {
+        this.tiposEvento = res;
+        console.log(this.tiposEvento);
+      },
+      err => console.error(err)
+    )
   }
   
   getEventos(){
@@ -52,12 +62,11 @@ export class EventoComponent implements OnInit {
     this.servicioEvento.getEventos().subscribe(
       res => {
         this.eventos = res;
-        //console.log(this.alumnos)
+        console.log(this.eventos);
       },
       err => console.error(err)
     )
   }
-
 
   getAlumnosNotExamen(){
     this.alumnosNotEvento = [];
@@ -65,8 +74,8 @@ export class EventoComponent implements OnInit {
       res => {
         this.alumnosNotEvento = res;
         console.log(this.alumnosNotEvento)
-        if(!$('#agregarAlumnosEventoModal').is(':visible') && this.modalTitle3=="agregarAlumno"){
-          $("#agregarAlumnosEventoModal").modal("show");
+        if(!$('#agregarAlumnosModal').is(':visible') && this.modalTitle3=="agregarAlumno"){
+          $("#agregarAlumnosModal").modal("show");
         };
       },
       err => console.error(err)
@@ -74,18 +83,17 @@ export class EventoComponent implements OnInit {
   }
 
   getTipoEvento(id: number){
-    //tipoevento ; TipoEvento
     this.servicioEvento.getTipoEvento(id).subscribe(
       res => {
         this.tipoEvento=res;
+        console.log(this.tipoEvento);
+        $("#verTipoEvento").modal("show");
       },
       err => console.error(err)
-
     )
-    $("#verTipoEvento").modal("show");
   }
   
-  openModalAgregarAlumnoEvento(evento: Evento){
+  openModalAgregarAlumno(evento: Evento){
         this.eventoSeleccionado=evento;
         this.modalTitle3="agregarAlumno";
         this.getAlumnosNotExamen();
@@ -103,7 +111,7 @@ export class EventoComponent implements OnInit {
     return downloadLink;
   }
 
-  agregarAlumnoEvento(idEvento: number,idAlumno: number){
+  agregarAlumno(idEvento: number,idAlumno: number){
     this.servicioEvento.addAlumno(idEvento,idAlumno).subscribe(
       res => {
         Swal.fire({
@@ -119,14 +127,14 @@ export class EventoComponent implements OnInit {
     )
   }
 
-  getAlumnosEvento(){
+  getAlumnos(){
     this.alumnosEvento = [];
     this.servicioEvento.getAlumnosEvento(this.eventoSeleccionado.id).subscribe(
       res => {
         this.alumnosEvento = res;
-        console.log(this.alumnosNotEvento)
-        if(!$('#alumnosEventoModal').is(':visible') && this.modalTitle3=="getAlumnosEvento"){
-          $("#alumnosEventoModal").modal("show");
+        console.log(this.alumnosEvento)
+        if(!$('#alumnosModal').is(':visible') && this.modalTitle3=="getAlumnosEvento"){
+          $("#alumnosModal").modal("show");
         };
       },
       err => console.error(err)
@@ -134,11 +142,11 @@ export class EventoComponent implements OnInit {
   }
 
   // Consultar lista de alumnos
-  openModalAlumnosEvento(evento: Evento){
+  openModalAlumnos(evento: Evento){
     this.eventoSeleccionado=evento;
     this.modalTitle3="getAlumnosEvento";
     this.modalTitle=evento.nombre;
-    this.getAlumnosEvento();
+    this.getAlumnos();
   }
 
   // Eliminar una alumno
@@ -159,7 +167,7 @@ export class EventoComponent implements OnInit {
               'Se a quitado el alumno del evento',
               'success'
             )
-           this.getAlumnosEvento();
+           this.getAlumnos();
           },
           err => console.error(err)
         )
@@ -177,6 +185,10 @@ export class EventoComponent implements OnInit {
 
     if(this.eventoForm.invalid){
       console.log('Formulario inválido');
+      return;
+    }
+    if(this.eventoSeleccionado == null) {
+      console.log('Falta el tipo de evento');
       return;
     }
     if(this.modalTitle2 == "Registrar"){
@@ -197,7 +209,7 @@ export class EventoComponent implements OnInit {
       )
     }else{
       console.log(this.eventoForm.value);
-      this.servicioEvento.updateEvento(this.eventoForm.value).subscribe(
+      this.servicioEvento.updateEvento(this.eventoForm.value, this.tipoEventoSelec).subscribe(
         res => {
           Swal.fire({
             position: 'top-end',
@@ -239,7 +251,7 @@ export class EventoComponent implements OnInit {
               'El Evento ha sido eliminado',
               'success'
             )
-            this.getEventoes();
+            this.getEventos();
           },
           err => console.error(err)
         )
@@ -266,7 +278,7 @@ export class EventoComponent implements OnInit {
 
   get f() { return this.eventoForm.controls;}
   
-  openModalAlumno(){
+  openModalEvento(){
     this.eventoForm.reset();
     this.modalTitle2 = "Registrar";
     $("#eventoModal").modal("show");
