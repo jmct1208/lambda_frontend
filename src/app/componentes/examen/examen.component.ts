@@ -154,7 +154,7 @@ export class ExamenComponent implements OnInit {
               'Se ha quitado el alumno del examen',
               'success'
             )
-           this.alumnosExamen();
+           this.getAlumnosExamen();
           },
           err => console.error(err)
         )
