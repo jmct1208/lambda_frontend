@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import{AuthService} from
 @Component({
   selector: 'app-registro',
   templateUrl: './registro.component.html',
@@ -7,8 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegistroComponent implements OnInit {
 
-  constructor() { }
-
+  constructor( private authService:AuthService ) { }
+  private user: UserInterface ={
+    name:''
+  }
   ngOnInit(): void {
   }
 
