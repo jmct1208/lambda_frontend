@@ -13,8 +13,8 @@ export class UsuarioService {
     return this.http.get(this.API_URI+'/usuarios')
   }
 
-  getAlumno(id: number) {
-    return this.http.get(this.API_URI+'/usuarios/'+id+'/alumno')
+  getUsuario(id: number) {
+    return this.http.get(this.API_URI+'/usuarios/'+id+'/usuarios')
   }
 
   createUsuario(usuario: Usuario) {
@@ -24,6 +24,7 @@ export class UsuarioService {
   updateUsuario(usuario: Usuario) {
     return this.http.put(this.API_URI+'/usuarios/'+usuario.id, usuario);
   }
+
 
   deleteUsuario(id: number) {
     return this.http.delete(this.API_URI+'/usuarios/'+id);
