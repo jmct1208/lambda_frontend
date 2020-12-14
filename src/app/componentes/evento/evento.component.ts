@@ -21,7 +21,6 @@ export class EventoComponent implements OnInit {
   tiposEvento: TipoEvento[] | any;
   tipoEvento: TipoEvento | any;
   eventoSeleccionado: Evento | any;
-  tipoEventoSelec!: number;
   eventoForm!: FormGroup;
   submitted = false;
   modalTitle!: String;
@@ -37,13 +36,13 @@ export class EventoComponent implements OnInit {
       nombre: ['', Validators.required],
       descripcion: ['', Validators.required],
       fecha: ['', Validators.required],
+      tipo: ['', Validators.required],
       fechaf: ['', Validators.required],
       costo: ['', Validators.required],
       enlace: ['', Validators.required]
 
     });
     this.getEventos();
-    this.getTiposEvento();
   }
 
   getTiposEvento() {
@@ -187,12 +186,16 @@ export class EventoComponent implements OnInit {
       console.log('Formulario inválido');
       return;
     }
-    if(this.eventoSeleccionado == null) {
-      console.log('Falta el tipo de evento');
-      return;
-    }
     if(this.modalTitle2 == "Registrar"){
-      this.servicioEvento.createEvento(this.eventoForm.value,this.tipoEventoSelec).subscribe(
+      let evento = new Evento(
+        this.eventoForm.controls['id'].value,
+        this.eventoForm.controls['nombre'].value,
+        this.eventoForm.controls['descripcion'].value,
+        this.eventoForm.controls['fecha'].value,
+        this.eventoForm.controls['fechaf'].value,
+        this.eventoForm.controls['costo'].value,
+        this.eventoForm.controls['enlace'].value);
+      this.servicioEvento.createEvento(evento,this.eventoForm.controls['tipo'].value).subscribe(
         res => {
           Swal.fire({
             position: 'top-end',
@@ -209,7 +212,16 @@ export class EventoComponent implements OnInit {
       )
     }else{
       console.log(this.eventoForm.value);
-      this.servicioEvento.updateEvento(this.eventoForm.value, this.tipoEventoSelec).subscribe(
+      let evento = new Evento(
+        this.eventoForm.controls['id'].value,
+        this.eventoForm.controls['nombre'].value,
+        this.eventoForm.controls['descripcion'].value,
+        this.eventoForm.controls['fecha'].value,
+        this.eventoForm.controls['fechaf'].value,
+        this.eventoForm.controls['costo'].value,
+        this.eventoForm.controls['enlace'].value);
+        console.log(this.eventoForm.controls['tipo'].value)
+      this.servicioEvento.updateEvento(evento, this.eventoForm.controls['tipo'].value).subscribe(
         res => {
           Swal.fire({
             position: 'top-end',
@@ -261,19 +273,27 @@ export class EventoComponent implements OnInit {
 
   updateEvento(evento: Evento){
     this.submitted = true;
-    this.eventoForm.setValue(evento);
-    /*
+    this.eventoSeleccionado = evento;
     this.eventoForm.controls['id'].setValue(evento.id);
     this.eventoForm.controls['nombre'].setValue(evento.nombre);
     this.eventoForm.controls['descripcion'].setValue(evento.descripcion);
     this.eventoForm.controls['fecha'].setValue(evento.fecha);
     this.eventoForm.controls['fechaf'].setValue(evento.fechaf);
     this.eventoForm.controls['costo'].setValue(evento.costo);
-    */
-    this.modalTitle2 = "Actualizar";
-    $("#eventoModal").modal("show");
+    this.eventoForm.controls['enlace'].setValue(evento.enlace);
+    this.servicioEvento.getTipoEvento(this.eventoSeleccionado.id).subscribe(
+      res => {
+        this.tipoEvento=res;
+        console.log(this.tipoEvento);
+        this.eventoForm.controls['tipo'].setValue(this.tipoEvento.id);
+        console.log(this.eventoForm.value);
+        this.getTiposEvento();
+        this.modalTitle2 = "Actualizar";
+        $("#eventoModal").modal("show");
 
-    
+      },
+      err => console.error(err)
+    )
   }
 
   get f() { return this.eventoForm.controls;}
@@ -281,6 +301,7 @@ export class EventoComponent implements OnInit {
   openModalEvento(){
     this.eventoForm.reset();
     this.modalTitle2 = "Registrar";
+    this.getTiposEvento();
     $("#eventoModal").modal("show");
   }
 }

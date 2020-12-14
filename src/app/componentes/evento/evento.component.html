@@ -212,15 +212,15 @@
                     <div *ngIf="submitted && f.fecha.errors" class="invalid-feedback">
                         <div *ngIf="f.fecha.errors.required">La fecha es obligatoria</div>
                     </div>
-                </div>   
+                    </div>   
 
-                <div class="form-group">
-                    <label for="fechaf">Fecha Fin<span class="text-danger">*</span></label>
-                    <input type="date" formControlName="fechaf" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.fechaf.errors }" />
-                    <div *ngIf="submitted && f.fechaf.errors" class="invalid-feedback">
-                        <div *ngIf="f.fechaf.errors.required">La fecha es obligatoria</div>
-                    </div>
-                </div> 
+                    <div class="form-group">
+                        <label for="fechaf">Fecha Fin<span class="text-danger">*</span></label>
+                        <input type="date" formControlName="fechaf" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.fechaf.errors }" />
+                        <div *ngIf="submitted && f.fechaf.errors" class="invalid-feedback">
+                            <div *ngIf="f.fechaf.errors.required">La fecha es obligatoria</div>
+                        </div>
+                    </div> 
 
                     <div class="form-group">
                         <label for="costo">Costo<span class="text-danger">*</span></label>
@@ -237,7 +237,8 @@
                         <div *ngIf="f.enlace.errors.required">El enlace de Facebook es obligatorio</div>
                         </div>
                     </div>
-
+                    
+                    <!--
                     <div class="form-group row text-center">
                         <label for="colFormLabel" class="col-sm-2 col-form-labeñ">Elije Tipo Evento:</label>
                         <div class="col-sm-6">
@@ -246,6 +247,15 @@
                                 <option *ngFor="let evento of tiposEvento" [ngValue]="evento.id">{{ evento.nombre }}</option>
                             </select>
                         </div>
+                    </div>
+                    -->
+                    <div class="form-group">
+                        <label for="tipo">Tipo de evento<span class="text-danger">*</span></label>
+                        <select formControlName="tipo" id="tipo" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.tipo.errors }">
+                        <option *ngFor="let tipoEvento of tiposEvento" [value]="tipoEvento.id">
+                            {{tipoEvento.nombre}}
+                        </option>
+                        </select>
                     </div>
 
                     <p class="text-right"><span class="text-danger">*</span> Campos requeridos</p>
