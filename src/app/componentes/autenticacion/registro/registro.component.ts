@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RegistroService } from 'src/app/servicios/registro.service';
-import { pipe } from 'rxjs';
 import { first } from 'rxjs/operators';
+import { Usuario } from '../../../modelos/usuario';
 
 import swal from 'sweetalert2';
 
@@ -26,9 +26,9 @@ export class RegistroComponent implements OnInit {
     // Validar longitud de contraseña de al menos 8 caracteres y que email corresponda a una sintaxis válida
     this.registroForm = this.formBuilder.group(
       {
-        'email' : [null, [Validators.required, Validators.email]],
+        'nombre' : [null, [Validators.required]],
         'password': [null, [Validators.required, Validators.minLength(8)]],
-        'id_tipo_usuario': [null, [Validators.required]]
+        'tipo_usuario': [null, [Validators.required]]
       }
     );
   }
@@ -85,7 +85,8 @@ export class RegistroComponent implements OnInit {
 
       return
     }else{
-      this.registroService.registrar(this.registroForm.value).pipe(first())
+      let usuario = <Usuario> this.registroForm.value;
+      this.registroService.registrar(usuario).pipe(first())
         .subscribe(res => {
             swal.fire({
               title: 'Usuario creado exitosamente .',

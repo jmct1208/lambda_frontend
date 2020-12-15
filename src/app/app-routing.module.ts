@@ -11,11 +11,11 @@ import { TipoEventoComponent } from './componentes/tipo-evento/tipo-evento.compo
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
-  {path: 'alumno', component: AlumnoComponent},
-  {path: 'examen', component: ExamenComponent},
+  {path: 'alumnos', component: AlumnoComponent},
+  {path: 'examenes', component: ExamenComponent},
   {path: 'login', component: LoginComponent},
   {path: 'registro', component: RegistroComponent},
-  {path: 'evento', component: EventoComponent},
+  {path: 'eventos', component: EventoComponent},
   {path: 'tipos_evento', component: TipoEventoComponent},
 
   {path: '**', redirectTo: ''}

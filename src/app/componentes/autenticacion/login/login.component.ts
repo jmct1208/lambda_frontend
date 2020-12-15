@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { first } from 'rxjs/operators';
+import { LoginService } from 'src/app/servicios/login.service';
 
 import swal from 'sweetalert2';
 
@@ -12,18 +14,18 @@ import swal from 'sweetalert2';
 export class LoginComponent implements OnInit {
 
   loginForm!: FormGroup;
-  email=''
+  name=''
   password=''
   constructor(private formBuilder: FormBuilder,
-              private router: Router
-  ) { }
+              private router: Router,
+              private loginService: LoginService) { }
 
   ngOnInit(): void {
 
-    // Validar longitud de contraseña de al menos 8 caracteres y que email corresponda a una sintaxis válida
+    // Validar longitud de contraseña de al menos 8 caracteres y que nombre corresponda a una sintaxis válida
     this.loginForm = this.formBuilder.group(
       {
-        'email' : [null, [Validators.required, Validators.email]],
+        'nombre' : [null, [Validators.required]],
         'password': [null, [Validators.required, Validators.minLength(8)]]
       }
     );
@@ -44,10 +46,10 @@ export class LoginComponent implements OnInit {
     // Manejar el caso de que la forma sea invalida. En este caso que los campos esten vacios
     if(this.loginForm.invalid){
       let campos_invalidos = this.camposInvalidos()
-      if (campos_invalidos.includes("email")){
+      if (campos_invalidos.includes("nombre")){
         swal.fire(
           {
-            title: 'El correo es invalido.',
+            title: 'El nombre es invalido.',
             text: "Error",
             icon: 'warning',
             confirmButtonColor: '#3085d6',
@@ -77,8 +79,31 @@ export class LoginComponent implements OnInit {
           }
         )
       }
+      return;
+    } else {
+        this.loginService.autenticar(this.loginForm.value).pipe(first())
+          .subscribe(res => {
+            swal.fire({
+              title: 'Bienvenido.',
+              text: "Sesión Iniciada",
+              icon: 'success',
+              confirmButtonText: 'Ok'
+            });
+            console.log(this.loginForm.controls['nombre'].value);
+            this.loginService.loggedIn(this.loginForm.controls['nombre'].value, res);
+            this.router.navigate(['']);
+            },
+            err => {
+            swal.fire({
+              title: 'Credenciades Invalidas.',
+              text: "Por favor verifica las credenciales",
+              icon: 'error',
+              confirmButtonText: 'Ok'
+            });
+            console.log(err);
+            }
+          );
 
-      return
     }
   }
 
