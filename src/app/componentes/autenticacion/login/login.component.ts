@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { first } from 'rxjs/operators';
+import { LoginService } from 'src/app/servicios/login.service';
 
 import swal from 'sweetalert2';
 
@@ -15,7 +17,8 @@ export class LoginComponent implements OnInit {
   email=''
   password=''
   constructor(private formBuilder: FormBuilder,
-              private router: Router
+              private router: Router,
+              private loginService: LoginService,
   ) { }
 
   ngOnInit(): void {
@@ -79,7 +82,30 @@ export class LoginComponent implements OnInit {
       }
 
       return
-    }
+    }else{
+      this.loginService.autenticar(this.loginForm.value).pipe(first())
+      .subscribe(res => {
+        swal.fire({
+          title: 'Bienvenido.',
+          text: "Sesión Iniciada",
+          icon: 'success',
+          confirmButtonText: 'Ok'
+        });
+        console.log(this.loginForm.controls['email'].value);
+        this.loginService.loggedIn(this.loginForm.controls['email'].value, res);
+        this.router.navigate(['']);
+        },
+        err => {
+        swal.fire({
+          title: 'Credenciades Invalidas.',
+          text: "Por favor verifica las credenciales",
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        });
+        console.log(err);
+        }
+      );
+  }
   }
 
 }

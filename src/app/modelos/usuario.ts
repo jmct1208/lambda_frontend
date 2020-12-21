@@ -1,7 +1,9 @@
+import { TipoEvento } from "./tipoEvento";
+
 export interface Usuario{
   id: number;
-  usuario: String;
+  nombre: String;
   password: String;
-  tipo_usuario: number;
+  tipo: TipoEvento;
 
 }

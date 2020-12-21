@@ -6,6 +6,7 @@ import { pipe } from 'rxjs';
 import { first } from 'rxjs/operators';
 
 import swal from 'sweetalert2';
+import { TipoEvento } from 'src/app/modelos/tipoEvento';
 
 @Component({
   selector: 'app-registro',
@@ -15,6 +16,10 @@ import swal from 'sweetalert2';
 export class RegistroComponent implements OnInit {
 
   registroForm!: FormGroup
+  tipoEvento!: TipoEvento
+  tipoUsuarioSelec!: number
+  tipos: TipoEvento[] | any;
+
 
   constructor(private formBuilder: FormBuilder,
               private router: Router,
@@ -26,11 +31,12 @@ export class RegistroComponent implements OnInit {
     // Validar longitud de contraseña de al menos 8 caracteres y que email corresponda a una sintaxis válida
     this.registroForm = this.formBuilder.group(
       {
-        'email' : [null, [Validators.required, Validators.email]],
+        'nombre' : [null, [Validators.required, Validators.email]],
         'password': [null, [Validators.required, Validators.minLength(8)]],
-        'id_tipo_usuario': [null, [Validators.required]]
+        'tipo': [null, [Validators.required]]
       }
     );
+    this.tipos=[new TipoEvento(2,"USUARIO","No tiene acceso a todas las funciones"),new TipoEvento(1,"ADMINISTRADOR","Tiene acceso a todas las funciones")]
   }
 
   camposInvalidos(){
@@ -46,8 +52,24 @@ export class RegistroComponent implements OnInit {
 
   onSubmit(){
 
+    if(this.tipoUsuarioSelec==2){
+    this.tipoEvento= new TipoEvento(2,"USUARIO","No tiene acceso a todas las funciones");
+    const rjson=JSON.stringify(this.tipoEvento);
+    const ojson=JSON.parse(rjson);
+    this.registroForm.controls['tipo'].setValue(ojson);
+    }else{
+      if(this.tipoUsuarioSelec==1){
+        this.tipoEvento= new TipoEvento(1,"ADMINISTRADOR","Tiene acceso a todas las funciones");
+        const rjson=JSON.stringify(this.tipoEvento);
+        const ojson=JSON.parse(rjson);
+        this.registroForm.controls['tipo'].setValue(ojson);
+      }
+    }
+    console.log(this.registroForm.value);
+
     // Manejar el caso de que la forma sea invalida. En este caso que los campos esten vacios
     if(this.registroForm.invalid){
+      console.log(this.registroForm.value);
       let campos_invalidos = this.camposInvalidos()
       if (campos_invalidos.includes("email")){
         swal.fire(
@@ -93,7 +115,9 @@ export class RegistroComponent implements OnInit {
               icon: 'success',
               confirmButtonText: 'Ok'
             });
+            console.log(this.registroForm.value);
             this.router.navigate(['login']);
+
           },
           err => {
             swal.fire({
