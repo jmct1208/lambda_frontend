@@ -1,38 +1,10 @@
-
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <a class="navbar-brand" href="#">Club leones </a>
-
-  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-    <ul class="navbar-nav m-auto mt-2 mt-lg-0">
-      <li class="nav-item ">
-        <a class="nav-link" routerLink="/alumno">Alumno </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/examen">Examen</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link " routerLink="/evento">Evento</a>
-      </li>
-    </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <button class="btn btn-outline-success" routerLink="/login" type="button">Ingresar</button>
-      <button class="btn btn-outline-success my-2 my-sm-0"  routerLink="/registro" type="submit">Registrarse</button>
-    </form>
-  </div>
-</nav>
-
-
-
 <div class="container-fluid">
     <div class="card mb-3">
 
         <!-- Header  -->
         <div class="card-header">
             <h3><i class="fas fa-comment-alt"></i>&nbsp;&nbsp;Eventos</h3>
-            <button style="float: right;" (click)="openModalEvento()" type="button" class="btn btn-info btn-sm"> Agregar Evento <i class="fas fa-id-card"></i>
+            <button style="float: right;" (click)="openModalAlumno()" type="button" class="btn btn-info btn-sm"> Agregar Evento <i class="fas fa-id-card"></i>
             </button>
         </div>
 
@@ -55,19 +27,19 @@
                     <tr *ngFor="let evento of eventos">
                         <td class="text-center">{{ evento.nombre }}</td>
                         <td class="text-center">{{ evento.descripcion }}</td>
-                        <td class="text-center">{{ evento.fecha | date : 'dd/MM/yyyy' : 'UTC' }}</td>
-                        <td class="text-center">{{ evento.fechaf | date : 'dd/MM/yyyy' : 'UTC' }}</td>
+                        <td class="text-center">{{ evento.fecha_inicio | date : 'dd/MM/yyyy' : 'UTC' }}</td>
+                        <td class="text-center">{{ evento.fecha_fin | date : 'dd/MM/yyyy' : 'UTC' }}</td>
                         <td class="text-center">{{ evento.costo }}</td>
                         <td class="text-center">
                             <div>
-                                <button (click)="getTipoEvento(evento.id)" type="button" class="btn btn-primary">Ver Tipo</button>
+                                <button (click)="getTipoEvento(evento.tipo)" type="button" class="btn btn-primary">Ver Tipo</button>
                             </div>
                         </td>
                         <td class="text-center">
                             <div>
-                                <button (click)="openModalAgregarAlumno(evento)" type="button" class="btn btn-primary">Agregar Alumno</button>
+                                <button (click)="agregarAlumno(evento)" type="button" class="btn btn-primary">Agregar Alumno</button>
                                 &nbsp;&nbsp;
-                                <button (click)="openModalAlumnos(evento)" type="button" class="btn btn-primary">Ver Alumnos</button>
+                                <button (click)="getAlumnosEvento(evento)" type="button" class="btn btn-primary">Ver Alumnos</button>
                             </div>
                         </td>
                         <td>
@@ -76,7 +48,7 @@
                                 &nbsp;&nbsp;
                                 <button (click)="deleteEvento(evento.id)" type="button" class="btn btn-danger">Eliminar <i class="fas fa-trash"></i></button>
                                 &nbsp;&nbsp;
-                                <td class="text-center"><button (click)="showPDF(evento.enlace )" type="button" class="btn btn-link"><i class="fas fa-id-card"></i>&nbsp;&nbsp;enlace pagina facebook</button></td>
+                                <td class="text-center"><button (click)="showPDF(evento.enlace_facebook )" type="button" class="btn btn-link"><i class="fas fa-id-card"></i>&nbsp;&nbsp;enlace pagina facebook</button></td>
                             </div>
                         </td>
                     </tr>
@@ -89,7 +61,7 @@
 <br><br>
 
 
-<div class="modal" id="alumnosModal">
+<div class="modal" id="alumnosEventoModal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
 
@@ -109,12 +81,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let alumno of alumnosEvento">
+                            <tr *ngFor="let alumno of eventoAlumnos">
                                 <td class="text-center">{{ alumno.nombre }}</td>
-                                <td class="text-center">{{ alumno.actividad }}</td>
+                                <td class="text-center">{{ alumno.actividad_marcial }}</td>
                                 <td class="text-center">
                                     <div>
-                                        <button (click)="eliminarAlumnoEvento(eventoSeleccionado.id,alumno.id)" type="button" class="btn btn btn-outline-success">Quitar</button>
+                                        <button (click)="eliminarAlumnoEvento(evento.id,alumno.id)" type="button" class="btn btn btn-outline-success">Quitar</button>
                                     </div>
                                 </td>
                             </tr>
@@ -126,7 +98,7 @@
             <div class="modal-footer">
                 <button class="btn btn-danger" data-dismiss="modal">Cerrar</button>
             </div>
-
+        
         </div>
     </div>
 </div>
@@ -150,8 +122,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                                <td class="text-center">{{ tipoEvento?.nombre }}</td>
-                                <td class="text-center">{{ tipoEvento?.descripcion }}</td>
+                                <td class="text-center">{{ tipoEvento.nombre }}</td>
+                                <td class="text-center">{{ tipoEvento.descripcion }}</td>
                         </tbody>
                     </table>
                 </div>
@@ -160,12 +132,12 @@
             <div class="modal-footer">
                 <button class="btn btn-danger" data-dismiss="modal">Ok</button>
             </div>
-
+        
         </div>
     </div>
 </div>
 
-<div class="modal" id="agregarAlumnosModal">
+<div class="modal" id="agregarAlumnosEventoModal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
 
@@ -185,12 +157,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let alumno of alumnosNotEvento">
+                            <tr *ngFor="let alumno of alumnos">
                                 <td class="text-center">{{ alumno.nombre }}</td>
-                                <td class="text-center">{{ alumno.actividad }}</td>
+                                <td class="text-center">{{ alumno.actividad_marcial }}</td>
                                 <td class="text-center">
                                     <div>
-                                        <button (click)="agregarAlumno(eventoSeleccionado.id,alumno.id)" type="button" class="btn btn btn-outline-success">Agregar<i class="fas fa-pen-square"></i></button>
+                                        <button (click)="agregarAlumnoEvento(evento.id,alumno.id)" type="button" class="btn btn btn-outline-success">Agregar<i class="fas fa-pen-square"></i></button>
                                     </div>
                                 </td>
                             </tr>
@@ -202,7 +174,7 @@
             <div class="modal-footer">
                 <button class="btn btn-danger" data-dismiss="modal">Cerrar</button>
             </div>
-
+        
         </div>
     </div>
 </div>
@@ -230,26 +202,26 @@
                         <label for="descripcion">Descripcion<span class="text-danger">*</span></label>
                         <textarea rows="3" formControlName="descripcion" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.descripcion.errors }"></textarea>
                         <div *ngIf="submitted && f.descripcion.errors" class="invalid-feedback">
-                        <div *ngIf="f.descripcion.errors.required">El seguro medico es obligatorio</div>
+                        <div *ngIf="f.descripcion.required">El seguro medico es obligatorio</div>
                         </div>
                     </div>
-
+            
                     <div class="form-group">
-                    <label for="fecha">Fecha Inicio<span class="text-danger">*</span></label>
-                    <input type="date" formControlName="fecha" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.fecha.errors }" />
-                    <div *ngIf="submitted && f.fecha.errors" class="invalid-feedback">
-                        <div *ngIf="f.fecha.errors.required">La fecha es obligatoria</div>
+                    <label for="fecha_inicio">Fecha Inicio<span class="text-danger">*</span></label>
+                    <input type="date" formControlName="fecha_inicio" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.fecha_inicio.errors }" />
+                    <div *ngIf="submitted && f.fecha_inicio.errors" class="invalid-feedback">
+                        <div *ngIf="f.fecha_inicio.errors.required">La fecha es obligatoria</div>
                     </div>
-                </div>
+                </div>   
 
                 <div class="form-group">
-                    <label for="fechaf">Fecha Fin<span class="text-danger">*</span></label>
-                    <input type="date" formControlName="fechaf" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.fechaf.errors }" />
-                    <div *ngIf="submitted && f.fechaf.errors" class="invalid-feedback">
-                        <div *ngIf="f.fechaf.errors.required">La fecha es obligatoria</div>
+                    <label for="fecha_fin">Fecha Fin<span class="text-danger">*</span></label>
+                    <input type="date" formControlName="fecha_fin" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.fecha_fin.errors }" />
+                    <div *ngIf="submitted && f.fecha_fin.errors" class="invalid-feedback">
+                        <div *ngIf="f.fecha_fin.errors.required">La fecha es obligatoria</div>
                     </div>
-                </div>
-
+                </div> 
+            
                     <div class="form-group">
                         <label for="costo">Costo<span class="text-danger">*</span></label>
                         <input type="text" formControlName="costo" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.costo.errors }" />
@@ -258,18 +230,10 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="enlace">Enlace<span class="text-danger">*</span></label>
-                        <input type="text" formControlName="enlace" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.enlace.errors }" />
-                        <div *ngIf="submitted && f.enlace.errors" class="invalid-feedback">
-                        <div *ngIf="f.enlace.errors.required">El enlace de Facebook es obligatorio</div>
-                        </div>
-                    </div>
-
                     <div class="form-group row text-center">
                         <label for="colFormLabel" class="col-sm-2 col-form-labeñ">Elije Tipo Evento:</label>
                         <div class="col-sm-6">
-                            <select class="form-control" [(ngModel)]="tipoEventoSelec" name="tipoEventoSelec" id="tipoEventoSelec" [ngModelOptions]="{standalone: true}">
+                            <select class="form-control" [(ngModel)]="tipoEventoSelec" name="tipoEventoSelec" id="tipoEventoSelec">
                                 <option [ngValue]="undefined" hidden>Seleciona un evento...</option>
                                 <option *ngFor="let evento of tiposEvento" [ngValue]="evento.id">{{ evento.nombre }}</option>
                             </select>
@@ -286,52 +250,23 @@
             <div class="modal-footer">
                 <button (click)="cerrarModal()" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
             </div>
-
+        
         </div>
     </div>
 </div>
-<footer class="page-footer font-small special-color-dark pt-4">
 
-  <!-- Footer Elements -->
-  <div class="container">
 
-    <!-- Social buttons -->
-    <ul class="list-unstyled list-inline text-center">
-      <li class="list-inline-item">
-        <a class="btn-floating btn-fb mx-1">
-          <i class="fab fa-facebook-f"> </i>
-        </a>
-      </li>
-      <li class="list-inline-item">
-        <a class="btn-floating btn-tw mx-1">
-          <i class="fab fa-twitter"> </i>
-        </a>
-      </li>
-      <li class="list-inline-item">
-        <a class="btn-floating btn-gplus mx-1">
-          <i class="fab fa-google-plus-g"> </i>
-        </a>
-      </li>
-      <li class="list-inline-item">
-        <a class="btn-floating btn-li mx-1">
-          <i class="fab fa-linkedin-in"> </i>
-        </a>
-      </li>
-      <li class="list-inline-item">
-        <a class="btn-floating btn-dribbble mx-1">
-          <i class="fab fa-dribbble"> </i>
-        </a>
-      </li>
-    </ul>
-    <!-- Social buttons -->
 
-  </div>
-  <!-- Footer Elements -->
 
-  <!-- Copyright -->
-  <div class="footer-copyright text-center py-3">© 2020 Copyright:Todos los derechos reservados
 
-  </div>
-  <!-- Copyright -->
 
-</footer>
+
+
+
+
+
+
+
+
+
+

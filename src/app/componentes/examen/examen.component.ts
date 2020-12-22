@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Examen, fromFormValue, toRawFormValue} from '../../modelos/examen';
+import { Examen} from '../../modelos/examen';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ExamenService } from '../../servicios/examen.service';
-import { Alumno } from '../../modelos/alumno';
+import { Alumno} from '../../modelos/alumno';
+import { ServicioAlumno } from '../../servicios/alumno.service';
+
 import Swal from 'sweetalert2';
 
 declare var $: any;
@@ -13,77 +15,72 @@ declare var $: any;
   styleUrls: ['./examen.component.css']
 })
 export class ExamenComponent implements OnInit {
-  alumnosExamen: Alumno[] | any;
+  examenAlumnos: Alumno[] | any;
   examenes: Examen[] | any;
-  alumnosNotExamen: Alumno[] | any;
-  examenSeleccionado: Examen | any;
-  examenForm!: FormGroup;
+  alumnos: Alumno[] | any;
+  examen: Examen | any;
+  examenForm: FormGroup;
   submitted = false;
-  modalTitle!: String;
-  modalTitle2!:string;
-  modalTitle3!: String;
-  constructor(private servicioExamen: ExamenService, private formBuilder: FormBuilder) { }
+  modalTitle: String;
+  modalTitle2:string;
+  constructor(private servicioExamen: ExamenService, private formBuilder: FormBuilder, private servicioAlumno: ServicioAlumno) { }
 
   ngOnInit(): void {
     this.examenForm = this.formBuilder.group({
-      id: [],
+      id: [''],
       nombre: ['', Validators.required],
       tipo: ['', Validators.required],
       fecha: ['', Validators.required],
-      hora: ['', Validators.required],
       costo: ['', Validators.required],
-      enlace: ['', Validators.required],
-      solicitud: ['', Validators.required],
+      horario: ['', Validators.required],
     });
     this.getExamenes();
-  }
-
+ }
+  
   getExamenes(){
     this.examenes = [];
     this.servicioExamen.getExamenes().subscribe(
       res => {
         this.examenes = res;
-        console.log(this.examenes)
+        //console.log(this.alumnos)
       },
       err => console.error(err)
     )
+    this.examenes =[new Examen(1,"Algebra","Matematicas","1992-01-01T00:00:00.000+00:00","$30","13:00","","")]
   }
 
-  openModalAgregarAlumnoExamen(examen: Examen){
-       this.examenSeleccionado=examen;
-       this.modalTitle3="agregarAlumno";
-       this.getAlumnosNotExamen();
-  }
-
-  getAlumnosExamen() {
-    this.alumnosExamen = [];
-    this.servicioExamen.getAlumnosExamen(this.examenSeleccionado.id).subscribe(
+  getAlumnos(){
+    this.alumnos = [];
+    this.servicioAlumno.getAlumnos().subscribe(
       res => {
-        this.alumnosExamen = res;
-        console.log(this.alumnosExamen);
-        if(!$('#alumnosExamenModal').is(':visible') && this.modalTitle3=="getAlumnosExamen"){
-          $("#alumnosExamenModal").modal("show");
-        };
+        this.alumnos = res;
+        console.log(this.alumnos)
       },
       err => console.error(err)
     )
+   this.alumnos=[new Alumno(11,"Ivan","Saavedra","1992-01-01T00:00:00.000+00:00","https://www.eluniversal.com.mx/sites/default/files/2020/09/24/los-mejores-memes-de-chuck-norris.jpg","Karate","","Av. Universidad S/N, Coyoacán","SAIV920101",""),new Alumno(11,"Chuck","Norris","1992-01-01T00:00:00.000+00:00","https://www.eluniversal.com.mx/sites/default/files/2020/09/24/los-mejores-memes-de-chuck-norris.jpg","King Boxing","","Av. Universidad S/N, Coyoacán","CHNR841401","")]
+
+  }
+  
+  escogerAlumnos(){
+    for(const j in this.alumnos){
+      for(const i in this.examenAlumnos){
+        if (this.examenAlumnos[i].id == this.alumnos[j].id) {
+          this.alumnos.splice(j, 1);
+        }
+      }   
+   }
   }
 
-  getAlumnosNotExamen() {
-    this.alumnosNotExamen = [];
-    this.servicioExamen.getAlumnosNotExamen(this.examenSeleccionado.id).subscribe(
-      res => {
-        this.alumnosNotExamen = res;
-        console.log(this.alumnosNotExamen);
-        if(!$('#agregarAlumnosExamenModal').is(':visible') && this.modalTitle3=="agregarAlumno"){
-          $("#agregarAlumnosExamenModal").modal("show");
-        };
-      },
-      err => console.error(err)
-    )
+  agregarAlumno(examen: Examen){
+       this.examen=examen;
+       this.getExamenAlumnos();
+       this.getAlumnos();
+       this.escogerAlumnos();
+       $("#agregarAlumnosExamenModal").modal("show");
   }
 
-  agregarAlumnoExamen(idExamen: number, idAlumno: number){
+  agregarAlumnoExamen(idExamen: number,idAlumno: number){
     this.servicioExamen.addAlumno(idExamen,idAlumno).subscribe(
       res => {
         Swal.fire({
@@ -93,47 +90,31 @@ export class ExamenComponent implements OnInit {
           showConfirmButton: false,
           timer: 1500
         })
-        this.getAlumnosNotExamen();
+        this.escogerAlumnos();
+        this.getExamenAlumnos();
       },
       err => console.error(err)
     )
   }
 
-  showPDF(pdf_base64: string){
-    window.open(pdf_base64, "_blank");
-    
-  }
-
-  convertFileSolicitud(event: any){
-    var pdftobase64 = function(file: File,form: FormGroup){
-      Swal.fire({
-        title: 'Espera un momento!',
-        html: 'el archivo PDF se está cargando',// add html attribute if you want or remove
-        allowOutsideClick: false,
-        onBeforeOpen: () => {
-            Swal.showLoading()
-        },
-      });
-
-      let reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = function(){
-        form.controls['solicitud'].setValue(reader.result);
-        Swal.close();
-      };
-      reader.onerror = function (error){
-        console.log('Error: ',error);
-      };
-    }
-    pdftobase64(<File> event.target.files[0],this.examenForm);
+  getExamenAlumnos(){
+    this.examenAlumnos = [];
+    this.servicioExamen.getAlumnosExamenes(this.examen.id).subscribe(
+      res => {
+        this.examenAlumnos = res;
+        //console.log(this.alumnos)
+      },
+      err => console.error(err)
+    )
+    this.examenAlumnos=[new Alumno(11,"Ivan","Saavedra","1992-01-01T00:00:00.000+00:00","https://www.eluniversal.com.mx/sites/default/files/2020/09/24/los-mejores-memes-de-chuck-norris.jpg","Karate","","Av. Universidad S/N, Coyoacán","SAIV920101",""),new Alumno(11,"Chuck","Norris","1992-01-01T00:00:00.000+00:00","https://www.eluniversal.com.mx/sites/default/files/2020/09/24/los-mejores-memes-de-chuck-norris.jpg","King Boxing","","Av. Universidad S/N, Coyoacán","CHNR841401","")]
   }
 
   // Consultar lista de alumnos
-  openModalAlumnosExamen(examen: Examen){
-    this.examenSeleccionado=examen;
-    this.modalTitle3="getAlumnosExamen";
+  getAlumnosExamen(examen: Examen){
+    this.examen=examen;
+    this.getExamenAlumnos();
     this.modalTitle=examen.nombre;
-    this.getAlumnosExamen();
+    $("#alumnosExamenModal").modal("show");
   }
 
   // Eliminar una alumno
@@ -151,10 +132,10 @@ export class ExamenComponent implements OnInit {
           res => {
             Swal.fire(
               'Eliminado!',
-              'Se ha quitado el alumno del examen',
+              'Se a quitado el alumno del examen',
               'success'
             )
-           this.getAlumnosExamen();
+           this.getExamenAlumnos();
           },
           err => console.error(err)
         )
@@ -174,9 +155,8 @@ export class ExamenComponent implements OnInit {
       console.log('Formulario inválido');
       return;
     }
-    let examen = fromFormValue(this.examenForm.value);
     if(this.modalTitle2 == "Registrar"){
-      this.servicioExamen.createExamen(examen).subscribe(
+      this.servicioExamen.createExamen(this.examenForm.value).subscribe(
         res => {
           Swal.fire({
             position: 'top-end',
@@ -193,8 +173,7 @@ export class ExamenComponent implements OnInit {
       )
     }else{
       console.log(this.examenForm.value);
-      let examen = fromFormValue(this.examenForm.value);
-      this.servicioExamen.updateExamen(examen).subscribe(
+      this.servicioExamen.updateExamen(this.examenForm.value).subscribe(
         res => {
           Swal.fire({
             position: 'top-end',
@@ -246,9 +225,18 @@ export class ExamenComponent implements OnInit {
 
   updateExamen(examen: Examen){
     this.submitted = true;
-    this.examenForm.setValue(toRawFormValue(examen));
+
+    this.examenForm.controls['id'].setValue(examen.id);
+    this.examenForm.controls['nombre'].setValue(examen.nombre);
+    this.examenForm.controls['tipo'].setValue(examen.tipo);
+    this.examenForm.controls['fecha'].setValue(examen.fecha);
+    this.examenForm.controls['costo'].setValue(examen.costo);
+    this.examenForm.controls['horario'].setValue(examen.horario);
+
     this.modalTitle2 = "Actualizar";
     $("#examenModal").modal("show");
+
+    
   }
 
   get f() { return this.examenForm.controls;}
@@ -258,5 +246,4 @@ export class ExamenComponent implements OnInit {
     this.modalTitle2 = "Registrar";
     $("#examenModal").modal("show");
   }
-
 }

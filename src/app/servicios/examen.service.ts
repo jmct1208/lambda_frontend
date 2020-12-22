@@ -8,40 +8,37 @@ import { Examen} from '../modelos/examen';
 export class ExamenService {
   API_URI = 'http://localhost:8080';
   constructor(private http: HttpClient) { }
+
   addAlumno(idExamen: number,idAlumno:number){
-    return this.http.put(this.API_URI+'/examenes/'+idExamen+'/alumnos/'+idAlumno, null);    
+    return this.http.get(this.API_URI+'/examenes/'+idExamen+'/alumnos/add/'+idAlumno);    
   } 
 
-  eliminarAlumnoExamen(idExamen: number, idAlumno:number){
-    return this.http.delete(this.API_URI+'/examenes/'+idExamen+'/alumnos/'+idAlumno);
+  eliminarAlumnoExamen(idExamen: number,idAlumno:number){
+    return this.http.get(this.API_URI+'/examenes/'+idExamen+'/alumnos/delete/'+idAlumno);
   }
   
-  getAlumnosExamen(id: number){
+  getAlumnosExamenes(id: number){
     return this.http.get(this.API_URI+'/examenes/'+id+'/alumnos');
   }
 
-  getAlumnosNotExamen(id: number) {
-    return this.http.get(this.API_URI+'/examenes/'+id+'/not_alumnos');
-  }
-
   getExamenes(){
-    return this.http.get(this.API_URI+'/examenes');
+    return this.http.get(this.API_URI+'/examen');
   }
 
   getExamen(id: number){
-    return this.http.get(this.API_URI+'/examenes/'+id);
+    return this.http.get(this.API_URI+'/examen/'+id);
   }
 
   createExamen(examen: Examen){
     console.log(examen);
-    return this.http.post(this.API_URI+'/examenes',examen);
+    return this.http.post(this.API_URI+'/examen',examen);
   }
 
   updateExamen(examen: Examen){
-    return this.http.put(this.API_URI+'/examenes/'+examen.id,examen);
+    return this.http.put(this.API_URI+'/examen/'+examen.id,examen);
   }
 
   deleteExamen(id: number){
-    return this.http.delete(this.API_URI+'/examenes/'+id);
+    return this.http.delete(this.API_URI+'/examen/'+id);
   }
 }
