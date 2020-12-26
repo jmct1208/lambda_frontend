@@ -14,12 +14,12 @@ export class ServicioAlumno {
   }
 
   getAlumno(id: number){
-    return this.http.get(this.API_URI+'/alumno/'+id);
+    return this.http.get(this.API_URI+'/alumnos/'+id);
   }
 
   createAlumno(alumno: Alumno){
     console.log(alumno);
-    return this.http.post(this.API_URI+'/alumno',alumno);
+    return this.http.post(this.API_URI+'/alumnos/',alumno);
   }
 
   updateAlumno(alumno: Alumno){

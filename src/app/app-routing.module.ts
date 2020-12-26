@@ -8,6 +8,7 @@ import {HomeComponent} from './componentes/home/home.component';
 import {LoginComponent} from './componentes/autenticacion/login/login.component';
 import {RegistroComponent} from './componentes/autenticacion/registro/registro.component';
 import { TipoEventoComponent } from './componentes/tipo-evento/tipo-evento.component';
+import { UsuarioComponent } from './componentes/usuario/usuario.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -17,7 +18,7 @@ const routes: Routes = [
   {path: 'registro', component: RegistroComponent},
   {path: 'eventos', component: EventoComponent},
   {path: 'tipos_evento', component: TipoEventoComponent},
-
+  {path: 'usuarios', component: UsuarioComponent},
   {path: '**', redirectTo: ''}
 ];
 
