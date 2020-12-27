@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Alumno} from '../../modelos/alumno';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ServicioAlumno } from '../../servicios/alumno.service';
+
 import Swal from 'sweetalert2';
+import { Usuario } from 'src/app/modelos/usuario';
 declare var $: any;
 
 @Component({
@@ -12,11 +14,13 @@ declare var $: any;
 })
 export class AlumnoComponent implements OnInit {
   alumnos: Alumno[] | any;
+  usuarios: Usuario[] | any;
   alumno: Alumno | any;
   alumnoForm!: FormGroup;
   submitted = false;
   modalTitle!: String;
-  constructor(private servicioAlumno: ServicioAlumno, private formBuilder: FormBuilder) { }
+  tipoUsuarioSelec!: number;
+  constructor(private servicioAlumno: ServicioAlumno,private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.alumnoForm = this.formBuilder.group({
@@ -30,11 +34,20 @@ export class AlumnoComponent implements OnInit {
       seguro: ['', Validators.required],
       certificado: ['', Validators.required],
       carta: ['', Validators.required],
-
     });
-
+    this.tipoUsuarioSelec=0;
     // Consulte lista alumnos
     this.getAlumnos(); 
+  }
+
+  getUsuariosSinAlumno(){
+    this.usuarios=[];
+    this.servicioAlumno.getUsuariosSinAlumno().subscribe(
+      resp => {
+        this.usuarios=resp;
+        console.log(this.usuarios)
+      }
+    )
   }
 
   // Consultar lista de alumnos
@@ -44,6 +57,7 @@ export class AlumnoComponent implements OnInit {
       res => {
         this.alumnos = res;
         console.log(this.alumnos)
+        this.getUsuariosSinAlumno();
       },
       err => console.error(err)
     )
@@ -204,7 +218,15 @@ export class AlumnoComponent implements OnInit {
   // Crear una alumno
   onSubmit(){
     this.submitted = true;
+    if(this.tipoUsuarioSelec==0){
+          Swal.fire({
+            icon: 'error',
+            title: 'Usuario No Ingresado',
+            text: 'Ingresa un usuario'
+          })
 
+      return;
+    }
     if(this.alumnoForm.invalid){
       console.log(this.alumnoForm.value);
       console.log('Formulario inválido');
@@ -212,7 +234,7 @@ export class AlumnoComponent implements OnInit {
     }
     //this.convertImage(this);
     if(this.modalTitle == "Registrar"){
-      this.servicioAlumno.createAlumno(this.alumnoForm.value).subscribe(
+      this.servicioAlumno.createAlumno(this.alumnoForm.value,this.tipoUsuarioSelec).subscribe(
         res => {
           Swal.fire({
             position: 'top-end',
@@ -224,6 +246,7 @@ export class AlumnoComponent implements OnInit {
           $("#alumnoModal").modal("hide");
           this.getAlumnos();
           this.submitted = false;
+          this.tipoUsuarioSelec=0;
         },
         err => console.error(err)
       )
@@ -241,6 +264,7 @@ export class AlumnoComponent implements OnInit {
           $("#alumnoModal").modal("hide");
           this.getAlumnos();
           this.submitted = false;
+          this.tipoUsuarioSelec=0;
         },
         err => {
           console.error(err);
@@ -257,7 +281,7 @@ export class AlumnoComponent implements OnInit {
   // Actualizar una alumno
   updateAlumno(alumno: Alumno){
     this.submitted = true;
-
+    //this.tipoUsuarioSelec=
     this.alumnoForm.controls['id'].setValue(alumno.id);
     this.alumnoForm.controls['nombre'].setValue(alumno.nombre);
     this.alumnoForm.controls['apellidos'].setValue(alumno.apellidos);

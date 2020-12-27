@@ -158,6 +158,16 @@
                         <label class="custom-file-label" for="customFile">Selecciona un archivo pdf...</label>
                     </div>
 
+                    <div class="form-group row text-center">
+                      <label for="colFormLabel" class="col-sm-2 col-form-labeñ">Tipo:</label>
+                      <div class="col-sm-6">
+                          <select class="form-control" [(ngModel)]="tipoUsuarioSelec" name="tipoUsuarioSelec" id="tipoUsuarioSelec" [ngModelOptions]="{standalone: true}">
+                              <option [ngValue]="undefined" hidden>Seleciona un usuario...</option>
+                              <option *ngFor="let usuario of usuarios" [ngValue]="usuario.id">{{ usuario.nombre  }}</option>
+                          </select>
+                      </div>
+                  </div>
+
                     <p class="text-right"><span class="text-danger">*</span> Campos requeridos</p>
                     <div>
                         <button class="btn btn-success btn-block">Guardar</button>
