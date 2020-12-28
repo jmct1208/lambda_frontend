@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Alumno} from '../../modelos/alumno';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ServicioAlumno } from '../../servicios/alumno.service';
+import { Usuario } from '../../modelos/usuario';
+import { UsuarioService } from '../../servicios/usuario.service';
 import Swal from 'sweetalert2';
+import { forkJoin } from 'rxjs';
 declare var $: any;
 
 @Component({
@@ -14,9 +17,10 @@ export class AlumnoComponent implements OnInit {
   alumnos: Alumno[] | any;
   alumno: Alumno | any;
   alumnoForm!: FormGroup;
+  usuariosNotAlumno: Usuario[] | any;
   submitted = false;
   modalTitle!: String;
-  constructor(private servicioAlumno: ServicioAlumno, private formBuilder: FormBuilder) { }
+  constructor(private servicioUsuario: UsuarioService, private servicioAlumno: ServicioAlumno, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.alumnoForm = this.formBuilder.group({
@@ -44,17 +48,6 @@ export class AlumnoComponent implements OnInit {
       res => {
         this.alumnos = res;
         console.log(this.alumnos)
-      },
-      err => console.error(err)
-    )
-  }
-
-  // Consultar una alumno
-  getAlumno(id:number){
-    this.alumno = null;
-    this.servicioAlumno.getAlumno(id).subscribe(
-      res => {
-        this.alumno = res;
       },
       err => console.error(err)
     )
@@ -268,9 +261,6 @@ export class AlumnoComponent implements OnInit {
     this.alumnoForm.controls['seguro'].setValue(alumno.seguro);
     this.alumnoForm.controls['certificado'].setValue(alumno.certificado);
     this.alumnoForm.controls['carta'].setValue(alumno.carta);
-
-
-
     this.modalTitle = "Actualizar";
     $("#alumnoModal").modal("show");
 
@@ -281,8 +271,14 @@ export class AlumnoComponent implements OnInit {
 
   openModalAlumno(){
     this.alumnoForm.reset();
-    this.modalTitle = "Registrar";
-    $("#alumnoModal").modal("show");
+    this.servicioUsuario.getUsuariosSinAlumno().subscribe(
+      res => {
+        this.usuariosNotAlumno = res;
+        this.modalTitle = "Registrar";
+        $("#alumnoModal").modal("show");
+      },
+      err => console.error(err)
+    );  
   }
 
 }

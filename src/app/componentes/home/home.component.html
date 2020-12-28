@@ -21,28 +21,48 @@
             <span class="text-muted">Toggleable via the navbar brand.</span>
           </div>
         </div>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+        <nav class="navbar navbar-expand-lg ml-auto n1 col-12">
+          <button #navbarToggler class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
+            Hola
           </button>
           <a class="navbar-brand" href="#">Club leones </a>
 
           <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-            <ul class="navbar-nav m-auto mt-2 mt-lg-0">
+            <ul class="navbar-nav ml-auto">
               <li class="nav-item ">
-                <a class="nav-link" routerLink="/alumnos">Alumno </a>
+                <a class="nav-link" (click)="collapseNav();" routerLink="/alumnos">Alumno </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" routerLink="/examenes">Examen</a>
+                <a class="nav-link" (click)="collapseNav();" routerLink="/examenes">Examen</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link " routerLink="/eventos">Evento</a>
+                <a class="nav-link " (click)="collapseNav();" routerLink="/eventos">Evento</a>
               </li>
+              <li class="nav-link" *ngIf="!isLogged; else noLoggeado">
+                <a class="nav-link text-muted" (click)="collapseNav();" routerLink="/login" aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-sign-in-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Iniciar Sesión                
+                </a>      
+              </li>
+              <ng-template #noLoggeado>
+                <li class="nav-link text-muted">
+                  <div class="dropdown">
+                    <button class="text-primary dropdown-toggle bg-info btn-xs" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Sesion
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                      <button class="dropdown-item" type="button" >Mi informacion</button>
+                      <button class="dropdown-item" type="button" (click)="collapseNav();" style="border: none; background: none; font-size: 10px; letter-spacing: 1px;"  (click)="cerrarSesion()" aria-haspopup="true" aria-expanded="false">
+                        Cerrar sesion<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i></button>
+                    </div>
+                  </div>
+                  </li>
+            </ng-template>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-              <button class="btn btn-outline-success" routerLink="/login" type="button">Ingresar</button>
+           <!-- <form class="form-inline my-2 my-lg-0">
               <button class="btn btn-outline-success my-2 my-sm-0"  routerLink="/registro" type="submit">Registrarse</button>
-            </form>
+            </form>-->
           </div>
         </nav>
       </div>
@@ -53,9 +73,14 @@
 </header>
 
 
-<section class=" contenedor seccion" >
+<section class=" contenedor seccion p-3 mb-2 bg-dark text-white" >
   <h2 class=" centrar-texto">Mas sobre nosotros</h2>
-  <div class="iconos-nosotros centrar-texto">
+  <div class="iconos-nosotros centrar-texto grid4">
+    <div></div>
+    <div class="col text-center">
+      <img class="img-logo" src="../../../assets/tae.jpg" />
+    </div>
+    <div></div>
     <div class="mision">
 
       <h3>Mision</h3>
@@ -65,8 +90,6 @@
     </div>
 
     <div class="vision">
-
-      <img class="img-logo" src="../../../assets/tae.jpg" />
       <h3>Vision</h3>
       <p>Ser una escuela lider en la enseñanza y formacion de Taekwondo,fomentando
       en los alumnos valores,disciplina y respeto.</p>
@@ -89,41 +112,63 @@
   <div class="seccion-inferior contenedor">
     <section class="blog">
       <h3 class=" centrar-texto ">Noticias</h3>
-
-      <article class="entrada-blog">
-        <div class="img-ots">
+      <div class="grid2">
+      <article class="entrada-blog grid">
+        <div class="img-ots col text-center">
 
 
           <img src="../../../assets/Cam.jpg" />
         </div>
-        <div class="texto-entrada">
-          <a href="#">
-            <h4>Retiro espiritual</h4>
-          </a>
-          <p>Escrito el:<span>/10/2019</span> por :<span>  Admin </span> </p>
-          <p>
+        <div class="grid3">
+          <div></div>
+          <div class="texto-entrada"> 
+            <a href="#">
+              <h4>Retiro espiritual</h4>
+            </a>
+            <p>Escrito el:<span>/10/2019</span> por :<span>  Admin </span> </p>
+            <p>
 
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ipsum sem, porttitor non volutpat non, sagittis sed nibh. Nullam aliquet elit vitae quam fermentum consequat. Vivamus efficitur id justo quis fringilla.
-            Morbi quis rhoncus lorem, id posuere libero. Vestibulum id elit non urna molestie suscipit non nec turpis. Ut pellentesque nunc vel odio accumsan consequat.
-          </p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ipsum sem, porttitor non volutpat non, sagittis sed nibh. Nullam aliquet elit vitae quam fermentum consequat. Vivamus efficitur id justo quis fringilla.
+              Morbi quis rhoncus lorem, id posuere libero. Vestibulum id elit non urna molestie suscipit non nec turpis. Ut pellentesque nunc vel odio accumsan consequat.
+            </p>
+          </div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
         </div>
       </article >
-      <article class="entrada-blog">
-        <div class="img-ots">
+      <article class="entrada-blog grid">
+        <div class="img-ots col text-center">
 
           <img src="../../../assets/Men.jpg" />
         </div>
-        <div class="texto-entrada">
-          <a href="#">
-            <h4>Nuevo profesor altamente capacitado</h4>
-          </a>
-          <p>Escrito el:<span>/10/2019</span> por :<span>  Admin </span> </p>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ipsum sem, porttitor non volutpat non, sagittis sed nibh. Nullam aliquet elit vitae quam fermentum consequat. Vivamus efficitur id justo quis fringilla.
-            Morbi quis rhoncus lorem, id posuere libero. Vestibulum id elit non urna molest
-          </p>
+        <div class="grid3">
+          <div></div>
+          <div class="texto-entrada"> 
+            <a href="#">
+              <h4>Maestros Capacitados</h4>
+            </a>
+            <p>Escrito el:<span>/10/2019</span> por :<span>  Admin </span> </p>
+            <p>
+
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ipsum sem, porttitor non volutpat non, sagittis sed nibh. Nullam aliquet elit vitae quam fermentum consequat. Vivamus efficitur id justo quis fringilla.
+              Morbi quis rhoncus lorem, id posuere libero. Vestibulum id elit non urna molestie suscipit non nec turpis. Ut pellentesque nunc vel odio accumsan consequat.
+            </p>
+          </div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
         </div>
       </article>
+    </div>
     </section>
 
   </div>

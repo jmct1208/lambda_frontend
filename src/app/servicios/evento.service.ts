@@ -26,7 +26,7 @@ export class EventoService {
   }
 
   getEventos(){
-    return this.http.get(this.API_URI+'/eventos');
+    return this.http.get(this.API_URI+'/eventos/');
   }
   
   getTipoEvento(id: number){
@@ -44,5 +44,9 @@ export class EventoService {
 
   deleteEvento(id: number){
     return this.http.delete(this.API_URI+'/evento/'+id);
+  }
+
+  getEventosAlumnoLogueado() {
+    return this.http.get(this.API_URI+'/logged_in/alumno/eventos');
   }
 }

@@ -6,6 +6,7 @@ import { Alumno} from '../../modelos/alumno';
 import { TipoEvento} from '../../modelos/tipoEvento'
 import Swal from 'sweetalert2';
 import { TipoEventoService } from 'src/app/servicios/tipo-evento.service';
+import { forkJoin } from 'rxjs';
 
 declare var $: any;
 
@@ -47,13 +48,7 @@ export class EventoComponent implements OnInit {
 
   getTiposEvento() {
     this.tiposEvento = [];
-    this.tipoEventoService.getTiposEvento().subscribe(
-      res => {
-        this.tiposEvento = res;
-        console.log(this.tiposEvento);
-      },
-      err => console.error(err)
-    )
+    
   }
   
   getEventos(){
@@ -281,19 +276,21 @@ export class EventoComponent implements OnInit {
     this.eventoForm.controls['fechaf'].setValue(evento.fechaf);
     this.eventoForm.controls['costo'].setValue(evento.costo);
     this.eventoForm.controls['enlace'].setValue(evento.enlace);
-    this.servicioEvento.getTipoEvento(this.eventoSeleccionado.id).subscribe(
-      res => {
-        this.tipoEvento=res;
+    forkJoin(
+      [this.servicioEvento.getTipoEvento(this.eventoSeleccionado.id),
+        this.tipoEventoService.getTiposEvento()]
+    ).subscribe(
+      (res) => {
+        this.tipoEvento = res[0];
         console.log(this.tipoEvento);
         this.eventoForm.controls['tipo'].setValue(this.tipoEvento.id);
-        console.log(this.eventoForm.value);
-        this.getTiposEvento();
+        this.tiposEvento = res[1];
+        console.log(this.tiposEvento);
         this.modalTitle2 = "Actualizar";
         $("#eventoModal").modal("show");
-
       },
-      err => console.error(err)
-    )
+      (err) => console.error(err)
+    );
   }
 
   get f() { return this.eventoForm.controls;}
@@ -301,7 +298,13 @@ export class EventoComponent implements OnInit {
   openModalEvento(){
     this.eventoForm.reset();
     this.modalTitle2 = "Registrar";
-    this.getTiposEvento();
-    $("#eventoModal").modal("show");
+    this.tipoEventoService.getTiposEvento().subscribe(
+      res => {
+        this.tiposEvento = res;
+        console.log(this.tiposEvento);
+        $("#eventoModal").modal("show");
+      },
+      err => console.error(err)
+    )
   }
 }

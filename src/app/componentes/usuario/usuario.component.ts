@@ -12,22 +12,36 @@ declare var $: any;
 })
 export class UsuarioComponent implements OnInit {
   usuarios: Usuario[] | any;
-  usuarioForm!: FormGroup;
-  roles: string[];
+  usuariosNotAlumno: Usuario[] | any;
 
 
   constructor(private servicioUsuario: UsuarioService, private formBuilder: FormBuilder) { 
-    this.roles = ["Usuario", "Administrador"];
   }
 
   ngOnInit(): void {
-    this.usuarioForm = this.formBuilder.group({
-     id: [''],
-     nombre: ['', Validators.required],
-     tipo: ['', Validators.required] 
-    });
-    
-
+    this.getUsuarios();
+    this.getUsuariosNotAlumno();
   }
 
+  getUsuarios() {
+    this.usuarios = [];
+    this.servicioUsuario.getUsuarios().subscribe(
+      res=> {
+        this.usuarios = res;
+        console.log(this.usuarios);
+      },
+      err=> console.error(err)
+    );
+  }
+
+  getUsuariosNotAlumno() {
+    this.usuariosNotAlumno = [];
+    this.servicioUsuario.getUsuariosSinAlumno().subscribe(
+      res=> {
+        this.usuariosNotAlumno = res;
+        console.log(this.usuariosNotAlumno)
+      },
+      err=> console.error(err)
+    );
+  }
 }

@@ -29,4 +29,8 @@ export class ServicioAlumno {
   deleteAlumno(id: number){
     return this.http.delete(this.API_URI+'/alumnos/'+id);
   }
+
+  getAlumnoLogueado() {
+    return this.http.get(this.API_URI+'/usuarios/logged_in/alumno')
+  }
 }
