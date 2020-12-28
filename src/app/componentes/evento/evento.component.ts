@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Evento} from '../../modelos/evento';
+import { Evento } from '../../modelos/evento';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { EventoService } from '../../servicios/evento.service';
 import { Alumno} from '../../modelos/alumno';
-import { ServicioAlumno } from '../../servicios/alumno.service';
-import {TipoEvento} from '../../modelos/tipoEvento'
-
+import { TipoEvento} from '../../modelos/tipoEvento'
 import Swal from 'sweetalert2';
+import { TipoEventoService } from 'src/app/servicios/tipo-evento.service';
 
 declare var $: any;
 
@@ -16,106 +15,91 @@ declare var $: any;
   styleUrls: ['./evento.component.css']
 })
 export class EventoComponent implements OnInit {
-  eventoAlumnos: Alumno[] | any;
+  alumnosEvento: Alumno[] | any;
   eventos: Evento[] | any;
-  alumnos: Alumno[] | any;
+  alumnosNotEvento: Alumno[] | any;
   tiposEvento: TipoEvento[] | any;
   tipoEvento: TipoEvento | any;
-  evento: Evento | any;
-  tipoEventoSelec: number;
-  eventoForm: FormGroup;
+  eventoSeleccionado: Evento | any;
+  tipoEventoSelec!: number;
+  eventoForm!: FormGroup;
   submitted = false;
-  modalTitle: String;
-  modalTitle2:string;
-  tipoEventoNombre: String;
-  tipoEventoDescripcion: String;
-  constructor(private servicioEvento: EventoService, private formBuilder: FormBuilder, private servicioAlumno: ServicioAlumno) { }
+  modalTitle!: String;
+  modalTitle2!:string;
+  modalTitle3!:string;
+  tipoEventoNombre!: String;
+  tipoEventoDescripcion!: String;
+  constructor(private servicioEvento: EventoService, private formBuilder: FormBuilder, private tipoEventoService: TipoEventoService) { }
 
   ngOnInit(): void {
     this.eventoForm = this.formBuilder.group({
       id: [''],
       nombre: ['', Validators.required],
-      tipo: ['', Validators.required],
       descripcion: ['', Validators.required],
-      fecha_inicio: ['', Validators.required],
-      fecha_fin: ['', Validators.required],
+      fecha: ['', Validators.required],
+      fechaf: ['', Validators.required],
       costo: ['', Validators.required],
+      enlace: ['', Validators.required]
 
     });
-    this.getEventoes();
-    this.getTipoEventos();
+    this.getEventos();
+    this.getTiposEvento();
   }
 
-  getTipoEventos(){
+  getTiposEvento() {
     this.tiposEvento = [];
-    this.servicioEvento.getTipoEventoes().subscribe(
+    this.tipoEventoService.getTiposEvento().subscribe(
       res => {
         this.tiposEvento = res;
-        //console.log(this.alumnos)
+        console.log(this.tiposEvento);
       },
       err => console.error(err)
     )
-    this.tiposEvento =[new TipoEvento(1,"Alicia","Tokin en el alicia"),new TipoEvento(2,"ConcursoKingBoxing","Combates cuerpo a cuerpo"),new TipoEvento(3,"ConcursoKarate","Combates cuerpo a cuerpo")]
   }
-
-  getEventoes(){
+  
+  getEventos(){
     this.eventos = [];
-    this.servicioEvento.getEventoes().subscribe(
+    this.servicioEvento.getEventos().subscribe(
       res => {
         this.eventos = res;
-        //console.log(this.alumnos)
+        console.log(this.eventos);
       },
       err => console.error(err)
     )
-    this.eventos =[new Evento(1,"Algebra","Matematicas","1992-01-01T00:00:00.000+00:00","1992-01-01T00:00:00.000+00:00","$40","https://web.facebook.com/events/528044827852338/")]
   }
 
-  getAlumnos(){
-    this.alumnos = [];
-    this.servicioAlumno.getAlumnos().subscribe(
+  getAlumnosNotExamen(){
+    this.alumnosNotEvento = [];
+    this.servicioEvento.getAlumnosNotEvento(this.eventoSeleccionado.id).subscribe(
       res => {
-        this.alumnos = res;
-        console.log(this.alumnos)
+        this.alumnosNotEvento = res;
+        console.log(this.alumnosNotEvento)
+        if(!$('#agregarAlumnosModal').is(':visible') && this.modalTitle3=="agregarAlumno"){
+          $("#agregarAlumnosModal").modal("show");
+        };
       },
       err => console.error(err)
     )
-   this.alumnos=[new Alumno(11,"Ivan","Saavedra","1992-01-01T00:00:00.000+00:00","https://www.eluniversal.com.mx/sites/default/files/2020/09/24/los-mejores-memes-de-chuck-norris.jpg","Karate","","Av. Universidad S/N, Coyoacán","SAIV920101",""),new Alumno(11,"Chuck","Norris","1992-01-01T00:00:00.000+00:00","https://www.eluniversal.com.mx/sites/default/files/2020/09/24/los-mejores-memes-de-chuck-norris.jpg","King Boxing","","Av. Universidad S/N, Coyoacán","CHNR841401","")]
-
   }
 
   getTipoEvento(id: number){
-    //tipoevento ; TipoEvento
     this.servicioEvento.getTipoEvento(id).subscribe(
       res => {
         this.tipoEvento=res;
+        console.log(this.tipoEvento);
+        $("#verTipoEvento").modal("show");
       },
       err => console.error(err)
-
     )
-    this.tipoEvento =new TipoEvento(1,"Concierto","Tokin en el alicia");
-    $("#verTipoEvento").modal("show");
   }
   
-  escogerAlumnos(){
-    for(const j in this.alumnos){
-      for(const i in this.eventoAlumnos){
-        if (this.eventoAlumnos[i].id == this.alumnos[j].id) {
-          this.alumnos.splice(j, 1);
-        }
-      }   
-   }
+  openModalAgregarAlumno(evento: Evento){
+        this.eventoSeleccionado=evento;
+        this.modalTitle3="agregarAlumno";
+        this.getAlumnosNotExamen();
   }
 
-  agregarAlumno(evento: Evento){
-       this.evento=evento;
-       this.getEventoAlumnos();
-       this.getAlumnos();
-       this.escogerAlumnos();
-       this.modalTitle=evento.nombre;
-       $("#agregarAlumnosEventoModal").modal("show");
-  }
-
-  showPDF(pdf_base64){
+  showPDF(pdf_base64: any){
     const linkSource = pdf_base64;
     const downloadLink = document.createElement("a");
     const fileName = "sample.pdf";
@@ -127,7 +111,7 @@ export class EventoComponent implements OnInit {
     return downloadLink;
   }
 
-  agregarAlumnoEvento(idEvento: number,idAlumno: number){
+  agregarAlumno(idEvento: number,idAlumno: number){
     this.servicioEvento.addAlumno(idEvento,idAlumno).subscribe(
       res => {
         Swal.fire({
@@ -137,31 +121,32 @@ export class EventoComponent implements OnInit {
           showConfirmButton: false,
           timer: 1500
         })
-        this.escogerAlumnos();
-        this.getEventoAlumnos();
+        this.getAlumnosNotExamen();
       },
       err => console.error(err)
     )
   }
 
-  getEventoAlumnos(){
-    this.eventoAlumnos = [];
-    this.servicioEvento.getAlumnosEventoes(this.evento.id).subscribe(
+  getAlumnos(){
+    this.alumnosEvento = [];
+    this.servicioEvento.getAlumnosEvento(this.eventoSeleccionado.id).subscribe(
       res => {
-        this.eventoAlumnos = res;
-        //console.log(this.alumnos)
+        this.alumnosEvento = res;
+        console.log(this.alumnosEvento)
+        if(!$('#alumnosModal').is(':visible') && this.modalTitle3=="getAlumnosEvento"){
+          $("#alumnosModal").modal("show");
+        };
       },
       err => console.error(err)
     )
-    this.eventoAlumnos=[new Alumno(11,"Ivan","Saavedra","1992-01-01T00:00:00.000+00:00","https://www.eluniversal.com.mx/sites/default/files/2020/09/24/los-mejores-memes-de-chuck-norris.jpg","Karate","","Av. Universidad S/N, Coyoacán","SAIV920101",""),new Alumno(11,"Chuck","Norris","1992-01-01T00:00:00.000+00:00","https://www.eluniversal.com.mx/sites/default/files/2020/09/24/los-mejores-memes-de-chuck-norris.jpg","King Boxing","","Av. Universidad S/N, Coyoacán","CHNR841401","")]
   }
 
   // Consultar lista de alumnos
-  getAlumnosEvento(evento: Evento){
-    this.evento=evento;
-    this.getEventoAlumnos();
+  openModalAlumnos(evento: Evento){
+    this.eventoSeleccionado=evento;
+    this.modalTitle3="getAlumnosEvento";
     this.modalTitle=evento.nombre;
-    $("#alumnosEventoModal").modal("show");
+    this.getAlumnos();
   }
 
   // Eliminar una alumno
@@ -182,7 +167,7 @@ export class EventoComponent implements OnInit {
               'Se a quitado el alumno del evento',
               'success'
             )
-           this.getEventoAlumnos();
+           this.getAlumnos();
           },
           err => console.error(err)
         )
@@ -202,6 +187,10 @@ export class EventoComponent implements OnInit {
       console.log('Formulario inválido');
       return;
     }
+    if(this.eventoSeleccionado == null) {
+      console.log('Falta el tipo de evento');
+      return;
+    }
     if(this.modalTitle2 == "Registrar"){
       this.servicioEvento.createEvento(this.eventoForm.value,this.tipoEventoSelec).subscribe(
         res => {
@@ -213,14 +202,14 @@ export class EventoComponent implements OnInit {
             timer: 1500
           })
           $("#eventoModal").modal("hide");
-          this.getEventoes();
+          this.getEventos();
           this.submitted = false;
         },
         err => console.error(err)
       )
     }else{
       console.log(this.eventoForm.value);
-      this.servicioEvento.updateEvento(this.eventoForm.value).subscribe(
+      this.servicioEvento.updateEvento(this.eventoForm.value, this.tipoEventoSelec).subscribe(
         res => {
           Swal.fire({
             position: 'top-end',
@@ -230,7 +219,7 @@ export class EventoComponent implements OnInit {
             timer: 1500
           })
           $("#eventoModal").modal("hide");
-          this.getEventoes();
+          this.getEventos();
           this.submitted = false;
         },
         err => {
@@ -262,7 +251,7 @@ export class EventoComponent implements OnInit {
               'El Evento ha sido eliminado',
               'success'
             )
-            this.getEventoes();
+            this.getEventos();
           },
           err => console.error(err)
         )
@@ -272,14 +261,15 @@ export class EventoComponent implements OnInit {
 
   updateEvento(evento: Evento){
     this.submitted = true;
-
+    this.eventoForm.setValue(evento);
+    /*
     this.eventoForm.controls['id'].setValue(evento.id);
     this.eventoForm.controls['nombre'].setValue(evento.nombre);
-    this.eventoForm.controls['tipo'].setValue(evento.tipo);
     this.eventoForm.controls['descripcion'].setValue(evento.descripcion);
-    this.eventoForm.controls['fecha_inicio'].setValue(evento.fecha_inicio);
-    this.eventoForm.controls['fecha_fin'].setValue(evento.fecha_fin);
+    this.eventoForm.controls['fecha'].setValue(evento.fecha);
+    this.eventoForm.controls['fechaf'].setValue(evento.fechaf);
     this.eventoForm.controls['costo'].setValue(evento.costo);
+    */
     this.modalTitle2 = "Actualizar";
     $("#eventoModal").modal("show");
 
@@ -288,10 +278,9 @@ export class EventoComponent implements OnInit {
 
   get f() { return this.eventoForm.controls;}
   
-  openModalAlumno(){
+  openModalEvento(){
     this.eventoForm.reset();
     this.modalTitle2 = "Registrar";
     $("#eventoModal").modal("show");
   }
-
 }

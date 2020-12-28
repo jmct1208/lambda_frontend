@@ -3,9 +3,13 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "TaeKwonDo": {
+    "taekwondo": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -13,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/TaeKwonDo",
+            "outputPath": "dist/taekwondo",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -42,7 +46,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
@@ -50,13 +53,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
                 }
               ]
             }
@@ -65,18 +68,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "TaeKwonDo:build"
+            "browserTarget": "taekwondo:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "TaeKwonDo:build:production"
+              "browserTarget": "taekwondo:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "TaeKwonDo:build"
+            "browserTarget": "taekwondo:build"
           }
         },
         "test": {
@@ -113,19 +116,19 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "TaeKwonDo:serve"
+            "devServerTarget": "taekwondo:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "TaeKwonDo:serve:production"
+              "devServerTarget": "taekwondo:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "TaeKwonDo",
+  "defaultProject": "taekwondo",
   "cli": {
-    "analytics": "775c68a2-fe24-4772-a489-f28e74cdb66f"
+    "analytics": "d558842d-59d3-4e9e-9c40-a03c17e91bc2"
   }
 }

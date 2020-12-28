@@ -10,41 +10,36 @@ export class EventoService {
   constructor(private http: HttpClient) { }
 
   addAlumno(idEvento: number,idAlumno:number){
-    return this.http.get(this.API_URI+'/eventoes/'+idEvento+'/alumnos/add/'+idAlumno);    
+    return this.http.put(this.API_URI+'/eventos/'+idEvento+'/alumnos/'+idAlumno, null);    
   } 
 
   eliminarAlumnoEvento(idEvento: number,idAlumno:number){
-    return this.http.get(this.API_URI+'/eventoes/'+idEvento+'/alumnos/delete/'+idAlumno);
+    return this.http.delete(this.API_URI+'/eventos/'+idEvento+'/alumnos/'+idAlumno);
   }
   
-  getAlumnosEventoes(id: number){
-    return this.http.get(this.API_URI+'/eventoes/'+id+'/alumnos');
+  getAlumnosEvento(id: number){
+    return this.http.get(this.API_URI+'/eventos/'+id+'/alumnos');
   }
 
-  getEventoes(){
-    return this.http.get(this.API_URI+'/evento');
+  getAlumnosNotEvento(id: number) {
+    return this.http.get(this.API_URI+'/eventos/'+id+'/not_alumnos');
   }
 
-  getTipoEventoes(){
-    return this.http.get(this.API_URI+'/tipoEvento');
+  getEventos(){
+    return this.http.get(this.API_URI+'/eventos');
   }
   
   getTipoEvento(id: number){
-    return this.http.get(this.API_URI+'/tipoEvento'+id);
+    return this.http.get(this.API_URI+'/eventos/'+id+'/tipo_evento');
 
   }
-
-  getEvento(id: number){
-    return this.http.get(this.API_URI+'/evento/'+id);
-  }
-
-  createEvento(evento: Evento,idTipoEvento: number){
+  createEvento(evento: Evento, idTipoEvento: number){
     console.log(evento);
-    return this.http.post(this.API_URI+'/evento/'+idTipoEvento,evento);
+    return this.http.post(this.API_URI+'/eventos'+'/tipo_evento/'+idTipoEvento,evento);
   }
 
-  updateEvento(evento: Evento){
-    return this.http.put(this.API_URI+'/evento/'+evento.id,evento);
+  updateEvento(evento: Evento, idTipoEvento: number){
+    return this.http.put(this.API_URI+'/eventos/'+evento.id+'/tipo_evento/'+idTipoEvento,evento);
   }
 
   deleteEvento(id: number){

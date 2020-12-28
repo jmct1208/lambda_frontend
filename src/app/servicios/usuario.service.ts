@@ -8,7 +8,9 @@ import { Usuario } from '../modelos/usuario';
 export class UsuarioService {
   API_URI = 'http://localhost:8080';
   constructor(private http: HttpClient) { }
-
+  getUsuarioNombre(nombre: String){
+      return this.http.get(this.API_URI+'/usuario/pornombre/'+nombre)
+  }
   getUsuarios() {
     return this.http.get(this.API_URI+'/usuarios')
   }

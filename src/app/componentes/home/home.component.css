@@ -27,7 +27,6 @@
 }
 
 .centrar-texto{
-
   text-align: center;
 }
 
@@ -54,8 +53,9 @@ display: flex;
 }
 .img-ots > img{
   width: 70%;
-  height: 70%;
+  height: 50%;
   padding: 10px;
+  position: relative;
 }
 .entrada-blog{
   display: flex;
@@ -78,6 +78,37 @@ display: flex;
 
   margin: 0;
   line-height: 1.4;
+}
+
+.grid {
+       display: grid;
+       grid-template-columns: 1fr 1fr;
+       grid-template-rows: 1fr;
+}
+
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.grid3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+}
+
+.grid4 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.padre {
+  justify-content : center;
+  align-items : center;
+  position: relative;
+  
 }
 
 .texto-entrada h4::after {

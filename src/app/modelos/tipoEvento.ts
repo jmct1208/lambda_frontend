@@ -1,9 +1,10 @@
 export class TipoEvento{
     id: number;
-    nombre: String;
+    nombre: string;
     descripcion: String;
 
-    constructor(id,nombre,descripcion){
+    constructor(id: number,nombre: string,descripcion:string){
+        this.id=id;
         this.nombre=nombre;
         this.descripcion=descripcion;
     }
