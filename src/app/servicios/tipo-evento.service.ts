@@ -10,7 +10,7 @@ export class TipoEventoService {
   constructor(private http: HttpClient) { }
 
   getTiposEvento() {
-    return this.http.get(this.API_URI+'/tipos_evento/');
+    return this.http.get(this.API_URI+'/tipos_evento');
   }
 
   getTipoEvento(id: number) {
@@ -22,7 +22,7 @@ export class TipoEventoService {
   }
 
   updateTipoEvento(tipoEvento: TipoEvento) {
-    return this.http.put(this.API_URI+'/tipos_evento/'+tipoEvento.id, tipoEvento);
+    return this.http.put(this.API_URI+'/tipos_evento', tipoEvento);
   }
 
   deleteTipoEvento(id: number) {

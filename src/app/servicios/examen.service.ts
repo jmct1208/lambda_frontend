@@ -25,7 +25,7 @@ export class ExamenService {
   }
 
   getExamenes(){
-    return this.http.get(this.API_URI+'/examenes/');
+    return this.http.get(this.API_URI+'/examenes');
   }
 
   getExamen(id: number){
@@ -38,7 +38,7 @@ export class ExamenService {
   }
 
   updateExamen(examen: Examen){
-    return this.http.put(this.API_URI+'/examenes/'+examen.id,examen);
+    return this.http.put(this.API_URI+'/examenes/'+ examen.id,examen);
   }
 
   deleteExamen(id: number){

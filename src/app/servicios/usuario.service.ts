@@ -10,7 +10,7 @@ export class UsuarioService {
   constructor(private http: HttpClient) { }
 
   getUsuarios() {
-    return this.http.get(this.API_URI+'/usuarios/')
+    return this.http.get(this.API_URI+'/usuarios')
   }
 
   getUsuario(id: number) {
@@ -22,7 +22,7 @@ export class UsuarioService {
   }
 
   updateUsuario(usuario: Usuario) {
-    return this.http.put(this.API_URI+'/usuarios/'+usuario.id, usuario);
+    return this.http.put(this.API_URI+'/usuarios', usuario);
   }
 
   deleteUsuario(id: number) {
