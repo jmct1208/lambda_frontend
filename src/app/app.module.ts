@@ -12,8 +12,8 @@ import { LoginComponent } from './componentes/autenticacion/login/login.componen
 import { RegistroComponent } from './componentes/autenticacion/registro/registro.component';
 
 import { TipoEventoComponent } from './componentes/tipo-evento/tipo-evento.component';
-import { UsuarioComponent } from './componentes/usuario/usuario.component'
-
+import { UsuarioComponent } from './componentes/usuario/usuario.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -33,7 +33,8 @@ import { UsuarioComponent } from './componentes/usuario/usuario.component'
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

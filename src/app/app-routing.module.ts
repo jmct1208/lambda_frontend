@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import {AlumnoComponent} from './componentes/alumno/alumno.component';
 import { EventoComponent } from './componentes/evento/evento.component';
 import {ExamenComponent} from './componentes/examen/examen.component';
-import {RestringirService}from './servicios/restringir.service';
+import {RestringirService} from './servicios/restringir.service';
 import {HomeComponent} from './componentes/home/home.component';
 import {LoginComponent} from './componentes/autenticacion/login/login.component';
 import {RegistroComponent} from './componentes/autenticacion/registro/registro.component';

@@ -1,225 +1,212 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+  <meta name="generator" content="Hugo 0.79.0">
+  <title>Blog Template · Bootstrap v5.0</title>
 
-  <link href="https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap"
-        rel="stylesheet">
+  <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/blog/">
+
+
+
+  <!-- Bootstrap core CSS -->
+
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+
+
+  <!-- Custom styles for this template -->
+  <link href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900&amp;display=swap" rel="stylesheet">
+  <!-- Custom styles for this template -->
 
 </head>
 <body>
-<header class="header">
-  <div class="contenedor contenido-header">
-    <div class="barra">
 
-      <div class="pos-f-t">
-        <div class="collapse" id="navbarToggleExternalContent">
-          <div class="bg-dark p-4">
-            <h5 class="text-white h4">Collapsed content</h5>
-            <span class="text-muted">Toggleable via the navbar brand.</span>
-          </div>
-        </div>
-        <nav class="navbar navbar-expand-lg ml-auto n1 col-12">
-          <button #navbarToggler class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-            Hola
-          </button>
-          <a class="navbar-brand" href="#">Club leones </a>
+<div class="container">
+  <header class="blog-header py-3">
+    <div class="row flex-nowrap justify-content-between align-items-center">
+      <div class="col-4 pt-1">
+        <a class="btn btn-sm btn-outline-secondary " href="#">My Info</a>
+      </div>
+      <div class="col-4 text-center">
+        <a class="blog-header-logo text-dark align-content-center" href="/">Club Léones</a>
+      </div>
+      <div class="col-4 d-flex justify-content-end align-items-center" *ngIf="!isLogged; else noLoggeado">
+        <a class="btn btn-sm  btn-outline-secondary btn-marg  " (click)="collapseNav();" routerLink="/login">Iniciar Sesion</a>
+        <a class="btn btn-sm btn-outline-secondary  " (click)="collapseNav();" routerLink="/registro">Registrarse</a>
 
-          <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-            <ul class="navbar-nav ml-auto">
-              <li class="nav-item ">
-                <a class="nav-link" (click)="collapseNav();" routerLink="/alumno">Alumno </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" (click)="collapseNav();" routerLink="/examen">Examen</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link " (click)="collapseNav();" routerLink="/evento">Evento</a>
-              </li>
-              <li class="nav-link" *ngIf="!isLogged; else noLoggeado">
-                <a class="nav-link text-muted" (click)="collapseNav();" routerLink="/login" aria-haspopup="true" aria-expanded="false">
-                  <i class="fas fa-sign-in-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Iniciar Sesión                
-                </a>      
-              </li>
-              <ng-template #noLoggeado>
-                <li class="nav-link text-muted">
-                  <div class="dropdown">
-                    <button class="text-primary dropdown-toggle bg-info btn-xs" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Sesion
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                      <button class="dropdown-item" type="button" >Mi informacion</button>
-                      <button class="dropdown-item" type="button" (click)="collapseNav();" style="border: none; background: none; font-size: 10px; letter-spacing: 1px;"  (click)="cerrarSesion()" aria-haspopup="true" aria-expanded="false">
-                        Cerrar sesion<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i></button>
-                    </div>
-                  </div>
-                  </li>
-            </ng-template>
-            </ul>
-           <!-- <form class="form-inline my-2 my-lg-0">
-              <button class="btn btn-outline-success my-2 my-sm-0"  routerLink="/registro" type="submit">Registrarse</button>
-            </form>-->
-          </div>
-        </nav>
+      </div>
+    </div>
+  </header>
+
+  <div class="nav-scroller py-1 mb-2">
+    <nav class="nav d-flex justify-content-between">
+      <button #navbarToggler class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        Hola
+      </button>
+      <a class="p-2 link-secondary" (click)="collapseNav();" routerLink="/alumno">Alumnos</a>
+      <a class="p-2 link-secondary" (click)="collapseNav();" routerLink="/evento">Eventos</a>
+      <a class="p-2 link-secondary" (click)="collapseNav();" routerLink="/examen"> Examen</a>
+      <a class="p-2 link-secondary" (click)="collapseNav();" routerLink="/tipos_evento">Tipo de Evento</a>
+
+
+    </nav>
+  </div>
+</div>
+<ng-template #noLoggeado>
+  <li class="nav-link text-muted">
+    <div class="dropdown">
+      <button class="text-primary dropdown-toggle bg-info btn-xs" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Sesion
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+        <button class="dropdown-item" type="button" >Mi informacion</button>
+        <button class="dropdown-item" type="button" (click)="collapseNav();" style="border: none; background: none; font-size: 10px; letter-spacing: 1px;"  (click)="cerrarSesion()" aria-haspopup="true" aria-expanded="false">
+          Cerrar sesion<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i></button>
+      </div>
+    </div>
+  </li>
+</ng-template>
+<main class="container">
+  <div class="p-4 p-md-5 mb-4 text-white rounded  img">
+    <div class="col-md-6 px-0 ">
+      <h1 class="display-4 font-italic text-white">Title of a longer featured blog post</h1>
+      <p class="lead my-3">Multiple lines of text that form the lede, informing new readers quickly and efficiently about what’s most interesting in this post’s contents.</p>
+      <p class="lead mb-0"><a href="#" class="text-white fw-bold">Continue reading...</a></p>
+    </div>
+  </div>
+
+  <hr class="featurette-divider">
+
+  <div class="row featurette">
+    <div class="col-md-7">
+      <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It’ll blow your mind.</span></h2>
+      <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+    </div>
+    <div class="col-md-4 img3">
+
+    </div>
+  </div>
+
+  <hr class="featurette-divider">
+
+  <div class="row featurette">
+    <div class="col-md-7 order-md-2">
+      <h2 class="featurette-heading">Oh yeah, it’s that good. <span class="text-muted">See for yourself.</span></h2>
+      <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+    </div>
+    <div class="col-md-2 order-md-1 img2">
+
+    </div>
+  </div>
+
+  <hr class="featurette-divider">
+
+  <div class="row featurette">
+    <div class="col-md-7">
+      <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
+      <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+    </div>
+    <div class="col-md-4 img4">
+
+    </div>
+  </div>
+
+  <hr class="featurette-divider">
+
+  <!-- /END THE FEATURETTES -->
+
+
+
+
+  <div class="row">
+    <div class="col-md-8">
+      <h3 class="pb-4 mb-4 font-italic border-bottom">
+        From the Firehose
+      </h3>
+
+
+
+      <article class="blog-post">
+        <h2 class="blog-post-title">New feature</h2>
+        <p class="blog-post-meta">December 14, 2013 by <a href="#">Chris</a></p>
+
+        <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+        <ul>
+          <li>Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</li>
+          <li>Donec id elit non mi porta gravida at eget metus.</li>
+          <li>Nulla vitae elit libero, a pharetra augue.</li>
+        </ul>
+        <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
+        <p>Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.</p>
+      </article><!-- /.blog-post -->
+
+
+    </div>
+
+    <div class="col-md-4">
+      <div class="p-4 mb-3 bg-light rounded">
+        <h4 class="font-italic">About</h4>
+        <p class="mb-0">Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
       </div>
 
+      <div class="p-4">
+        <h4 class="font-italic">Archives</h4>
+        <ol class="list-unstyled mb-0">
+          <li><a href="#">March 2014</a></li>
+          <li><a href="#">February 2014</a></li>
+          <li><a href="#">January 2014</a></li>
+          <li><a href="#">December 2013</a></li>
+          <li><a href="#">November 2013</a></li>
+          <li><a href="#">October 2013</a></li>
+          <li><a href="#">September 2013</a></li>
+          <li><a href="#">August 2013</a></li>
+          <li><a href="#">July 2013</a></li>
+          <li><a href="#">June 2013</a></li>
+          <li><a href="#">May 2013</a></li>
+          <li><a href="#">April 2013</a></li>
+        </ol>
+      </div>
+
+      <div class="p-4">
+        <h4 class="font-italic">Elsewhere</h4>
+        <ol class="list-unstyled">
+          <li><a href="#">GitHub</a></li>
+          <li><a href="#">Twitter</a></li>
+          <li><a href="#">Facebook</a></li>
+        </ol>
+      </div>
     </div>
 
-  </div>
-</header>
+  </div><!-- /.row -->
 
+</main><!-- /.container -->
 
-<section class=" contenedor seccion p-3 mb-2 bg-dark text-white" >
-  <h2 class=" centrar-texto">Mas sobre nosotros</h2>
-  <div class="iconos-nosotros centrar-texto grid4">
-    <div></div>
-    <div class="col text-center">
-      <img class="img-logo" src="../../../assets/tae.jpg" />
-    </div>
-    <div></div>
-    <div class="mision">
+<footer class="blog-footer">
 
-      <h3>Mision</h3>
-      <p>Integrar un equipo de entrenadores calificados,capacitados,disciplinados
-        y comprometidos en las artes marciales , a fin de difundir y promover su práctica. </p>
-
-    </div>
-
-    <div class="vision">
-      <h3>Vision</h3>
-      <p>Ser una escuela lider en la enseñanza y formacion de Taekwondo,fomentando
-      en los alumnos valores,disciplina y respeto.</p>
-    </div>
-
-    <div class="valores">
-
-      <h3>Valores</h3>
-     <ul>
-       <li>Autocontrol</li>
-       <li>Perceverancia</li>
-       <li>Respeto</li>
-       <li>Liderazgo</li>
-     </ul>
-    </div>
-  </div>
-
-
-
-  <div class="seccion-inferior contenedor">
-    <section class="blog">
-      <h3 class=" centrar-texto ">Noticias</h3>
-      <div class="grid2">
-      <article class="entrada-blog grid">
-        <div class="img-ots col text-center">
-
-
-          <img src="../../../assets/Cam.jpg" />
-        </div>
-        <div class="grid3">
-          <div></div>
-          <div class="texto-entrada"> 
-            <a href="#">
-              <h4>Retiro espiritual</h4>
-            </a>
-            <p>Escrito el:<span>/10/2019</span> por :<span>  Admin </span> </p>
-            <p>
-
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ipsum sem, porttitor non volutpat non, sagittis sed nibh. Nullam aliquet elit vitae quam fermentum consequat. Vivamus efficitur id justo quis fringilla.
-              Morbi quis rhoncus lorem, id posuere libero. Vestibulum id elit non urna molestie suscipit non nec turpis. Ut pellentesque nunc vel odio accumsan consequat.
-            </p>
-          </div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-      </article >
-      <article class="entrada-blog grid">
-        <div class="img-ots col text-center">
-
-          <img src="../../../assets/Men.jpg" />
-        </div>
-        <div class="grid3">
-          <div></div>
-          <div class="texto-entrada"> 
-            <a href="#">
-              <h4>Maestros Capacitados</h4>
-            </a>
-            <p>Escrito el:<span>/10/2019</span> por :<span>  Admin </span> </p>
-            <p>
-
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ipsum sem, porttitor non volutpat non, sagittis sed nibh. Nullam aliquet elit vitae quam fermentum consequat. Vivamus efficitur id justo quis fringilla.
-              Morbi quis rhoncus lorem, id posuere libero. Vestibulum id elit non urna molestie suscipit non nec turpis. Ut pellentesque nunc vel odio accumsan consequat.
-            </p>
-          </div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-      </article>
-    </div>
-    </section>
-
-  </div>
-</section>
-<!-- Footer -->
-<footer class="page-footer font-small special-color-dark pt-4">
-
-  <!-- Footer Elements -->
-  <div class="container">
-
-    <!-- Social buttons -->
-    <ul class="list-unstyled list-inline text-center">
-      <li class="list-inline-item">
-        <a class="btn-floating btn-fb mx-1">
-          <i class="fab fa-facebook-f"> </i>
-        </a>
-      </li>
-      <li class="list-inline-item">
-        <a class="btn-floating btn-tw mx-1">
-          <i class="fab fa-twitter"> </i>
-        </a>
-      </li>
-      <li class="list-inline-item">
-        <a class="btn-floating btn-gplus mx-1">
-          <i class="fab fa-google-plus-g"> </i>
-        </a>
-      </li>
-      <li class="list-inline-item">
-        <a class="btn-floating btn-li mx-1">
-          <i class="fab fa-linkedin-in"> </i>
-        </a>
-      </li>
-      <li class="list-inline-item">
-        <a class="btn-floating btn-dribbble mx-1">
-          <i class="fab fa-dribbble"> </i>
-        </a>
-      </li>
-    </ul>
-    <!-- Social buttons -->
-
-  </div>
-  <!-- Footer Elements -->
-
-  <!-- Copyright -->
-  <div class="footer-copyright text-center py-3">© 2020 Copyright:Todos los derechos reservados
-
-  </div>
-  <!-- Copyright -->
-
+  <p>
+    <a href="#">Back to top</a>
+  </p>
 </footer>
-<!-- Footer -->
+
+
 
 </body>
 </html>

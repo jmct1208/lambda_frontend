@@ -2,11 +2,13 @@ import { Component, DoCheck, ElementRef, OnInit, ViewChild } from '@angular/core
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/servicios/login.service';
 import swal from 'sweetalert2';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
+
 export class HomeComponent implements DoCheck  {
   usuario!: String | any;
   isLogged!: boolean;
@@ -17,12 +19,12 @@ export class HomeComponent implements DoCheck  {
     private router: Router) { }
     ngDoCheck(){
       this.isLogged = this.loginService.isLoggedIn();
-      
-  
+
+
       // Comportamiento si el usuario esta loggeado
       if(this.isLogged){
-        this.usuario = localStorage.getItem('usuario')
-        this.usuario = this.usuario.substr(0, this.usuario.indexOf('@')); 
+        this.usuario = localStorage.getItem('usuario');
+        this.usuario = this.usuario.substr(0, this.usuario.indexOf('@'));
       }
     }
 
@@ -45,15 +47,15 @@ export class HomeComponent implements DoCheck  {
           )
           return this.loginService.logout();
         }
-          
 
-      })    
+
+      })
     }
 
     navBarTogglerIsVisible() {
       return this.navbarToggler.nativeElement.offsetParent !== null;
     }
-  
+
     collapseNav() {
       if (this.navBarTogglerIsVisible()) {
         this.navbarToggler.nativeElement.click();
@@ -61,6 +63,6 @@ export class HomeComponent implements DoCheck  {
     }
 
 }
-  
+
 
 
