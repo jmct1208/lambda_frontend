@@ -20,7 +20,6 @@ export class UsuarioComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUsuarios();
-    this.getUsuariosNotAlumno();
   }
 
   getUsuarios() {
@@ -29,17 +28,6 @@ export class UsuarioComponent implements OnInit {
       res=> {
         this.usuarios = res;
         console.log(this.usuarios);
-      },
-      err=> console.error(err)
-    );
-  }
-
-  getUsuariosNotAlumno() {
-    this.usuariosNotAlumno = [];
-    this.servicioUsuario.getUsuariosSinAlumno().subscribe(
-      res=> {
-        this.usuariosNotAlumno = res;
-        console.log(this.usuariosNotAlumno)
       },
       err=> console.error(err)
     );

@@ -45,11 +45,6 @@ export class EventoComponent implements OnInit {
     });
     this.getEventos();
   }
-
-  getTiposEvento() {
-    this.tiposEvento = [];
-    
-  }
   
   getEventos(){
     this.eventos = [];

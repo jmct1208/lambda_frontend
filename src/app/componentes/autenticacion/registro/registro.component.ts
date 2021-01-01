@@ -6,6 +6,7 @@ import { first } from 'rxjs/operators';
 import { Usuario } from '../../../modelos/usuario';
 
 import swal from 'sweetalert2';
+import { TipoEvento } from 'src/app/modelos/tipoEvento';
 
 @Component({
   selector: 'app-registro',
@@ -15,6 +16,8 @@ import swal from 'sweetalert2';
 export class RegistroComponent implements OnInit {
 
   registroForm!: FormGroup
+  tipos: TipoEvento[] | any;
+
 
   constructor(private formBuilder: FormBuilder,
               private router: Router,
@@ -28,8 +31,16 @@ export class RegistroComponent implements OnInit {
       {
         'nombre' : [null, [Validators.required]],
         'password': [null, [Validators.required, Validators.minLength(8)]],
-        'tipo_usuario': [null, [Validators.required]]
+        'tipo': [null, [Validators.required]]
       }
+    );
+    //this.tipos=[new TipoEvento(2,"ALUMNO","No tiene acceso a todas las funciones"),new TipoEvento(1,"ADMINISTRADOR","Tiene acceso a todas las funciones")]
+    this.registroService.getTiposUsuario().subscribe(
+      res => {
+        this.tipos = res;
+        console.log(this.tipos);
+      },
+      err => console.error(err)
     );
   }
 
@@ -45,14 +56,29 @@ export class RegistroComponent implements OnInit {
   }
 
   onSubmit(){
-
+    /*
+    if(this.tipoUsuarioSelec==2){
+    this.tipoEvento= new TipoEvento(2,"USUARIO","No tiene acceso a todas las funciones");
+    const rjson=JSON.stringify(this.tipoEvento);
+    const ojson=JSON.parse(rjson);
+    this.registroForm.controls['tipo'].setValue(ojson);
+    }else{
+      if(this.tipoUsuarioSelec==1){
+        this.tipoEvento= new TipoEvento(1,"ADMINISTRADOR","Tiene acceso a todas las funciones");
+        const rjson=JSON.stringify(this.tipoEvento);
+        const ojson=JSON.parse(rjson);
+        this.registroForm.controls['tipo'].setValue(ojson);
+      }
+    }
+    */
     // Manejar el caso de que la forma sea invalida. En este caso que los campos esten vacios
     if(this.registroForm.invalid){
+      console.log(this.registroForm.value);
       let campos_invalidos = this.camposInvalidos()
-      if (campos_invalidos.includes("email")){
+      if (campos_invalidos.includes("nombre")){
         swal.fire(
           {
-            title: 'El correo es invalido.',
+            title: 'El nombre es invalido.',
             text: "Error",
             icon: 'warning',
             confirmButtonColor: '#3085d6',
@@ -82,11 +108,15 @@ export class RegistroComponent implements OnInit {
           }
         )
       }
-
       return
     }else{
-      let usuario = <Usuario> this.registroForm.value;
-      this.registroService.registrar(usuario).pipe(first())
+      console.log(this.registroForm.value);
+      let usuario = new Usuario(
+        this.registroForm.controls['nombre'].value,
+        this.registroForm.controls['password'].value
+      );
+        console.log(usuario);
+      this.registroService.registrar(usuario, this.registroForm.controls['tipo'].value).pipe(first())
         .subscribe(res => {
             swal.fire({
               title: 'Usuario creado exitosamente .',
@@ -94,7 +124,9 @@ export class RegistroComponent implements OnInit {
               icon: 'success',
               confirmButtonText: 'Ok'
             });
+            console.log(usuario);
             this.router.navigate(['login']);
+
           },
           err => {
             swal.fire({

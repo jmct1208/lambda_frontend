@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
+import { Usuario } from 'src/app/modelos/usuario';
 import { LoginService } from 'src/app/servicios/login.service';
+import { UsuarioService } from 'src/app/servicios/usuario.service';
 
 import swal from 'sweetalert2';
 
@@ -16,9 +18,12 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   name=''
   password=''
+  usuario: Usuario | any;
   constructor(private formBuilder: FormBuilder,
               private router: Router,
-              private loginService: LoginService) { }
+              private loginService: LoginService,
+              private usuarioServicio: UsuarioService,
+  ) { }
 
   ngOnInit(): void {
 
@@ -29,8 +34,37 @@ export class LoginComponent implements OnInit {
         'password': [null, [Validators.required, Validators.minLength(8)]]
       }
     );
-  }
+    //this.usuario=this.getUsuario('human-afterall88@hotmail.com');
+    //console.log(this.usuario);
 
+  }
+  
+  getUsuario(nombre: String){
+    this.usuario=null;
+    this.usuarioServicio.getUsuarioNombre(nombre).subscribe(
+      res=>{
+        this.usuario=res
+        swal.fire({
+          title: 'Bienvenido.',
+          text: "Sesión Iniciada",
+          icon: 'success',
+          confirmButtonText: 'Ok'
+        });
+        if(this.usuario.tipo.nombre=='ADMINISTRADOR'){
+            this.router.navigate(['']);
+        }
+      },
+      err => {
+        swal.fire({
+          title: 'El usuario no existe.',
+          text: "El nombre del usuario no existe",
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        });
+        console.log(err);
+        }
+    )
+  }
   camposInvalidos(){
     const campos_invalidos = []
     const controles = this.loginForm.controls
@@ -104,7 +138,7 @@ export class LoginComponent implements OnInit {
             }
           );
 
+      return
     }
   }
-
 }

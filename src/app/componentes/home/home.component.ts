@@ -25,10 +25,6 @@ export class HomeComponent implements DoCheck  {
       }
     }
     
-    getAlumno() {
-
-    }
-
     cerrarSesion(){
       swal.fire({
         title: 'Estas seguro que quieres salir?',

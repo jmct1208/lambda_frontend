@@ -31,13 +31,13 @@
           <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
             <ul class="navbar-nav ml-auto">
               <li class="nav-item ">
-                <a class="nav-link" (click)="collapseNav();" routerLink="/alumnos">Alumno </a>
+                <a class="nav-link" (click)="collapseNav();" routerLink="/alumno">Alumno </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" (click)="collapseNav();" routerLink="/examenes">Examen</a>
+                <a class="nav-link" (click)="collapseNav();" routerLink="/examen">Examen</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link " (click)="collapseNav();" routerLink="/eventos">Evento</a>
+                <a class="nav-link " (click)="collapseNav();" routerLink="/evento">Evento</a>
               </li>
               <li class="nav-link" *ngIf="!isLogged; else noLoggeado">
                 <a class="nav-link text-muted" (click)="collapseNav();" routerLink="/login" aria-haspopup="true" aria-expanded="false">
