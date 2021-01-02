@@ -58,7 +58,6 @@ export class AlumnoComponent implements OnInit {
       res => {
         this.alumnos = res;
         console.log(this.alumnos)
-        this.getUsuariosSinAlumno();
       },
       err => console.error(err)
     )
@@ -281,7 +280,6 @@ export class AlumnoComponent implements OnInit {
           $("#alumnoModal").modal("hide");
           this.getAlumnos();
           this.submitted = false;
-          this.tipoUsuarioSelec=0;
         },
         err => {
           console.error(err);
@@ -322,7 +320,15 @@ export class AlumnoComponent implements OnInit {
   openModalAlumno(){
     this.alumnoForm.reset();
     this.modalTitle = "Registrar"
-    $("#alumnoModal").modal("show");
+    this.usuarios=[];
+    this.servicioAlumno.getUsuariosSinAlumno().subscribe(
+      resp => {
+        this.usuarios=resp;
+        console.log(this.usuarios)
+        $("#alumnoModal").modal("show");
+      }
+    )
+    
   }
 
 }
