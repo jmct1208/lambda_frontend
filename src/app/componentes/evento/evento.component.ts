@@ -37,7 +37,7 @@ export class EventoComponent implements OnInit {
       nombre: ['', Validators.required],
       descripcion: ['', Validators.required],
       fecha: ['', Validators.required],
-      tipo: ['', Validators.required],
+      tipo: [0, Validators.required],
       fechaf: ['', Validators.required],
       costo: ['', Validators.required],
       enlace: ['', Validators.required]
@@ -71,15 +71,9 @@ export class EventoComponent implements OnInit {
     )
   }
 
-  getTipoEvento(id: number){
-    this.servicioEvento.getTipoEvento(id).subscribe(
-      res => {
-        this.tipoEvento=res;
-        console.log(this.tipoEvento);
-        $("#verTipoEvento").modal("show");
-      },
-      err => console.error(err)
-    )
+  getTipoEvento(tipo: TipoEvento){
+    this.tipoEvento = tipo;
+    $("#verTipoEvento").modal("show");
   }
   
   openModalAgregarAlumno(evento: Evento){
@@ -216,7 +210,7 @@ export class EventoComponent implements OnInit {
           Swal.fire({
             position: 'top-end',
             icon: 'success',
-            title: 'El evento ha sido actualizada',
+            title: 'El evento ha sido actualizado',
             showConfirmButton: false,
             timer: 1500
           })
@@ -271,20 +265,16 @@ export class EventoComponent implements OnInit {
     this.eventoForm.controls['fechaf'].setValue(evento.fechaf);
     this.eventoForm.controls['costo'].setValue(evento.costo);
     this.eventoForm.controls['enlace'].setValue(evento.enlace);
-    forkJoin(
-      [this.servicioEvento.getTipoEvento(this.eventoSeleccionado.id),
-        this.tipoEventoService.getTiposEvento()]
-    ).subscribe(
-      (res) => {
-        this.tipoEvento = res[0];
-        console.log(this.tipoEvento);
-        this.eventoForm.controls['tipo'].setValue(this.tipoEvento.id);
-        this.tiposEvento = res[1];
+    this.eventoForm.controls['tipo'].setValue(evento.tipo.id);
+    this.tipoEventoService.getTiposEvento()
+    .subscribe(
+      res => {
+        this.tiposEvento = res;
         console.log(this.tiposEvento);
         this.modalTitle2 = "Actualizar";
         $("#eventoModal").modal("show");
       },
-      (err) => console.error(err)
+      err => console.error(err)
     );
   }
 

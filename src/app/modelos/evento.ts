@@ -1,3 +1,5 @@
+import { TipoEvento } from "./tipoEvento";
+
 export class Evento{
     id: number;
     nombre: string;
@@ -6,6 +8,7 @@ export class Evento{
     fechaf: string;
     costo: number;
     enlace: string;
+    tipo!: TipoEvento;
 
 
     constructor(id:number, nombre:string, descripcion:string, fecha_incio:string, fechaf:string, costo:number, enlace:string){

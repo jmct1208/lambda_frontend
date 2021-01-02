@@ -238,7 +238,7 @@ export class AlumnoComponent implements OnInit {
         this.alumnoForm.controls['certificado'].value,
         this.alumnoForm.controls['carta'].value
       )
-      console.log(alumno);
+      console.log(this.alumnoForm.value);
       this.servicioAlumno.createAlumno(alumno,this.alumnoForm.controls['usuario'].value).subscribe(
         res => {
           Swal.fire({
@@ -286,6 +286,7 @@ export class AlumnoComponent implements OnInit {
   // Actualizar una alumno
   updateAlumno(alumno: Alumno){
     this.submitted = true;
+    this.alumnoForm.reset();
     //this.tipoUsuarioSelec=
     this.alumnoForm.controls['id'].setValue(alumno.id);
     this.alumnoForm.controls['nombre'].setValue(alumno.nombre);
