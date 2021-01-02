@@ -34,7 +34,7 @@ export class AlumnoComponent implements OnInit {
       seguro: ['', Validators.required],
       certificado: ['', Validators.required],
       carta: ['', Validators.required],
-      usuario: ['', Validators.required]
+      usuario: [0, Validators.required]
     });
     //this.tipoUsuarioSelec=0;
     // Consulte lista alumnos
@@ -257,7 +257,19 @@ export class AlumnoComponent implements OnInit {
       )
     }else{
       console.log(this.alumnoForm.value);
-      this.servicioAlumno.updateAlumno(this.alumnoForm.value).subscribe(
+      let alumno = new Alumno(
+        this.alumnoForm.controls['id'].value,
+        this.alumnoForm.controls['nombre'].value,
+        this.alumnoForm.controls['apellidos'].value,
+        this.alumnoForm.controls['fecha'].value,
+        this.alumnoForm.controls['fotografia'].value,
+        this.alumnoForm.controls['actividad'].value,
+        this.alumnoForm.controls['grado'].value,
+        this.alumnoForm.controls['seguro'].value,
+        this.alumnoForm.controls['certificado'].value,
+        this.alumnoForm.controls['carta'].value
+      )
+      this.servicioAlumno.updateAlumno(alumno, alumno.id).subscribe(
         res => {
           Swal.fire({
             position: 'top-end',
@@ -298,6 +310,7 @@ export class AlumnoComponent implements OnInit {
     this.alumnoForm.controls['seguro'].setValue(alumno.seguro);
     this.alumnoForm.controls['certificado'].setValue(alumno.certificado);
     this.alumnoForm.controls['carta'].setValue(alumno.carta);
+    this.alumnoForm.controls['usuario'].setValue(0);
     this.modalTitle = "Actualizar";
     $("#alumnoModal").modal("show");
 

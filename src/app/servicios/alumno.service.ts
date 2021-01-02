@@ -27,7 +27,7 @@ export class ServicioAlumno {
     return this.http.post(this.API_URI+'/alumnos/'+usuario+'/usuario',alumno);
   }
 
-  updateAlumno(alumno: Alumno){
+  updateAlumno(alumno: Alumno, id:number){
     return this.http.put(this.API_URI+'/alumnos/'+alumno.id,alumno);
   }
 
