@@ -20,6 +20,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5219b08a-afad-46a4-a72b-30d473c28c8e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/app-routing.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/app.module.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/componentes/home/home.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/componentes/home/home.component.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -81,6 +84,9 @@
       <workItem from="1607152619462" duration="3005000" />
       <workItem from="1607348029305" duration="1700000" />
       <workItem from="1607349789119" duration="7062000" />
+      <workItem from="1609323990053" duration="2287000" />
+      <workItem from="1609366488901" duration="4636000" />
+      <workItem from="1609581665616" duration="2257000" />
     </task>
     <servers />
   </component>

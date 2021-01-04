@@ -14,6 +14,7 @@ import { RegistroComponent } from './componentes/autenticacion/registro/registro
 import { TipoEventoComponent } from './componentes/tipo-evento/tipo-evento.component';
 import { UsuarioComponent } from './componentes/usuario/usuario.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { InfoComponent } from './componentes/info/info.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     LoginComponent,
     RegistroComponent,
     TipoEventoComponent,
-    UsuarioComponent
+    UsuarioComponent,
+    InfoComponent
 
   ],
   imports: [
