@@ -5,6 +5,7 @@ import { ServicioAlumno } from '../../servicios/alumno.service';
 
 import Swal from 'sweetalert2';
 import { Usuario } from 'src/app/modelos/usuario';
+import { UsuarioService } from 'src/app/servicios/usuario.service';
 declare var $: any;
 
 @Component({
@@ -20,7 +21,7 @@ export class AlumnoComponent implements OnInit {
   submitted = false;
   modalTitle!: String;
   tipoUsuarioSelec!: number;
-  constructor(private servicioAlumno: ServicioAlumno,private formBuilder: FormBuilder) { }
+  constructor(private servicioAlumno: ServicioAlumno, private servicioUsuario: UsuarioService, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.alumnoForm = this.formBuilder.group({
@@ -43,7 +44,7 @@ export class AlumnoComponent implements OnInit {
 
   getUsuariosSinAlumno(){
     this.usuarios=[];
-    this.servicioAlumno.getUsuariosSinAlumno().subscribe(
+    this.servicioUsuario.getUsuariosSinAlumno().subscribe(
       resp => {
         this.usuarios=resp;
         console.log(this.usuarios)
@@ -238,7 +239,7 @@ export class AlumnoComponent implements OnInit {
         this.alumnoForm.controls['carta'].value
       )
       console.log(this.alumnoForm.value);
-      this.servicioAlumno.createAlumno(alumno,this.alumnoForm.controls['usuario'].value).subscribe(
+      this.servicioUsuario.createAlumno(alumno, this.alumnoForm.controls['usuario'].value).subscribe(
         res => {
           Swal.fire({
             position: 'top-end',
@@ -268,7 +269,7 @@ export class AlumnoComponent implements OnInit {
         this.alumnoForm.controls['certificado'].value,
         this.alumnoForm.controls['carta'].value
       )
-      this.servicioAlumno.updateAlumno(alumno, alumno.id).subscribe(
+      this.servicioAlumno.updateAlumno(alumno).subscribe(
         res => {
           Swal.fire({
             position: 'top-end',
@@ -311,8 +312,6 @@ export class AlumnoComponent implements OnInit {
     this.alumnoForm.controls['usuario'].setValue(0);
     this.modalTitle = "Actualizar";
     $("#alumnoModal").modal("show");
-
-    
   }
 
   get f() { return this.alumnoForm.controls;}
@@ -321,14 +320,13 @@ export class AlumnoComponent implements OnInit {
     this.alumnoForm.reset();
     this.modalTitle = "Registrar"
     this.usuarios=[];
-    this.servicioAlumno.getUsuariosSinAlumno().subscribe(
+    this.servicioUsuario.getUsuariosSinAlumno().subscribe(
       resp => {
         this.usuarios=resp;
         console.log(this.usuarios)
         $("#alumnoModal").modal("show");
       }
     )
-    
   }
 
 }

@@ -7,16 +7,17 @@ import { TipoEvento } from '../modelos/tipoEvento';
   providedIn: 'root'
 })
 export class RegistroService {
-  API_URI = 'http://localhost:8080';
+  API_URI = 'http://localhost:8080/api/autenticacion/registro';
   status = false
 
   constructor(private http: HttpClient) { }
 
   registrar(datos_formulario: Usuario, idRol: number){
-    return this.http.post(this.API_URI + '/api/autenticacion/registro/'+idRol, datos_formulario);
+    return this.http.post(this.API_URI + '/' + idRol, datos_formulario);
   }
 
   getTiposUsuario() {
-    return this.http.get<TipoEvento[]>(this.API_URI + '/api/autenticacion/tipos_usuario')
+    return this.http.get(this.API_URI + '/tipos_usuario');
   }
+  
 }

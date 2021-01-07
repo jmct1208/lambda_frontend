@@ -112,7 +112,7 @@ export class EventoComponent implements OnInit {
 
   getAlumnos(){
     this.alumnosEvento = [];
-    this.servicioEvento.getAlumnosEvento(this.eventoSeleccionado.id).subscribe(
+    this.servicioEvento.getAlumnos(this.eventoSeleccionado.id).subscribe(
       res => {
         this.alumnosEvento = res;
         console.log(this.alumnosEvento)
@@ -143,7 +143,7 @@ export class EventoComponent implements OnInit {
       denyButtonText: `No eliminar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        this.servicioEvento.eliminarAlumnoEvento(idEvento,idAlumno).subscribe(
+        this.servicioEvento.eliminarAlumno(idEvento,idAlumno).subscribe(
           res => {
             Swal.fire(
               'Eliminado!',
@@ -179,7 +179,7 @@ export class EventoComponent implements OnInit {
         this.eventoForm.controls['fechaf'].value,
         this.eventoForm.controls['costo'].value,
         this.eventoForm.controls['enlace'].value);
-      this.servicioEvento.createEvento(evento,this.eventoForm.controls['tipo'].value).subscribe(
+      this.tipoEventoService.createEvento(evento, this.eventoForm.controls['tipo'].value).subscribe(
         res => {
           Swal.fire({
             position: 'top-end',
@@ -205,7 +205,9 @@ export class EventoComponent implements OnInit {
         this.eventoForm.controls['costo'].value,
         this.eventoForm.controls['enlace'].value);
         console.log(this.eventoForm.controls['tipo'].value)
-      this.servicioEvento.updateEvento(evento, this.eventoForm.controls['tipo'].value).subscribe(
+      forkJoin([this.servicioEvento.updateEvento(evento), 
+        this.servicioEvento.updateTipoEvento(evento.id, this.eventoForm.controls['tipo'].value)])
+      .subscribe(
         res => {
           Swal.fire({
             position: 'top-end',

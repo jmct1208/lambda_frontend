@@ -6,47 +6,43 @@ import { Evento} from '../modelos/evento';
   providedIn: 'root'
 })
 export class EventoService {
-  API_URI = 'http://localhost:8080';
+  API_URI = 'http://localhost:8080/eventos';
   constructor(private http: HttpClient) { }
 
-  addAlumno(idEvento: number,idAlumno:number){
-    return this.http.put(this.API_URI+'/eventos/'+idEvento+'/alumnos/'+idAlumno, null);    
-  } 
-
-  eliminarAlumnoEvento(idEvento: number,idAlumno:number){
-    return this.http.delete(this.API_URI+'/eventos/'+idEvento+'/alumnos/'+idAlumno);
+  getEventos(){
+    return this.http.get(this.API_URI);
   }
-  
-  getAlumnosEvento(id: number){
-    return this.http.get(this.API_URI+'/eventos/'+id+'/alumnos');
+
+  getEvento(id: number) {
+    return this.http.get(this.API_URI + '/' + id);
+  }
+
+  getAlumnos(id: number){
+    return this.http.get(this.API_URI+'/'+id+'/alumnos');
   }
 
   getAlumnosNotEvento(id: number) {
-    return this.http.get(this.API_URI+'/eventos/'+id+'/not_alumnos');
-  }
-
-  getEventos(){
-    return this.http.get(this.API_URI+'/eventos');
+    return this.http.get(this.API_URI+'/'+id+'/not_alumnos');
   }
   
-  getTipoEvento(id: number){
-    return this.http.get(this.API_URI+'/eventos/'+id+'/tipo_evento');
-
-  }
-  createEvento(evento: Evento, idTipoEvento: number){
-    console.log(evento);
-    return this.http.post(this.API_URI+'/eventos'+'/tipo_evento/'+idTipoEvento,evento);
+  updateEvento(evento: Evento){
+    return this.http.put(this.API_URI + '/' + evento.id, evento);
   }
 
-  updateEvento(evento: Evento, idTipoEvento: number){
-    return this.http.put(this.API_URI+'/eventos/'+evento.id+'/tipo_evento/'+idTipoEvento,evento);
+  updateTipoEvento(id: number, idTipoEvento: number) {
+    return this.http.put(this.API_URI + '/' + id + '/tipoEvento', { idTipo: idTipoEvento });
+  }
+
+  addAlumno(idEvento: number,idAlumno:number){
+    return this.http.put(this.API_URI+'/'+idEvento+'/alumnos/'+idAlumno, null);    
+  } 
+
+  eliminarAlumno(idEvento: number,idAlumno:number){
+    return this.http.delete(this.API_URI+'/'+idEvento+'/alumnos/'+idAlumno);
   }
 
   deleteEvento(id: number){
-    return this.http.delete(this.API_URI+'/eventos/'+id);
+    return this.http.delete(this.API_URI+'/'+id);
   }
 
-  getEventosAlumnoLogueado() {
-    return this.http.get(this.API_URI+'/logged_in/alumno/eventos');
-  }
 }

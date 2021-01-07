@@ -24,7 +24,7 @@ export class UsuarioComponent implements OnInit {
 
   getUsuarios() {
     this.usuarios = [];
-    this.servicioUsuario.getUsuarios().subscribe(
+    this.servicioUsuario.getUsuarios(null).subscribe(
       res=> {
         this.usuarios = res;
         console.log(this.usuarios);

@@ -7,35 +7,35 @@ import { Usuario } from '../modelos/usuario';
   providedIn: 'root'
 })
 export class ServicioAlumno {
-  API_URI = 'http://localhost:8080';
+  API_URI = 'http://localhost:8080/alumnos';
   constructor(private http: HttpClient) { }
 
-  getUsuariosSinAlumno(){
-    return this.http.get<Usuario[]>(this.API_URI+'/alumnos/usuarios');
-  }
-
   getAlumnos(){
-    return this.http.get<Alumno[]>(this.API_URI+'/alumnos');
+    return this.http.get<Alumno[]>(this.API_URI);
   }
 
-  getAlumno(id: number){
-    return this.http.get(this.API_URI+'/alumnos/'+id);
+  getAlumno(id: number) {
+    return this.http.get(this.API_URI + '/' + id);
   }
 
-  createAlumno(alumno: Alumno,usuario:number){
-    console.log(alumno);
-    return this.http.post(this.API_URI+'/alumnos/'+usuario+'/usuario',alumno);
+  getExamenes(id: number) {
+    return this.http.get(this.API_URI + '/' + id + '/examenes');
   }
 
-  updateAlumno(alumno: Alumno, id:number){
-    return this.http.put(this.API_URI+'/alumnos/'+alumno.id,alumno);
+  getEventos(id: number) {
+    return this.http.get(this.API_URI + '/' + id + '/eventos');
+  }
+
+  updateAlumno(alumno: Alumno){
+    return this.http.put(this.API_URI + '/' + alumno.id, alumno);
+  }
+
+  updateUsuario(id: number, idUsuario: number) {
+    return this.http.put(this.API_URI + '/' + id + '/usuario', { idUsuario: idUsuario} )
   }
 
   deleteAlumno(id: number){
-    return this.http.delete(this.API_URI+'/alumnos/'+id);
+    return this.http.delete(this.API_URI + '/' + id);
   }
-
-  getAlumnoLogueado() {
-    return this.http.get(this.API_URI+'/usuarios/logged_in/alumno')
-  }
+  
 }

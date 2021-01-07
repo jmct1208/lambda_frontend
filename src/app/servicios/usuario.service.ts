@@ -1,37 +1,43 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Usuario } from '../modelos/usuario';
+import { Alumno } from '../modelos/alumno';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService {
-  API_URI = 'http://localhost:8080';
+  API_URI = 'http://localhost:8080/usuarios';
   constructor(private http: HttpClient) { }
-  getUsuarioNombre(nombre: String){
-      return this.http.get(this.API_URI+'/usuario/pornombre/'+nombre)
-  }
-  getUsuarios() {
-    return this.http.get(this.API_URI+'/usuarios')
+  
+  getUsuarios(nombre: string | null) {
+    const options = nombre ?
+      { params: new HttpParams().set('nombre', nombre) } : {}
+    return this.http.get(this.API_URI, options);
   }
 
   getUsuario(id: number) {
-    return this.http.get(this.API_URI+'/usuarios/'+id+'/usuarios')
+    return this.http.get(this.API_URI + '/' + id)
   }
 
-  createUsuario(usuario: Usuario) {
-    return this.http.post(this.API_URI+'/usuarios', usuario);
+  getUsuariosSinAlumno() {
+    return this.http.get(this.API_URI + '/sin_alumno')
+  }
+
+  getAlumno(id: number) {
+    return this.http.get(this.API_URI + '/' + id + '/alumno')
+  }
+
+  createAlumno(alumno: Alumno, id:number){
+    console.log(alumno);
+    return this.http.post(this.API_URI + '/' + id + '/alumno', alumno);
   }
 
   updateUsuario(usuario: Usuario) {
-    return this.http.put(this.API_URI+'/usuarios', usuario);
+    return this.http.put(this.API_URI+ '/' + usuario.id, usuario);
   }
 
   deleteUsuario(id: number) {
-    return this.http.delete(this.API_URI+'/usuarios/'+id);
-  }
-
-  getUsuarioLogueado() {
-    return this.http.get(this.API_URI+'/usuarios/logged_in')
+    return this.http.delete(this.API_URI + '/' + id);
   }
 }

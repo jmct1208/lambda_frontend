@@ -6,30 +6,30 @@ import { Examen} from '../modelos/examen';
   providedIn: 'root'
 })
 export class ExamenService {
-  API_URI = 'http://localhost:8080';
+  API_URI = 'http://localhost:8080/examenes';
   constructor(private http: HttpClient) { }
   addAlumno(idExamen: number,idAlumno:number){
-    return this.http.put(this.API_URI+'/examenes/'+idExamen+'/alumnos/'+idAlumno, null);    
+    return this.http.put(this.API_URI+'/'+idExamen+'/alumnos/'+idAlumno, null);    
   } 
 
   eliminarAlumnoExamen(idExamen: number, idAlumno:number){
-    return this.http.delete(this.API_URI+'/examenes/'+idExamen+'/alumnos/'+idAlumno);
+    return this.http.delete(this.API_URI+'/'+idExamen+'/alumnos/'+idAlumno);
   }
   
   getAlumnosExamen(id: number){
-    return this.http.get(this.API_URI+'/examenes/'+id+'/alumnos');
+    return this.http.get(this.API_URI+'/'+id+'/alumnos');
   }
 
   getAlumnosNotExamen(id: number) {
-    return this.http.get(this.API_URI+'/examenes/'+id+'/not_alumnos');
+    return this.http.get(this.API_URI+'/'+id+'/not_alumnos');
   }
 
   getExamenes(){
-    return this.http.get(this.API_URI+'/examenes');
+    return this.http.get(this.API_URI);
   }
 
   getExamen(id: number){
-    return this.http.get(this.API_URI+'/examenes/'+id);
+    return this.http.get(this.API_URI+'/'+id);
   }
 
   createExamen(examen: Examen){

@@ -39,9 +39,9 @@ export class LoginComponent implements OnInit {
 
   }
   
-  getUsuario(nombre: String){
+  getUsuario(nombre: string){
     this.usuario=null;
-    this.usuarioServicio.getUsuarioNombre(nombre).subscribe(
+    this.usuarioServicio.getUsuarios(nombre).subscribe(
       res=>{
         this.usuario=res
         swal.fire({

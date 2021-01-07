@@ -9,13 +9,13 @@ import { JwtHelperService } from '@auth0/angular-jwt';
   providedIn: 'root'
 })
 export class LoginService {
-  API_URI = 'http://localhost:8080';
+  API_URI = 'http://localhost:8080/api/autenticacion/login';
   status = false;
 
   constructor(private http: HttpClient, private router: Router) { }
 
   autenticar(datos_formulario: any) {
-    return this.http.post<any>(this.API_URI + '/api/autenticacion/login', datos_formulario);
+    return this.http.post<any>(this.API_URI, datos_formulario);
   }
 
   isLoggedIn() {
