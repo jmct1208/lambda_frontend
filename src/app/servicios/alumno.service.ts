@@ -15,7 +15,7 @@ export class ServicioAlumno {
   }
 
   getAlumno(id: number) {
-    return this.http.get(this.API_URI + '/' + id);
+    return this.http.get<Alumno>(this.API_URI + '/' + id);
   }
 
   getExamenes(id: number) {

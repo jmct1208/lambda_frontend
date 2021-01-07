@@ -13,7 +13,7 @@ export class UsuarioService {
   getUsuarios(nombre: string | null) {
     const options = nombre ?
       { params: new HttpParams().set('nombre', nombre) } : {}
-    return this.http.get(this.API_URI, options);
+    return this.http.get<Usuario | Usuario[]>(this.API_URI, options);
   }
 
   getUsuario(id: number) {
@@ -25,7 +25,7 @@ export class UsuarioService {
   }
 
   getAlumno(id: number) {
-    return this.http.get(this.API_URI + '/' + id + '/alumno')
+    return this.http.get<Alumno>(this.API_URI + '/' + id + '/alumno')
   }
 
   createAlumno(alumno: Alumno, id:number){

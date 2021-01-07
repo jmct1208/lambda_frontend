@@ -11,8 +11,10 @@ import { HomeComponent } from './componentes/home/home.component';
 import { LoginComponent } from './componentes/autenticacion/login/login.component';
 import { RegistroComponent } from './componentes/autenticacion/registro/registro.component';
 import { TipoEventoComponent } from './componentes/tipo-evento/tipo-evento.component';
-import { UsuarioComponent } from './componentes/usuario/usuario.component'
 import { TokenInterceptor } from './interceptor/token.interceptor'
+import { UsuarioComponent } from './componentes/usuario/usuario.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { InfoComponent } from './componentes/info/info.component';
 
 @NgModule({
   declarations: [
@@ -24,14 +26,17 @@ import { TokenInterceptor } from './interceptor/token.interceptor'
     LoginComponent,
     RegistroComponent,
     TipoEventoComponent,
-    UsuarioComponent
+    UsuarioComponent,
+    InfoComponent
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule
   ],
   providers: [ 
     {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}

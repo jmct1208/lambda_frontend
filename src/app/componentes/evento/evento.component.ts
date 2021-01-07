@@ -19,16 +19,14 @@ export class EventoComponent implements OnInit {
   alumnosEvento: Alumno[] | any;
   eventos: Evento[] | any;
   alumnosNotEvento: Alumno[] | any;
-  tiposEvento: TipoEvento[] | any;
-  tipoEvento: TipoEvento | any;
+  tiposEvento!: TipoEvento[] | any;
+  tipoEvento!: TipoEvento | any;
   eventoSeleccionado: Evento | any;
   eventoForm!: FormGroup;
   submitted = false;
   modalTitle!: String;
   modalTitle2!:string;
   modalTitle3!:string;
-  tipoEventoNombre!: String;
-  tipoEventoDescripcion!: String;
   constructor(private servicioEvento: EventoService, private formBuilder: FormBuilder, private tipoEventoService: TipoEventoService) { }
 
   ngOnInit(): void {
