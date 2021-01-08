@@ -34,18 +34,14 @@ export class ExamenService {
 
   createExamen(examen: Examen){
     console.log(examen);
-    return this.http.post(this.API_URI+'/examenes',examen);
+    return this.http.post(this.API_URI, examen);
   }
 
   updateExamen(examen: Examen){
-    return this.http.put(this.API_URI+'/examenes/'+ examen.id,examen);
+    return this.http.put(this.API_URI+'/'+ examen.id,examen);
   }
 
   deleteExamen(id: number){
-    return this.http.delete(this.API_URI+'/examenes/'+id);
-  }
-
-  getExamenesAlumnoLogueado() {
-    return this.http.get(this.API_URI+'/logged_in/alumno/eventos');
+    return this.http.delete(this.API_URI+'/'+id);
   }
 }

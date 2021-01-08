@@ -31,7 +31,7 @@ export class ServicioAlumno {
   }
 
   updateUsuario(id: number, idUsuario: number) {
-    return this.http.put(this.API_URI + '/' + id + '/usuario', { idUsuario: idUsuario} )
+    return this.http.put(this.API_URI + '/' + id + '/usuario', idUsuario )
   }
 
   deleteAlumno(id: number){

@@ -48,8 +48,8 @@
         <a class="blog-header-logo text-dark align-content-center" href="/">Club Léones</a>
       </div>
       <div class="col-4 d-flex justify-content-end align-items-center" *ngIf="!isLogged; else noLoggeado">
-        <a class="btn btn-sm  btn-outline-secondary btn-marg  " (click)="collapseNav();" routerLink="/login">Iniciar Sesion</a>
-        <a class="btn btn-sm btn-outline-secondary  " (click)="collapseNav();" routerLink="/registro">Registrarse</a>
+        <a class="btn btn-sm  btn-outline-secondary btn-marg"  routerLink="/login">Iniciar Sesion</a>
+        <a class="btn btn-sm btn-outline-secondary"  routerLink="/registro">Registrarse</a>
 
       </div>
     </div>
@@ -58,10 +58,10 @@
   <div class="nav-scroller py-1 mb-2">
     <nav class="nav d-flex justify-content-between">
 
-      <a class="p-2 link-secondary" (click)="collapseNav();" routerLink="/alumno">Alumnos</a>
-      <a class="p-2 link-secondary" (click)="collapseNav();" routerLink="/evento">Eventos</a>
-      <a class="p-2 link-secondary" (click)="collapseNav();" routerLink="/examen"> Examen</a>
-      <a class="p-2 link-secondary" (click)="collapseNav();" routerLink="/tipos_evento">Tipo de Evento</a>
+      <a class="p-2 link-secondary"  routerLink="/alumno">Alumnos</a>
+      <a class="p-2 link-secondary"  routerLink="/evento">Eventos</a>
+      <a class="p-2 link-secondary"  routerLink="/examen"> Examen</a>
+      <a class="p-2 link-secondary"  routerLink="/tipos_evento">Tipo de Evento</a>
 
 
     </nav>
@@ -75,7 +75,7 @@
       </button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
         <button class="dropdown-item" type="button" >Mi informacion</button>
-        <button class="dropdown-item" type="button" (click)="collapseNav();" style="border: none; background: none; font-size: 10px; letter-spacing: 1px;"  (click)="cerrarSesion()" aria-haspopup="true" aria-expanded="false">
+        <button class="dropdown-item" type="button" style="border: none; background: none; font-size: 10px; letter-spacing: 1px;"  (click)="cerrarSesion()" aria-haspopup="true" aria-expanded="false">
           Cerrar sesion<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i></button>
       </div>
     </div>

@@ -30,7 +30,7 @@ export class EventoService {
   }
 
   updateTipoEvento(id: number, idTipoEvento: number) {
-    return this.http.put(this.API_URI + '/' + id + '/tipoEvento', { idTipo: idTipoEvento });
+    return this.http.put(this.API_URI + '/' + id + '/tipo_evento', idTipoEvento);
   }
 
   addAlumno(idEvento: number,idAlumno:number){

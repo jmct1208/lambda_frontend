@@ -101,7 +101,6 @@ export class ExamenComponent implements OnInit {
 
   showPDF(pdf_base64: string){
     window.open(pdf_base64, "_blank");
-    
   }
 
   convertFileSolicitud(event: any){

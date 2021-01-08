@@ -44,11 +44,12 @@
 
   <ul class="navbar-nav px-3">
     <li class="nav-item text-nowrap">
-      <a class="nav-link" (click)="collapseNav();" (click)="cerrarSesion()" href="#">Cerrar Sesion</a>
+      <a class="nav-link" (click)="cerrarSesion()" href="#">Cerrar Sesion</a>
     </li>
   </ul>
 </header>
 
+<!--
 <div class="container-fluid">
   <div class="row">
     <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
@@ -72,40 +73,115 @@
               Eventos
             </a>
           </li>
-
-
         </ul>
-
-
-
       </div>
     </nav>
+  </div>
+</div>
+-->
 
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Dashboard</h1>
-        <div class="btn-toolbar mb-2 mb-md-0">
-          <div class="btn-group me-2">
-            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-          </div>
-          <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-            <span data-feather="calendar"></span>
-            This week
-          </button>
-        </div>
+<div class="container-fluid">
+  <div class="card mb-3">
+      <!-- Body  -->
+      Alumne
+      <div class="card-body">
+          <table class="table">
+              <thead class="thead-light">
+                  <tr>
+                      <th class="text-center">Nombre</th>
+                      <th class="text-center">Apellidos</th>
+                      <th class="text-center">Fecha de Nacimiento</th>
+                      <th class="text-center">Foto</th>
+                      <th class="text-center">Actividad Marcial</th>
+                      <th class="text-center">Grado Marcial</th>
+                      <th class="text-center">Seguro Medico</th>
+                      <th class="text-center">Certificado Medico</th>
+                      <th class="text-center">Carta Responsiva</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td class="text-center">{{ this.alumno.nombre }}</td>
+                      <td class="text-center">{{ this.alumno.apellidos }}</td>
+                      <td class="text-center">{{ this.alumno.fecha | date : 'dd/MM/yyyy' : 'UTC' }}</td>
+                      <td class="text-center">
+                          <img src="{{alumno.fotografia}}" width="50" height="50">
+                      </td>
+                      <td class="text-center">{{ alumno.actividad }}</td>
+                      <td class="text-center">{{ alumno.grado }}</td>
+                      <td class="text-center"><button (click)="showPDF(alumno.seguro )" type="button" class="btn btn-link"><i class="fas fa-id-card"></i>&nbsp;&nbsp;ver seguro medico </button></td>
+                      <td class="text-center"><button (click)="showPDF(alumno.certificado )" type="button" class="btn btn-link"><i class="fas fa-id-card"></i>&nbsp;&nbsp;ver certificado </button></td>
+                      <td class="text-center"><button (click)="showPDF(alumno.carta )" type="button" class="btn btn-link"><i class="fas fa-id-card"></i>&nbsp;&nbsp;ver carta responsiva </button></td>
+                  </tr>
+              </tbody>
+          </table>
       </div>
-
-      <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
-
-
-    </main>
   </div>
 </div>
 
+<div class="container-fluid">
+  <div class="card mb-3">
+      <!-- Body  -->
+      Eventos
+      <div class="card-body">
+          <table class="table">
+              <thead class="thead-light">
+                  <tr>
+                      <th class="text-center">Nombre</th>
+                      <th class="text-center">Descripcion</th>
+                      <th class="text-center">Fecha Inicio</th>
+                      <th class="text-center">Fecha Fin</th>
+                      <th class="text-center">Costo</th>
+                      <th class="text-center">Tipo Evento</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let evento of eventos">
+                      <td class="text-center">{{ evento.nombre }}</td>
+                      <td class="text-center">{{ evento.descripcion }}</td>
+                      <td class="text-center">{{ evento.fecha | date : 'dd/MM/yyyy' : 'UTC' }}</td>
+                      <td class="text-center">{{ evento.fechaf | date : 'dd/MM/yyyy' : 'UTC' }}</td>
+                      <td class="text-center">{{ evento.costo }}</td>
+                      <td class="text-center"> {{ evento.tipo.nombre }}
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="card mb-3">
+      <!-- Body  -->
+      Exámenes
+      <div class="card-body">
+          <table class="table">
+              <thead class="thead-light">
+                  <tr>
+                      <th class="text-center">Nombre</th>
+                      <th class="text-center">Tipo</th>
+                      <th class="text-center">Fecha</th>
+                      <th class="text-center">Costo</th>
+                      <th class="text-center">Hora</th>
+                      <th></th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let examen of examenes">
+                      <td class="text-center">{{ examen.nombre }}</td>
+                      <td class="text-center">{{ examen.tipo }}</td>
+                      <td class="text-center">{{ examen.fecha_hora | date:"dd-MM-YYYY"}}</td>
+                      <td class="text-center">{{ examen.costo }}</td>
+                      <td class="text-center">{{ examen.fecha_hora | date:"hh:mm a"}}</td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+  </div>
+</div>
 
 <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
-
 <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script><script src="dashboard.js"></script>
 </body>
 </html>

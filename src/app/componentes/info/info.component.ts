@@ -41,7 +41,8 @@ export class InfoComponent implements DoCheck, OnInit {
         }),
         switchMap( (alumn: Alumno) => {
           this.alumno = alumn;
-          return forkJoin([this.alumnoService.getEventos(alumn.id),
+          return forkJoin([
+            this.alumnoService.getEventos(alumn.id),
             this.alumnoService.getExamenes(alumn.id)]);
         })
       ).subscribe(
@@ -71,6 +72,18 @@ export class InfoComponent implements DoCheck, OnInit {
     }
   }
 
+  showPDF(pdf_base64: any){
+    const linkSource = pdf_base64;
+    const downloadLink = document.createElement("a");
+    const fileName = "sample.pdf";
+
+    downloadLink.href = linkSource;
+    downloadLink.download = fileName;
+    downloadLink.click();
+
+    return downloadLink;
+  }
+  
   cerrarSesion(){
     swal.fire({
       title: 'Estas seguro que quieres salir?',
